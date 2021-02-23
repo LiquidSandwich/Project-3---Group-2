@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<!-- head holds link to css sheet -->   
+<head>
+    <link rel="stylesheet" href={{ url_for( 'static', filename='style.css' ) }} />
+</head>
+
+<body>
+    
+    <!-- Song, artist, and image are executed in the below three lines -->   
+    <h1>{{ song }}</h1>
+    
+    <h2>by {{ artist }}</h2>
+    
+    <img src= {{ song_image }} width="400" height = "400" />
+    
+    <br>
+    
+    <!-- Found out how to implement audio for preview url here 
+    https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio -->
+    <figure>
+        {%if preview_url == "Empty" %}
+            Sorry! There is no preview of {{ song }} <br>
+        {% else %}
+            <figcaption>Click below to hear a preview of {{ song }}:</figcaption>
+        {% endif %}
+        <br>
+        <audio
+            controls
+            muted
+            src={{ preview_url }}>
+                Your browser does not support the
+                <code>audio</code> element.
+        </audio>
+    </figure>
+    
+    <!-- Creates hyperlink for lyric page of song -->
+    <a href={{ lyrics }} >Get the lyrics by clicking here!</a>
+    
+</body>
+        
+    
+</html>

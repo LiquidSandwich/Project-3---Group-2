@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <link rel="stylesheet" href={{ url_for( 'static', filename='stylefile.css' ) }} />
+</head>
+
+<body>
+    <h1>Mateo's favorite TV shows are:
+    <ol>
+        {%for i in range (0, length)%}
+        
+        <li>
+            {%if tv_shows[i] == "Naruto" %}
+            <b>
+                {{ tv_shows[i] }}
+                <img src= {{ url[i] }} width="150" height = "150" />
+            </b>
+            {% else %}
+                {{ tv_shows[i] }}
+                <img src= {{ url[i] }} width="150" height = "150" />
+            {% endif %}
+            
+        </li>
+        
+        {% endfor %}
+    </ol>
+    </h1>
+</body>
+        
+    
+</html>
