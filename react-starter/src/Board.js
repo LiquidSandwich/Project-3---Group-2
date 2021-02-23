@@ -43,8 +43,6 @@ export function TicBoard() {
         <Square index={()=>ClickMe(7)} val={board[7]}/>
         <Square index={()=>ClickMe(8)} val={board[8]}/>
     </div>
-    
-    
     );
     
 }
