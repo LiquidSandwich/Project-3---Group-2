@@ -47,3 +47,8 @@
 .box {
   border: 1px solid black; /* Shows the lines in the CSS grid */
 }
+
+span {
+  width: 10px; /* Total horizontal dimensions */
+	height: 10px;
+}

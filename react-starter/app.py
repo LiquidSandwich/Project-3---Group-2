@@ -42,6 +42,11 @@ def on_chat(data): # data is whatever arg you pass in your emit call on client
 def on_match(data):
     print(str(data))
     socketio.emit('match',  data, broadcast=True, include_self=False)
+    
+@socketio.on('login')
+def on_login(data):
+    print(str(data))
+    socketio.emit('login',  data, broadcast=False, include_self=True)
 
     
 # Note that we don't call app.run anymore. We call socketio.run with app arg
