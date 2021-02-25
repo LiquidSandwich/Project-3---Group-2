@@ -5,10 +5,8 @@ import { TicBoard } from './Board.js';
 import { useState, useRef, useEffect } from 'react';
 
 export const socket = io(); // Connects to socket connection
-
-export function getSocket(props) {
-  return props.socket;
-}
+export const playerLst = [];
+export var ctr;
 
 function App() {
   const inputRef = useRef(null);
@@ -22,21 +20,13 @@ function App() {
         
         setStatus(status => !status);
         
-        if (userC == 0) {
-          lst[userC] = "Player X: " + inputRef.current.value;
-        }
-        else if (userC == 1) {
-          lst[userC] = "Player O: " + inputRef.current.value;
-        }
-        else if (userC == 2) {
-          lst[userC] = "Spectator(s): " + inputRef.current.value;
-        }
-        else {
-          lst[userC] = inputRef.current.value;
-        }
+        lst[userC] = inputRef.current.value;
         setLst(lst => [...lst]);
+        
         setUserC(userC => userC+1);
-        socket.emit('login', [lst, !status]);
+        ctr=userC;
+        
+        socket.emit('login', [lst, userC]);
       }
       else {
         alert("Please enter a username!!!");
@@ -50,10 +40,8 @@ function App() {
   
   useEffect(() => {
         socket.on('login', (data) => {
-          if (data[1]) {
-            setLst(lst => [...data[0]]);
-            setUserC(userC => userC+1);
-          }
+          setLst(lst => [...data[0]]);
+          setUserC(userC => userC+1);
         });
     }, []);
   
@@ -63,16 +51,15 @@ function App() {
     }
     return <div> <TicBoard /> </div>
   }
-
   
-  return (
-  <div>
-    <WarningBanner warn={status} />
-    <button onClick={handleToggleClick}> {status ? 'Logout' : 'Login'} </button>
-    <ul> 
-      {lst.map(item => <ListItem name={item} value={userC} />)}
-    </ul>
-  </div>
+    return (
+    <div>
+      <WarningBanner warn={status} />
+      <button onClick={handleToggleClick}> {status ? 'Logout' : 'Login'} </button>
+      <ul> 
+        {lst.map(item => <ListItem name={item} value={userC} />)}
+      </ul>
+    </div>
       );
 }
 
