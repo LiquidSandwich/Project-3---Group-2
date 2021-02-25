@@ -1,11 +1,10 @@
+import { socket } from './App.js'
 import './Board.css';
 import { useState, useRef, useEffect } from 'react';
 import { Square } from './Square.js';
 import io from 'socket.io-client';
 
-const socket = io(); // Connects to socket connection
-
-export function TicBoard() {
+export function TicBoard(props) {
     
     const [board, setBoard] = useState([]);
     const [count, setCount] = useState(0);
@@ -17,20 +16,17 @@ export function TicBoard() {
         else {
             board[i]='O';
         }
-        setBoard(prevBoard => [...prevBoard]);
         setCount(count => count+1);
         socket.emit('match',board);
         }
     
     useEffect(() => {
         socket.on('match', (data) => {
-            console.log('Move made!');
-            console.log(data);
             setBoard(board=>[...data]);
             setCount(count => count+1);
         });
     }, []);
-  
+    
     return (
     <div>
         <Square index={()=>ClickMe(0)} val={board[0]}/>
@@ -43,8 +39,5 @@ export function TicBoard() {
         <Square index={()=>ClickMe(7)} val={board[7]}/>
         <Square index={()=>ClickMe(8)} val={board[8]}/>
     </div>
-    
-    
     );
-    
 }
