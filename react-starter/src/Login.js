@@ -17,14 +17,24 @@ export function Login(props) {
     if (!status) {
       if (inputRef.current.value != "") {
         
-        setStatus(status => !status);
-        
-        lst[userC] = inputRef.current.value;
-        setLst(lst => [...lst]);
-        
-        setUserC(userC => userC+1);
-        
-        socket.emit('login', [lst, userC]);
+        setStatus(!status);
+        if (userC == 0) {
+          lst[userC] = "Player X: " + inputRef.current.value;
+          setLst(lst => [...lst]);
+          setUserC(userC => userC+1);
+        }
+        else if (userC == 1) {
+          lst[userC] = "Player O: " + inputRef.current.value;
+          setLst(lst => [...lst]);
+          setUserC(userC => userC+1);
+        }
+        else {
+          lst[userC] = "Spectater: " + inputRef.current.value;
+          setLst(lst => [...lst]);
+          setUserC(userC => userC+1);
+        }
+        socket.emit('login', inputRef.current.value);
+        socket.emit('updateList', lst[userC]);
       }
       else {
         alert("Please enter a username!!!");
@@ -37,27 +47,36 @@ export function Login(props) {
   }
   
   useEffect(() => {
-        socket.on('login', (data) => {
-          setLst(lst => [...data[0]]);
+        socket.on('updateList', (data) => {
+          const userName = data;
+          setLst(lst=>[...lst, userName]);
           setUserC(userC => userC+1);
+          
         });
     }, []);
     
-    function WarningBanner(props) {
-    if (!props.warn) {
-      return (<input ref={inputRef} type="text"/>);
-    }
-    return <div> <TicBoard /> </div>
-  }
+    useEffect(() => {
+        socket.on('outcome', (data) => {
+          const outcome = data;
+          alert(outcome);
+        });
+    }, []);
     
     return (
-    <div>
-      <WarningBanner warn={status} />
-      <button onClick={handleToggleClick}> {status ? 'Logout' : 'Login'} </button>
-      <ul> 
-        {lst.map(item => <ListItem name={item} value={userC} />)}
-      </ul>
-    </div>
+    <span>
+    <input ref={inputRef} type="text"/>
+    <button onClick={handleToggleClick}> {status ? 'Logout' : 'Login'} </button>
+    {status ? (
+          <div>
+            <div>
+              <TicBoard />
+              <ul> 
+                {lst.map(item => <ListItem name={item} value={userC} />)}
+              </ul>
+            </div>
+          </div>
+      ) : null}
+    </span>
       );
  
 }

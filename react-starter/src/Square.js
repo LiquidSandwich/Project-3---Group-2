@@ -1,7 +1,8 @@
 import React from 'react'
+import './Board.css';
 
 export function Square(props) {
     return (
-        <button onClick={props.index}>{props.val}</button>
+            <button disabled={props.turn} onClick={props.index}>{props.val}</button>
         );
 }

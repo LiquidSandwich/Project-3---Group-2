@@ -28,20 +28,43 @@ def on_connect():
 @socketio.on('disconnect')
 def on_disconnect():
     print('User disconnected!')
-    
-@socketio.on('match')
+
+userList=[]
+ctr=0
+@socketio.on('click')
 def on_match(data):
     print(str(data))
-    socketio.emit('match',  data, broadcast=True, include_self=False)
-    
+    socketio.emit('click',  data, broadcast=True, include_self=False)
+
 @socketio.on('login')
 def on_login(data):
+    global ctr
+    if ctr == 0:
+        userList.insert(ctr, {data: "X"})
+    elif ctr == 1:
+        userList.insert(ctr, {data: "O"})
+    else:
+        userList.insert(ctr, {data: "Spectater"})
+    print(userList)
+    print(ctr)
     print(str(data))
-    socketio.emit('login',  data, broadcast=True, include_self=False)
+    socketio.emit('login',  [userList, data, ctr] , broadcast=True, include_self=True)
+    ctr = ctr + 1
     
-@socketio.on('logout')
-def on_logout(data):
-    print(str(data))
+@socketio.on('updateList')
+def on_updateList(data):
+    socketio.emit('updateList',  data, broadcast=True, include_self=False)
+    
+@socketio.on('outcome')
+def on_outcome(data):
+    res = ""
+    if data[0] == True:
+        res = data[1] + " has won the match!!!"
+        socketio.emit('outcome',  res, broadcast=True, include_self=True)
+    else:
+        res = "Draw, no one wins :(" 
+        socketio.emit('outcome',  res, broadcast=True, include_self=True)
+    
     
 # Note that we don't call app.run anymore. We call socketio.run with app arg
 socketio.run(
