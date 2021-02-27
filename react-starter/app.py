@@ -64,8 +64,17 @@ def on_outcome(data):
     else:
         res = "Draw, no one wins :(" 
         socketio.emit('outcome',  res, broadcast=True, include_self=True)
-    
-    
+
+vote=0
+@socketio.on('reset')
+def on_reset():
+    global vote
+    vote = vote + 1
+    print(vote)
+    if vote == 2:
+        socketio.emit('reset', broadcast=True, include_self=True)
+        vote=0
+
 # Note that we don't call app.run anymore. We call socketio.run with app arg
 socketio.run(
     app,

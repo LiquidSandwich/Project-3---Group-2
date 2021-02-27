@@ -1,3 +1,4 @@
+import './Login.css';
 import { useState, useRef, useEffect} from 'react';
 import { TicBoard } from './Board.js';
 import { ListItem } from './ListItem.js';
@@ -52,13 +53,6 @@ export function Login(props) {
           setLst(lst=>[...lst, userName]);
           setUserC(userC => userC+1);
           
-        });
-    }, []);
-    
-    useEffect(() => {
-        socket.on('outcome', (data) => {
-          const outcome = data;
-          alert(outcome);
         });
     }, []);
     
