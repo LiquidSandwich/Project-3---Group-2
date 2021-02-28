@@ -38,6 +38,7 @@ export function Login(props) {
     else {
       alert("See ya next time");
       setStatus(status => !status)
+      socket.emit("logout");
     }
   }
   

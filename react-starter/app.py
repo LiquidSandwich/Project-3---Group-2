@@ -19,6 +19,7 @@ socketio = SocketIO(
 def index(filename):
     return send_from_directory('./build', filename)
 
+ctr=0
 # When a client connects from this Socket connection, this function is run
 @socketio.on('connect')
 def on_connect():
@@ -28,13 +29,15 @@ def on_connect():
 @socketio.on('disconnect')
 def on_disconnect():
     print('User disconnected!')
+    global ctr
+    if ctr != 0:
+        ctr = ctr - 1
 
 # Global variables set
 # userList holds list of users and what player they are
 # ctr keeps track of of logged in users and is used to fill in userList
 # When a user clicks, this function is ran
 userList=[]
-ctr=0
 @socketio.on('click')
 def on_click(data):
     print(str(data))
@@ -56,6 +59,11 @@ def on_login(data):
     print(str(data))
     socketio.emit('login',  [userList, data, ctr] , broadcast=True, include_self=True)
     ctr = ctr + 1
+    
+@socketio.on('logout')
+def on_logout():
+    global ctr
+    ctr = ctr - 1; 
 
 # When a user logs in, the userList is updated and this function is ran
 @socketio.on('updateList')
