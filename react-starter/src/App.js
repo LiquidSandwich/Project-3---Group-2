@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from 'react';
 
 export const socket = io(); // Connects to socket connection
 
+// Returns the Login component from Login.js
 function App() {
   
     return (

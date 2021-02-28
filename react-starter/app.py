@@ -29,13 +29,19 @@ def on_connect():
 def on_disconnect():
     print('User disconnected!')
 
+# Global variables set
+# userList holds list of users and what player they are
+# ctr keeps track of of logged in users and is used to fill in userList
+# When a user clicks, this function is ran
 userList=[]
 ctr=0
 @socketio.on('click')
-def on_match(data):
+def on_click(data):
     print(str(data))
     socketio.emit('click',  data, broadcast=True, include_self=False)
 
+# When a user logs in, this function is run
+# Stores users and player type based on who logs in
 @socketio.on('login')
 def on_login(data):
     global ctr
@@ -50,11 +56,13 @@ def on_login(data):
     print(str(data))
     socketio.emit('login',  [userList, data, ctr] , broadcast=True, include_self=True)
     ctr = ctr + 1
-    
+
+# When a user logs in, the userList is updated and this function is ran
 @socketio.on('updateList')
 def on_updateList(data):
-    socketio.emit('updateList',  data, broadcast=True, include_self=False)
-    
+    socketio.emit('updateList',  [data,ctr], broadcast=True, include_self=True)
+
+# When the game ends, the function is ran
 @socketio.on('outcome')
 def on_outcome(data):
     res = ""
@@ -65,15 +73,11 @@ def on_outcome(data):
         res = "Draw, no one wins :(" 
         socketio.emit('outcome',  res, broadcast=True, include_self=True)
 
-vote=0
+# Global var to count votes between players on restart button
+# When either player clicks the reset button, this function runs
 @socketio.on('reset')
 def on_reset():
-    global vote
-    vote = vote + 1
-    print(vote)
-    if vote == 2:
-        socketio.emit('reset', broadcast=True, include_self=True)
-        vote=0
+    socketio.emit('reset', broadcast=True, include_self=True)
 
 # Note that we don't call app.run anymore. We call socketio.run with app arg
 socketio.run(

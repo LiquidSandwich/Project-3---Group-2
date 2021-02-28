@@ -1,4 +1,36 @@
 ul {
-    position: relative; right: -100px;
-    width: 300%;
+    position: relative; right: -240px;
+    width: 250%;
+    background: white;
+}
+
+h1 {
+     text-align: center;
+}
+
+h2 {
+    margin: 0;
+    position: absolute;
+    top: 44%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+h3 {
+      margin: 0;
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+}
+
+body {
+    background: orange;
+}
+
+input {
+    height: 20px;
+    width: 100%;
 }
