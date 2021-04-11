@@ -14,7 +14,7 @@ const clientID = process.env.REACT_APP_GOOGLE_ID;
 function Login() {
   
   // Boolean that tracks status on if the user is logged in or not
-  const [status, setStatus] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   
   // If the user logs in, the below code executes
   const onSuccess = (res) => {
@@ -22,7 +22,7 @@ function Login() {
     const data = res.profileObj;
     console.log('Name of user:', data['name']);
     console.log('Image of user:', data['imageUrl']);
-    setStatus(!status);
+    setIsLoggedIn(!isLoggedIn);
   };
   
   // If the user fails to login, the below code executes
@@ -37,7 +37,7 @@ function Login() {
   */
   return (
     <div>
-    {status ? (
+    {isLoggedIn ? (
       <h1>
         nogginy
         <h2>

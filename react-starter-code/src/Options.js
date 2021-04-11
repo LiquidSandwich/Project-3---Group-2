@@ -12,15 +12,17 @@ const clientID = process.env.REACT_APP_GOOGLE_ID;
 
 function Options() {
   
-  const [status, setStatus] = useState(true);
+  // Boolean that tracks status on if the user is logged in or not
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   
+  // Code that sets login status to false when button is clicked
   const onSuccess = (res) => {
-    setStatus(!status);
+    setIsLoggedIn(!isLoggedIn);
   };
   
   return (
   <div>
-    {status ? (
+    {isLoggedIn ? (
       <body>
         <h1>
           Welcome Back!<br/><br/>
