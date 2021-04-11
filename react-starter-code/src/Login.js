@@ -25,10 +25,16 @@ function Login() {
     setStatus(!status);
   };
   
+  // If the user fails to login, the below code executes
   const onFailure = (res) => {
     console.log('[Login Failed] res:', res);
   };
   
+  /* 
+  Shows starting page of webapp.
+  Once user logs in with their Google Account,
+  user will than be taken to the Options Component.
+  */
   return (
     <div>
     {status ? (
