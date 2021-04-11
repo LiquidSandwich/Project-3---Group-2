@@ -20,6 +20,7 @@ function Login() {
   const onSuccess = (res) => {
     console.log('[Login Success] currentUser:', res.profileObj);
     const data = res.profileObj;
+    console.log('Email of user:', data['email']);
     console.log('Name of user:', data['name']);
     console.log('Image of user:', data['imageUrl']);
     setIsLoggedIn(!isLoggedIn);

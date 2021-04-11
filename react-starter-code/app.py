@@ -5,16 +5,46 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 
-app = Flask(__name__, static_folder='./build/static')
+load_dotenv(find_dotenv())  # Loads env variables from .env
+
+# Create instance of flask class and stores in static folder.
+APP = Flask(__name__, static_folder='./build/static')
+
+# Point SQLAlchemy to heroku database
+APP.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+
+# Gets rid of warning
+APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+DB = SQLAlchemy(APP)
+
+# Created down here to avoid cirular import issues
+import models
+
+# Intializes tables and databases if not already done
+DB.create_all()
+
+CORS = CORS(APP, resources={r"/*": {"origins": "*"}})
+SOCKETIO = SocketIO(APP,
+                    cors_allowed_origins="*",
+                    json=json,
+                    manage_session=False)
 
 
-@app.route('/', defaults={"filename": "index.html"})
-@app.route('/<path:filename>')
+@APP.route('/', defaults={"filename": "index.html"})
+@APP.route('/<path:filename>')
 def index(filename):
+    '''
+    Returns 
+    '''
     return send_from_directory('./build', filename)
+    
+    
 
-
-app.run(
-    host=os.getenv('IP', '0.0.0.0'),
-    port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
-)
+# Imports app in the python shell
+if __name__ == "__main__":
+    SOCKETIO.run(
+        APP,
+        host=os.getenv('IP', '0.0.0.0'),
+        port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
+    )
