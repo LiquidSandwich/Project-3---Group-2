@@ -6,7 +6,7 @@ function Options() {
   
   return (
     <div>
-        SUCCESSFUL
+        SUCCESSFUL TRANSFER
     </div>
   );
 }

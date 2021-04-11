@@ -3,21 +3,26 @@ import React, { useState, useRef, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import Options from './Options';
 
+// These two lines load environmental variables from .env
 const dotenv = require('dotenv');
 dotenv.config();
 
+// Fills clientID variable with API ID key
 const clientID = process.env.REACT_APP_GOOGLE_ID;
 
+// Component that handles Login
 function Login() {
+  
+  // Boolean that tracks status on if the user is logged in or not
   const [status, setStatus] = useState(true);
   
+  // If the user logs in, the below code executes
   const onSuccess = (res) => {
     console.log('[Login Success] currentUser:', res.profileObj);
     const data = res.profileObj;
     console.log('Name of user:', data['name']);
     console.log('Image of user:', data['imageUrl']);
     setStatus(!status);
-    
   };
   
   const onFailure = (res) => {
