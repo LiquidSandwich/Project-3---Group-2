@@ -2,6 +2,9 @@ import './Login.css';
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import Options from './Options';
+import io from 'socket.io-client';
+
+export const socket = io();
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -20,10 +23,15 @@ function Login() {
   const onSuccess = (res) => {
     console.log('[Login Success] currentUser:', res.profileObj);
     const data = res.profileObj;
+    const email = data['email'];
+    const name = data['name'];
+    const imageUrl = data['imageUrl'];
+    
     console.log('Email of user:', data['email']);
     console.log('Name of user:', data['name']);
     console.log('Image of user:', data['imageUrl']);
     setIsLoggedIn(!isLoggedIn);
+    socket.emit('login',[email, name, imageUrl]);
   };
   
   // If the user fails to login, the below code executes

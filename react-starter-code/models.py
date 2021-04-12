@@ -16,4 +16,4 @@ class Player(DB.Model):
     profile_image = DB.Column(DB.String(100), unique=False, nullable=False)
 
     def __repr__(self):
-        return '<Player %r>' % self.username
+        return '<Player %r>' % self.email
