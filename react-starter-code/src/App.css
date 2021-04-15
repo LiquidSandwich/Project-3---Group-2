@@ -3,3 +3,14 @@ body{
     background-color: #31a9e2;
     font-family: 'Catamaran', sans-serif;
 }
+
+.display{
+    margin-top: 20px;
+}
+
+.logout{
+    position: absolute;
+    display: block;
+    top: 5px;
+    float: right;
+}

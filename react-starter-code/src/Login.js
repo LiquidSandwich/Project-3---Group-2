@@ -1,7 +1,7 @@
 import './Login.css';
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
-import Options from './Options';
+import GameMode from './GameMode.js';
 import io from 'socket.io-client';
 
 export const socket = io();
@@ -44,7 +44,7 @@ function Login() {
   /* 
   Shows starting page of webapp.
   Once user logs in with their Google Account,
-  user will than be taken to the Options Component.
+  user will than be taken to the GameMode Component.
   */
   return (
     <div>
@@ -63,7 +63,7 @@ function Login() {
         />
       </h1>
       ) : 
-      <Options userData={userData}/>}
+      <GameMode userData={userData}/>}
     </div>
   );
 }

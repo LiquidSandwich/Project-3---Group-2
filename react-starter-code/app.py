@@ -90,11 +90,18 @@ def new_game():
             game_data = game.get_game()
             return{'status': 200, 'data':game_data}
         return {'status': 400, 'error': 'Bad request! Please specify all settings.'}
+
+@APP.route('/api/v1/new/mode', methods=['POST'])
+def set_game_mode():
+    if request.method == 'POST':
+        data = request.get_json()
+        mode = data['mode']
+        game.set_mode(mode)
+        return{'status': 200, 'msg': 'OK'}
+    return {'status': 400, 'error': 'Bad request!'}
         
-# Imports app in the python shell
-if __name__ == "__main__":
-    SOCKETIO.run(
-        APP,
-        host=os.getenv('IP', '0.0.0.0'),
-        port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
-    )
+SOCKETIO.run(
+    APP,
+    host=os.getenv('IP', '0.0.0.0'),
+    port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
+)

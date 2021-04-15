@@ -21,6 +21,8 @@ class Game:
         self.questions = []
         self.status = 0
         
+    def set_mode(self, mode: str) -> None:
+        self.mode = mode
     
     def add_player(self, player_data: dict) -> None:
         player_type = 'player' if self.mode == 'single' or not self.players else 'host' 
@@ -50,7 +52,7 @@ class Game:
         }
     
     def set_game(self, settings: dict) -> None:
-        self.mode = settings['mode']
+        # self.mode = settings['mode']
         self.color = settings['color']
         self.set_questions(settings['category'], settings['difficulty'])
     
