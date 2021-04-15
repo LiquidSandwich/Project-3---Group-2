@@ -13,7 +13,7 @@ class Player(DB.Model):
     email = DB.Column(DB.String(255), unique=True, nullable=False)
     username = DB.Column(DB.String(80), unique=False, nullable=False)
     score = DB.Column(DB.Integer, unique=False, nullable=False)
-    profile_image = DB.Column(DB.String(100), unique=False, nullable=False)
+    profile_image = DB.Column(DB.String(255), unique=False, nullable=False)
 
     def __repr__(self):
         return '<Player %r>' % self.email
