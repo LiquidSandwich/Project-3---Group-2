@@ -18,6 +18,7 @@ function Login() {
   
   // Boolean that tracks status on if the user is logged in or not
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [userData, setUserData] = useState({'name':'','img':''});
   
   // If the user logs in, the below code executes
   const onSuccess = (res) => {
@@ -31,6 +32,7 @@ function Login() {
     console.log('Name of user:', data['name']);
     console.log('Image of user:', data['imageUrl']);
     setIsLoggedIn(!isLoggedIn);
+    setUserData({'name':name, 'img':imageUrl});
     socket.emit('login',[email, name, imageUrl]);
   };
   
@@ -60,7 +62,8 @@ function Login() {
           cookiePolicy={'single_host_origin'}
         />
       </h1>
-      ) : <Options />}
+      ) : 
+      <Options userData={userData}/>}
     </div>
   );
 }

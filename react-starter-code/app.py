@@ -1,5 +1,5 @@
 import os
-from flask import Flask, send_from_directory, json
+from flask import Flask, send_from_directory, json, request
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -38,7 +38,7 @@ def index(filename):
     Returns 
     '''
     return send_from_directory('./build', filename)
-    
+
 @SOCKETIO.on('login')
 def on_login(data):
     '''
@@ -56,15 +56,29 @@ def on_login(data):
     
     # Checks if email is already in database
     if data[0] not in users:
+        print("THERE'S A USER")
         add_to_db(data)
 
 def add_to_db(data):
     '''
     When called, it adds the user to the database.
     '''
+    
+    print('ADDING TO DB ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     new_user = models.Player(email=data[0], username=data[1], score=0, profile_image=data[2])
     DB.session.add(new_user)
     DB.session.commit()
+
+@APP.route('/api/v1/new', methods=['POST'])
+def new_game():
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+    
+        return{'status': 200}
+        
+    
+
 
 # Imports app in the python shell
 if __name__ == "__main__":
