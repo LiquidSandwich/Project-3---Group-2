@@ -15,15 +15,16 @@ function Options(props) {
   
   // Boolean that tracks status on if the user is logged in or not
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [gameSet, setGameSet] = useState(false);
   const [difficulty, setDifficulty] = useState(null);
   const [category, setCategory] = useState(null);
+
+  const firstName = props.userData.name.split(" ")[0];
   
   // Code that sets login status to false when button is clicked
   const onSuccess = (res) => {
     setIsLoggedIn(!isLoggedIn);
   };
-  
-  const firstName = props.userData.name.split(" ")[0];
   
   const categoryHandler = (event) => {
     setCategory(event.target.value);
@@ -35,8 +36,10 @@ function Options(props) {
   
   const handleOptions = () => {
     const data = JSON.stringify({
-        'diffculty' : difficulty, 
-        'category' : category
+        'difficulty' : difficulty, 
+        'category' : category,
+        'color': 'default',
+        'mode': 'single'
     });
     fetch(BASE_URL, {
       method: 'POST',
@@ -44,6 +47,15 @@ function Options(props) {
         'Content-Type': 'application/json'
       },
       body: data
+    }).then( response => {
+      return response.json();
+    }).then(responseData => {
+      if (responseData.status === 200){
+        const gameSettings = responseData.data;
+        console.log(gameSettings);
+      } else {
+        console.log(responseData.error);
+      }
     });
   }
 

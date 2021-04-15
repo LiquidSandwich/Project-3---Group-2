@@ -4,6 +4,7 @@ from flask_socketio import SocketIO
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
+from game import Game
 
 load_dotenv(find_dotenv())  # Loads env variables from .env
 
@@ -17,6 +18,8 @@ APP.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 DB = SQLAlchemy(APP)
+
+game = Game()
 
 # Created down here to avoid cirular import issues
 import models
@@ -53,33 +56,41 @@ def on_login(data):
         users.append(person.email)
     
     print(users)
-    
+    email = data[0]
     # Checks if email is already in database
-    if data[0] not in users:
-        print("THERE'S A USER")
+    if email not in users:
         add_to_db(data)
+        
+    if not game.player_exists(email):    
+        player = {
+            'username' : data[1],
+            'color': 'white',
+            'img': data[2],
+        }
+        game.add_player(player)
 
 def add_to_db(data):
     '''
     When called, it adds the user to the database.
     '''
     
-    print('ADDING TO DB ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     new_user = models.Player(email=data[0], username=data[1], score=0, profile_image=data[2])
     DB.session.add(new_user)
     DB.session.commit()
 
 @APP.route('/api/v1/new', methods=['POST'])
 def new_game():
+    '''
+       adds user-specified settings to game and returns game data 
+    '''
     if request.method == 'POST':
         data = request.get_json()
-        print(data)
-    
-        return{'status': 200}
+        if data['color'] and data['category'] and data['difficulty']:
+            game.set_game(data)
+            game_data = game.get_game()
+            return{'status': 200, 'data':game_data}
+        return {'status': 400, 'error': 'Bad request! Please specify all settings.'}
         
-    
-
-
 # Imports app in the python shell
 if __name__ == "__main__":
     SOCKETIO.run(
