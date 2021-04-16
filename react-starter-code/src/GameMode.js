@@ -46,26 +46,27 @@ function GameMode(props) {
   return (
   <div>
     {isLoggedIn ? (
-        modeSet ? <Settings /> :
-        (
-          <div className="display">
-            <h1>
-              Welcome Back, {firstName}!<br/><br/>
-            </h1>
-            <h2 id="teamname">
-              nogginy
-            </h2>
-            <h7>
-              <GoogleLogout
-                clientId={CLIENT_ID}
-                buttonText="Log out"
-                onLogoutSuccess={onSuccess}
-              ></GoogleLogout>
-            </h7>
+        modeSet ? <Settings /> : (
+        <div className="display">
+            <div className="logout">
+                <GoogleLogout
+                  clientId={CLIENT_ID}
+                  buttonText="Log out"
+                  onLogoutSuccess={onSuccess}
+                ></GoogleLogout>
+            </div>
+            <div>
+              <h1>
+                Welcome Back, {firstName}!<br/><br/>
+              </h1>
+              <h2 id="teamname">
+                nogginy
+              </h2>
+                
+              <button className="button" onClick={()=>gameModeHandler('single')}>Single</button>
               
-            <button onClick={()=>gameModeHandler('single')}>Single</button>
-            
-          </div>  
+            </div>  
+          </div>
         )
       ) : <Login />}
   </div>

@@ -52,7 +52,6 @@ class Game:
         }
     
     def set_game(self, settings: dict) -> None:
-        # self.mode = settings['mode']
         self.color = settings['color']
         self.set_questions(settings['category'], settings['difficulty'])
     

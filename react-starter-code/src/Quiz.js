@@ -1,4 +1,5 @@
 // import './Options.css';
+import Login from './Login.js';
 import { GoogleLogout } from 'react-google-login';
 import { useState, useEffect } from 'react';
 
@@ -19,9 +20,11 @@ function Quiz(props) {
     setIsLoggedIn(!isLoggedIn);
   };
   
-    return (
+    return ( 
+      <div>
+      {isLoggedIn ? (
         <div className="display">
-            <div>
+            <div className="logout">
               <GoogleLogout 
                 className = "logout"
                 clientId={CLIENT_ID}
@@ -29,8 +32,12 @@ function Quiz(props) {
                 onLogoutSuccess={onSuccess}
               ></GoogleLogout>    
             </div>
-            <h1>Quiz goes here.</h1>
+            <div className="main">
+              <h1>Quiz goes here.</h1>
+            </div>
         </div>
-    );
+        ) : <Login />
+    }
+    </div>);
 } 
 export default Quiz;

@@ -7,7 +7,7 @@ function App() {
   
   return (
     <div>
-      <Login className="display"/>
+      <Login />
     </div>
   );
 }

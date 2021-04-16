@@ -78,8 +78,17 @@ def add_to_db(data):
     DB.session.add(new_user)
     DB.session.commit()
 
+@APP.route('/api/v1/new/mode', methods=['POST'])
+def set_game_mode():
+    if request.method == 'POST':
+        data = request.get_json()
+        mode = data['mode']
+        game.set_mode(mode)
+        return{'status': 200, 'msg': 'OK'}
+    return {'status': 400, 'error': 'Bad request!'}
+
 @APP.route('/api/v1/new', methods=['POST'])
-def new_game():
+def get_new_game():
     '''
        adds user-specified settings to game and returns game data 
     '''
@@ -90,15 +99,6 @@ def new_game():
             game_data = game.get_game()
             return{'status': 200, 'data':game_data}
         return {'status': 400, 'error': 'Bad request! Please specify all settings.'}
-
-@APP.route('/api/v1/new/mode', methods=['POST'])
-def set_game_mode():
-    if request.method == 'POST':
-        data = request.get_json()
-        mode = data['mode']
-        game.set_mode(mode)
-        return{'status': 200, 'msg': 'OK'}
-    return {'status': 400, 'error': 'Bad request!'}
         
 SOCKETIO.run(
     APP,

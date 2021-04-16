@@ -1,4 +1,4 @@
-// import './Options.css';
+import Login from './Login.js';
 import Quiz from './Quiz.js';
 import { GoogleLogout } from 'react-google-login';
 import { useState } from 'react';
@@ -60,60 +60,65 @@ function Settings(props) {
 
   
   return (
-  <div className="display">
-      {game ? <Quiz game={game}/> : (
-         <div>
-            
-              <GoogleLogout 
-                className = "logout"
-                clientId={CLIENT_ID}
-                buttonText="Log out"
-                onLogoutSuccess={onSuccess}
-              ></GoogleLogout>
-            
-    
-              <label for="trivia_difficulty">Choose a Category:</label>
-              <select onChange={difficultyHandler} name="trivia_difficulty">
-          			<option value="any">Any Difficulty</option>
-          			<option value="easy">Easy</option>
-          			<option value="medium">Medium</option>
-          			<option value="hard">Hard</option>
-          		</select>
+  <div>
+      {isLoggedIn ? (
+        game ? <Quiz game={game}/> : (
+           <div className="display">
+                
+                <div className="logout">
+                  <GoogleLogout 
+                    className = "logout"
+                    clientId={CLIENT_ID}
+                    buttonText="Log out"
+                    onLogoutSuccess={onSuccess}
+                  ></GoogleLogout>
+                </div>
               
-              <label for="trivia_category">Choose a Category:</label>
-      
-              <select onChange={categoryHandler} name="trivia_category">
-              	<option value="any">Any Category</option>
-              	<option value="9">General Knowledge</option>
-              	<option value="10">Entertainment: Books</option>
-              	<option value="11">Entertainment: Film</option>
-              	<option value="12">Entertainment: Music</option>
-              	<option value="13">Entertainment: Musicals &amp; Theatres</option>
-              	<option value="14">Entertainment: Television</option>
-              	<option value="15">Entertainment: Video Games</option>
-              	<option value="16">Entertainment: Board Games</option>
-              	<option value="17">Science &amp; Nature</option>
-              	<option value="18">Science: Computers</option>
-              	<option value="19">Science: Mathematics</option>
-              	<option value="20">Mythology</option>
-              	<option value="21">Sports</option>
-              	<option value="22">Geography</option>
-              	<option value="23">History</option>
-              	<option value="24">Politics</option>
-              	<option value="25">Art</option>
-              	<option value="26">Celebrities</option>
-              	<option value="27">Animals</option>
-              	<option value="28">Vehicles</option>
-              	<option value="29">Entertainment: Comics</option>
-              	<option value="30">Science: Gadgets</option>
-              	<option value="31">Entertainment: Japanese Anime &amp; Manga</option>
-              	<option value="32">Entertainment: Cartoon &amp; Animations</option>
-              </select>
-              
-              <button onClick={handleSettings}>Play Game</button>
-            
-        </div> 
-        )}
+                <div className="main">
+                  <label for="trivia_difficulty">Choose a Category:</label>
+                  <select onChange={difficultyHandler} name="trivia_difficulty">
+              			<option value="any">Any Difficulty</option>
+              			<option value="easy">Easy</option>
+              			<option value="medium">Medium</option>
+              			<option value="hard">Hard</option>
+              		</select>
+                  
+                  <label for="trivia_category">Choose a Category:</label>
+          
+                  <select onChange={categoryHandler} name="trivia_category">
+                  	<option value="any">Any Category</option>
+                  	<option value="9">General Knowledge</option>
+                  	<option value="10">Entertainment: Books</option>
+                  	<option value="11">Entertainment: Film</option>
+                  	<option value="12">Entertainment: Music</option>
+                  	<option value="13">Entertainment: Musicals &amp; Theatres</option>
+                  	<option value="14">Entertainment: Television</option>
+                  	<option value="15">Entertainment: Video Games</option>
+                  	<option value="16">Entertainment: Board Games</option>
+                  	<option value="17">Science &amp; Nature</option>
+                  	<option value="18">Science: Computers</option>
+                  	<option value="19">Science: Mathematics</option>
+                  	<option value="20">Mythology</option>
+                  	<option value="21">Sports</option>
+                  	<option value="22">Geography</option>
+                  	<option value="23">History</option>
+                  	<option value="24">Politics</option>
+                  	<option value="25">Art</option>
+                  	<option value="26">Celebrities</option>
+                  	<option value="27">Animals</option>
+                  	<option value="28">Vehicles</option>
+                  	<option value="29">Entertainment: Comics</option>
+                  	<option value="30">Science: Gadgets</option>
+                  	<option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+                  	<option value="32">Entertainment: Cartoon &amp; Animations</option>
+                  </select>
+                  
+                  <button className="button" onClick={handleSettings}>Play Game</button>
+                </div>
+          </div> 
+          )
+        ) : <Login />
+      }
   
   </div>
   );
