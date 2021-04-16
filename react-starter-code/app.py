@@ -99,9 +99,10 @@ def get_new_game():
             game_data = game.get_game()
             return{'status': 200, 'data':game_data}
         return {'status': 400, 'error': 'Bad request! Please specify all settings.'}
-        
-SOCKETIO.run(
-    APP,
-    host=os.getenv('IP', '0.0.0.0'),
-    port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
+
+if __name__ == "__main__":
+    SOCKETIO.run(
+        APP,
+        host=os.getenv('IP', '0.0.0.0'),
+        port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
 )
