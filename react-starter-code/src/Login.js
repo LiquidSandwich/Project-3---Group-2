@@ -1,7 +1,7 @@
 import './Login.css';
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
-import Options from './Options';
+import GameMode from './GameMode.js';
 import io from 'socket.io-client';
 
 export const socket = io();
@@ -18,6 +18,7 @@ function Login() {
   
   // Boolean that tracks status on if the user is logged in or not
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [userData, setUserData] = useState({'name':'','img':''});
   
   // If the user logs in, the below code executes
   const onSuccess = (res) => {
@@ -31,6 +32,7 @@ function Login() {
     console.log('Name of user:', data['name']);
     console.log('Image of user:', data['imageUrl']);
     setIsLoggedIn(!isLoggedIn);
+    setUserData({'name':name, 'img':imageUrl});
     socket.emit('login',[email, name, imageUrl]);
   };
   
@@ -42,7 +44,7 @@ function Login() {
   /* 
   Shows starting page of webapp.
   Once user logs in with their Google Account,
-  user will than be taken to the Options Component.
+  user will than be taken to the GameMode Component.
   */
   return (
     <div>
@@ -60,7 +62,8 @@ function Login() {
           cookiePolicy={'single_host_origin'}
         />
       </h1>
-      ) : <Options />}
+      ) : 
+      <GameMode userData={userData}/>}
     </div>
   );
 }

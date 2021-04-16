@@ -4,8 +4,10 @@
 
 Type these into your command prompt to install (If you get permission errors, use sudo pip install instead of pip install)
 
-1. `npm i react-google-login`
-2. `npm install dotenv`
+1. `npm install`
+2. `pip install -r requirements.txt`
+3. `npm i react-google-login`
+4. `npm install dotenv`
 
 ## Setting up
 You will need to load your clientID key from a .env file, which is why you will need to install dotenv.
