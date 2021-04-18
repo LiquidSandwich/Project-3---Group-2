@@ -1,11 +1,13 @@
 // import './Options.css';
-import Login from './Login.js';
+import React from 'react';
 import { GoogleLogout } from 'react-google-login';
 import { useState, useEffect } from 'react';
+import Login from './Login.js';
 import Results from './Results.js';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
+
 dotenv.config();
 
 // Fills clientID variable with API ID key
@@ -23,44 +25,49 @@ export function Quiz(props) {
   const onSuccess = (res) => {
     setIsLoggedIn(!isLoggedIn);
   };
-  
+
   const handleAnswerChoiceClick = (answer) => {
-    if (answer == game['questions'][currentQuestion]['correct_answer']) {
+    if (answer == game.questions[currentQuestion].correct_answer) {
       answerStats[currentQuestion] = true;
-      
     }
     setCurrentQuestion(currentQuestion + 1);
   };
-  
-    return ( 
-      <div>
+
+  return (
+    <div>
       {isLoggedIn ? (
         <div className="display">
-            <div className="logout">
-              <GoogleLogout 
-                className = "logout"
-                clientId={CLIENT_ID}
-                buttonText="Log out"
-                onLogoutSuccess={onSuccess}
-              ></GoogleLogout>    
-            </div>
-            { currentQuestion < 10 ? (
+          <div className="logout">
+            <GoogleLogout
+              className="logout"
+              clientId={CLIENT_ID}
+              buttonText="Log out"
+              onLogoutSuccess={onSuccess}
+            />
+          </div>
+          { currentQuestion < 10 ? (
             <div className="main">
-              <div className='question_number'>
-							  <span>Question {currentQuestion + 1}</span>/{10}
-						  </div>
-						  <div className="question_text">
-						    {game['questions'][currentQuestion]['question']}
-						  </div>
-						  <div className="answer_choices">
-						    {game['questions'][currentQuestion]['choices'].map(answerChoice => (
-						    <button onClick={() => handleAnswerChoiceClick(answerChoice)}>{answerChoice}</button>
+              <div className="question_number">
+                <span>
+                  Question
+                  {currentQuestion + 1}
+                </span>
+                /
+                {10}
+              </div>
+              <div className="question_text">
+                {game.questions[currentQuestion].question}
+              </div>
+              <div className="answer_choices">
+                {game.questions[currentQuestion].choices.map((answerChoice) => (
+                  <button onClick={() => handleAnswerChoiceClick(answerChoice)}>{answerChoice}</button>
 						    ))}
-						  </div>
-            </div>) : <Results/>}
+              </div>
+            </div>
+          ) : <Results />}
         </div>
-        ) : <Login />
-      }
-    </div>);
-} 
+      ) : <Login />}
+    </div>
+  );
+}
 export default Quiz;
