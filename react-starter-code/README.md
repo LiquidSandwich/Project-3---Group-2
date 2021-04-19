@@ -28,19 +28,19 @@ Make sure that you don't have any third-party extensions blocking cookies.
 ## Linting
 Below are the warnings/errors that were disabled and why they were disabled:
 
-1. # no-member
+1. ### no-member
 Ignored because it marked database commands as errors, even thought the commands work fine and it seems to be picking up a false positive
 
-2. # wrong-import-position
+2. ### wrong-import-position
 Ignored because it is saying import models is in the wrong position, but it needs to be where it is to avoid circular import issues
 
-3. # invalid-envar-default
+3. ### invalid-envar-default
 Ignored because it is picking up a false positive at the bottom of app,py for port, even though the code works fine without issue.
 
-4. # inconsistent-return-statements
+4. ### inconsistent-return-statements
 Ignored because the return statements work fine and they are not meant to be consistent in the function mentioned. The function it is throwing an error towards is `get_new_game`
 
-5. # too-few-public-methods
+5. ### too-few-public-methods
 Ignored after linting all other .py files and it was ignored because it was stating that models.py does not have enough public methods.
 It's not meant to hold many methods, so this error was ignored. All other files did not receive this error except models.py.
 
