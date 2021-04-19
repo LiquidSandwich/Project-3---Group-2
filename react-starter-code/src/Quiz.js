@@ -37,6 +37,7 @@ export function Quiz(props) {
   return (
     <div>
       {isLoggedIn ? (
+        currentQuestion < 10 ? (
         <div className="display">
           <div className="logout">
             <GoogleLogout
@@ -46,33 +47,34 @@ export function Quiz(props) {
               onLogoutSuccess={onSuccess}
             />
           </div>
-          {currentQuestion < 10 ? (
-            <div className="main">
-              <div className="question_number">
-                <span>
-                  Question
-                  {currentQuestion + 1}
-                </span>
-                /
-                {10}
-              </div>
-              <div className="question_text">{game.questions[currentQuestion].question}</div>
-              <div className="answer_choices">
-                {game.questions[currentQuestion].choices.map((answerChoice) => (
-                  <button type="button" onClick={() => handleAnswerChoiceClick(answerChoice)}>
-                    {answerChoice}
-                  </button>
-                ))}
-              </div>
+          <div className="main">
+            <div className="question_number">
+              <span>
+                Question
+                {currentQuestion + 1}
+              </span>
+              /
+              {10}
             </div>
-          ) : (
-            <Results answerStats={answerStats} userData={userData}/>
-          )}
+            <div className="question_text">{game.questions[currentQuestion].question}</div>
+            <div className="answer_choices">
+              {game.questions[currentQuestion].choices.map((answerChoice) => (
+                <button type="button" onClick={() => handleAnswerChoiceClick(answerChoice)}>
+                  {answerChoice}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
+        ) : (
+            <Results answerStats={answerStats} userData={userData}/>
+        
+        )
       ) : (
         <Login />
       )}
     </div>
   );
 }
+
 export default Quiz;
