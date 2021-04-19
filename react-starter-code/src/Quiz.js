@@ -2,6 +2,7 @@
 import Login from './Login.js';
 import { GoogleLogout } from 'react-google-login';
 import { useState, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
 import Results from './Results.js';
 
 // These two lines load environmental variables from .env
@@ -63,4 +64,9 @@ export function Quiz(props) {
       }
     </div>);
 } 
+
+Quiz.propTypes = {
+  game: PropTypes.any.isRequired
+};
+
 export default Quiz;
