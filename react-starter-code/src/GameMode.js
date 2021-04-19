@@ -48,7 +48,7 @@ function GameMode(props) {
     <div>
       {isLoggedIn ? (
         modeSet ? (
-          <Settings userData={userData}/>
+          <Settings userData={userData} />
         ) : (
           <div className="display">
             <div className="logout">

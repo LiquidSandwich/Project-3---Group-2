@@ -66,7 +66,7 @@ export function Quiz(props) {
               </div>
             </div>
           ) : (
-            <Results answerStats={answerStats} userData={userData}/>
+            <Results answerStats={answerStats} userData={userData} />
           )}
         </div>
       ) : (

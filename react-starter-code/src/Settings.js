@@ -62,7 +62,7 @@ function Settings(props) {
     <div>
       {isLoggedIn ? (
         game ? (
-          <Quiz game={game} userData={userData}/>
+          <Quiz game={game} userData={userData} />
         ) : (
           <div className="display">
             <div className="logout">
