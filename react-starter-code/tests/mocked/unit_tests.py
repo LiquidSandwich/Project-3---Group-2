@@ -69,6 +69,6 @@ class AddNewUserTestCase(unittest.TestCase):
                         
                     self.assertEqual(len(actual_result), len(expected_result))
                     self.assertEqual(actual_result, expected_result)
-                    
+
 if __name__ == '__main__':
     unittest.main()
