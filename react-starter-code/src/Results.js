@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import GameMode from './GameMode.js';
 
+const BASE_URL = '/api/v1/new';
 export function Results(props) {
   const { answerStats } = props;
   const { userData } = props;

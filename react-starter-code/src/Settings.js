@@ -40,6 +40,7 @@ function Settings(props) {
       color: 'default',
       // 'mode': 'single'
     });
+    console.log(data);
     fetch(BASE_URL, {
       method: 'POST',
       headers: {
