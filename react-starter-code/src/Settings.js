@@ -18,6 +18,7 @@ function Settings(props) {
   const [game, setGame] = useState(null);
   const [difficulty, setDifficulty] = useState(null);
   const [category, setCategory] = useState(null);
+  const { userData } = props;
 
   // // Code that sets login status to false when button is clicked
   const onSuccess = () => {
@@ -61,7 +62,7 @@ function Settings(props) {
     <div>
       {isLoggedIn ? (
         game ? (
-          <Quiz game={game} />
+          <Quiz game={game} userData={userData}/>
         ) : (
           <div className="display">
             <div className="logout">

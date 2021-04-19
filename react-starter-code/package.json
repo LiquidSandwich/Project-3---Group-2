@@ -5,6 +5,7 @@
     "@testing-library/user-event": "^12.6.3",
     "dotenv": "^8.2.0",
     "google-auth-library": "^7.0.4",
+    "heroku": "^7.52.0",
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

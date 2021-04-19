@@ -51,6 +51,7 @@ class Game:
             'username': player_data['username'],
             'color': player_data['color'],
             'img': player_data['img'],
+            'email': player_data['email'],
             'type': player_type
         }
 

@@ -17,7 +17,8 @@ export function Quiz(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const { game } = props;
-  const answerStats = [false, false, false, false, false, false, false, false, false, false];
+  const { userData } = props;
+  const [answerStats, setAnswerStats] = useState(new Array(10).fill('Incorrect'));
 
   // // Code that sets login status to false when button is clicked
   const onSuccess = () => {
@@ -25,15 +26,18 @@ export function Quiz(props) {
   };
 
   const handleAnswerChoiceClick = (answer) => {
+    const newAnswerStats = answerStats;
     if (answer === game.questions[currentQuestion].correct_answer) {
-      answerStats[currentQuestion] = true;
+      newAnswerStats[currentQuestion] = 'Correct';
     }
+    setAnswerStats(newAnswerStats);
     setCurrentQuestion(currentQuestion + 1);
   };
 
   return (
     <div>
       {isLoggedIn ? (
+        currentQuestion < 10 ? (
         <div className="display">
           <div className="logout">
             <GoogleLogout
@@ -43,33 +47,34 @@ export function Quiz(props) {
               onLogoutSuccess={onSuccess}
             />
           </div>
-          {currentQuestion < 10 ? (
-            <div className="main">
-              <div className="question_number">
-                <span>
-                  Question
-                  {currentQuestion + 1}
-                </span>
-                /
-                {10}
-              </div>
-              <div className="question_text">{game.questions[currentQuestion].question}</div>
-              <div className="answer_choices">
-                {game.questions[currentQuestion].choices.map((answerChoice) => (
-                  <button type="button" onClick={() => handleAnswerChoiceClick(answerChoice)}>
-                    {answerChoice}
-                  </button>
-                ))}
-              </div>
+          <div className="main">
+            <div className="question_number">
+              <span>
+                Question
+                {currentQuestion + 1}
+              </span>
+              /
+              {10}
             </div>
-          ) : (
-            <Results />
-          )}
+            <div className="question_text">{game.questions[currentQuestion].question}</div>
+            <div className="answer_choices">
+              {game.questions[currentQuestion].choices.map((answerChoice) => (
+                <button type="button" onClick={() => handleAnswerChoiceClick(answerChoice)}>
+                  {answerChoice}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
+        ) : (
+            <Results answerStats={answerStats} userData={userData}/>
+        
+        )
       ) : (
         <Login />
       )}
     </div>
   );
 }
+
 export default Quiz;

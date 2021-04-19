@@ -18,6 +18,7 @@ function GameMode(props) {
   // Boolean that tracks status on if the user is logged in or not
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [modeSet, setModeSet] = useState(false);
+  const { userData } = props;
 
   const firstName = props.userData.name.split(' ')[0];
 
@@ -47,7 +48,7 @@ function GameMode(props) {
     <div>
       {isLoggedIn ? (
         modeSet ? (
-          <Settings />
+          <Settings userData={userData}/>
         ) : (
           <div className="display">
             <div className="logout">
