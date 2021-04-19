@@ -1,9 +1,8 @@
 // import './Options.css';
-import React from 'react';
+import React, { useState } from 'react';
 import { GoogleLogout } from 'react-google-login';
-import { useState, useEffect } from 'react';
-import Login from './Login.js';
-import Results from './Results.js';
+import Login from './Login';
+import { Results } from './Results';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -12,7 +11,6 @@ dotenv.config();
 
 // Fills clientID variable with API ID key
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_ID;
-const BASE_URL = '/api/v1/new';
 
 export function Quiz(props) {
   // Boolean that tracks status on if the user is logged in or not
@@ -22,12 +20,12 @@ export function Quiz(props) {
   const answerStats = [false, false, false, false, false, false, false, false, false, false];
 
   // // Code that sets login status to false when button is clicked
-  const onSuccess = (res) => {
+  const onSuccess = () => {
     setIsLoggedIn(!isLoggedIn);
   };
 
   const handleAnswerChoiceClick = (answer) => {
-    if (answer == game.questions[currentQuestion].correct_answer) {
+    if (answer === game.questions[currentQuestion].correct_answer) {
       answerStats[currentQuestion] = true;
     }
     setCurrentQuestion(currentQuestion + 1);
@@ -45,7 +43,7 @@ export function Quiz(props) {
               onLogoutSuccess={onSuccess}
             />
           </div>
-          { currentQuestion < 10 ? (
+          {currentQuestion < 10 ? (
             <div className="main">
               <div className="question_number">
                 <span>
@@ -55,18 +53,22 @@ export function Quiz(props) {
                 /
                 {10}
               </div>
-              <div className="question_text">
-                {game.questions[currentQuestion].question}
-              </div>
+              <div className="question_text">{game.questions[currentQuestion].question}</div>
               <div className="answer_choices">
                 {game.questions[currentQuestion].choices.map((answerChoice) => (
-                  <button onClick={() => handleAnswerChoiceClick(answerChoice)}>{answerChoice}</button>
-						    ))}
+                  <button type="button" onClick={() => handleAnswerChoiceClick(answerChoice)}>
+                    {answerChoice}
+                  </button>
+                ))}
               </div>
             </div>
-          ) : <Results />}
+          ) : (
+            <Results />
+          )}
         </div>
-      ) : <Login />}
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }

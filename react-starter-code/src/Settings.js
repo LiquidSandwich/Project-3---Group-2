@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GoogleLogout } from 'react-google-login';
 import Login from './Login';
-import Quiz from './Quiz';
+import { Quiz } from './Quiz';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -45,22 +45,25 @@ function Settings(props) {
         'Content-Type': 'application/json',
       },
       body: data,
-    }).then((response) => response.json()).then((responseData) => {
-      if (responseData.status === 200) {
-        const settings = responseData.data;
-        setGame(settings);
-      } else {
-        console.log(responseData.error);
-      }
-    });
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        if (responseData.status === 200) {
+          const settings = responseData.data;
+          setGame(settings);
+        } else {
+          console.log(responseData.error);
+        }
+      });
   };
 
   return (
     <div>
       {isLoggedIn ? (
-        game ? <Quiz game={game} /> : (
+        game ? (
+          <Quiz game={game} />
+        ) : (
           <div className="display">
-
             <div className="logout">
               <GoogleLogout
                 className="logout"
@@ -72,7 +75,11 @@ function Settings(props) {
 
             <div className="main">
               <label htmlFor="trivia_difficulty">Choose a Category:</label>
-              <select onChange={difficultyHandler} name="trivia_difficulty" data-testid="difficulty">
+              <select
+                onChange={difficultyHandler}
+                name="trivia_difficulty"
+                data-testid="difficulty"
+              >
                 <option value="any">Any Difficulty</option>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
@@ -109,12 +116,15 @@ function Settings(props) {
                 <option value="32">Entertainment: Cartoon &amp; Animations</option>
               </select>
 
-              <button className="button" onClick={handleSettings}>Play Game</button>
+              <button type="button" className="button" onClick={handleSettings}>
+                Play Game
+              </button>
             </div>
           </div>
         )
-      ) : <Login />}
-
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }
