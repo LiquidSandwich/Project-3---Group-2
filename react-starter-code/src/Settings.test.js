@@ -1,5 +1,6 @@
+import React from 'react';
 import {
-  render, screen, fireEvent, waitFor,
+  render, screen, fireEvent,
 } from '@testing-library/react';
 import Settings from './Settings';
 
@@ -11,45 +12,39 @@ const setup = () => {
 };
 
 test('Check that component rendered correctly', () => {
-  const { input } = setup();
-  
-  const difficultyComponent = screen.getByText("Any Difficulty");
+  setup();
+  const difficultyComponent = screen.getByText('Any Difficulty');
   expect(difficultyComponent).toBeInTheDocument();
-  
-  const categoryComponent = screen.getByText("Any Category");
+
+  const categoryComponent = screen.getByText('Any Category');
   expect(categoryComponent).toBeInTheDocument();
-  
-  const LogOutComponent = screen.getByText("Log out");
+
+  const LogOutComponent = screen.getByText('Log out');
   expect(LogOutComponent).toBeInTheDocument();
-  
-  
 });
 
 test('Check that dropdown menu contains values for difficulty', () => {
-  const { input } = setup();
-  
-  const difficultyComponent = screen.getByText("Any Difficulty");
+  setup();
+  const difficultyComponent = screen.getByText('Any Difficulty');
   expect(difficultyComponent).toBeInTheDocument();
-  
-  fireEvent.change(screen.getByTestId("difficulty"), {
-    target: { value: "Easy" },
+
+  fireEvent.change(screen.getByTestId('difficulty'), {
+    target: { value: 'Easy' },
   });
-  
-  const easy = screen.getByText("Easy");
+
+  const easy = screen.getByText('Easy');
   expect(easy).toBeInTheDocument();
-  
 });
 
 test('Users first name appears on screen', () => {
-  const { input } = setup();
-  
-  const categoryComponent = screen.getByText("Any Category");
+  setup();
+  const categoryComponent = screen.getByText('Any Category');
   expect(categoryComponent).toBeInTheDocument();
-  
-  fireEvent.change(screen.getByTestId("category"), {
-    target: { value: "General Knowledge" },
+
+  fireEvent.change(screen.getByTestId('category'), {
+    target: { value: 'General Knowledge' },
   });
-  
-  const GeneralKnowledgeOption = screen.getByText("General Knowledge");
+
+  const GeneralKnowledgeOption = screen.getByText('General Knowledge');
   expect(GeneralKnowledgeOption).toBeInTheDocument();
 });

@@ -19,23 +19,20 @@ function Login() {
 
   // If the user logs in, the below code executes
   const onSuccess = (res) => {
-    console.log('[Login Success] currentUser:', res.profileObj);
+    console.log('[Login Success]');
     const data = res.profileObj;
     const { email } = data;
     const { name } = data;
     const { imageUrl } = data;
 
-    console.log('Email of user:', data.email);
-    console.log('Name of user:', data.name);
-    console.log('Image of user:', data.imageUrl);
     setIsLoggedIn(!isLoggedIn);
     setUserData({ name, img: imageUrl });
     socket.emit('login', [email, name, imageUrl]);
   };
 
   // If the user fails to login, the below code executes
-  const onFailure = (res) => {
-    console.log('[Login Failed] res:', res);
+  const onFailure = () => {
+    console.log('[Login Failed]');
   };
 
   /*
@@ -48,9 +45,7 @@ function Login() {
       {isLoggedIn ? (
         <h1>
           nogginy
-          <h2>
-            trivia and chat with friends
-          </h2>
+          <h2>trivia and chat with friends</h2>
           <GoogleLogin
             clientId={process.env.REACT_APP_GOOGLE_ID}
             buttonText="Log in with Google"
@@ -59,8 +54,9 @@ function Login() {
             cookiePolicy="single_host_origin"
           />
         </h1>
-      )
-        : <GameMode userData={userData} />}
+      ) : (
+        <GameMode userData={userData} />
+      )}
     </div>
   );
 }

@@ -46,14 +46,12 @@ function GameMode(props) {
   return (
     <div>
       {isLoggedIn ? (
-        modeSet ? <Settings /> : (
+        modeSet ? (
+          <Settings />
+        ) : (
           <div className="display">
             <div className="logout">
-              <GoogleLogout
-                clientId={CLIENT_ID}
-                buttonText="Log out"
-                onLogoutSuccess={onSuccess}
-              />
+              <GoogleLogout clientId={CLIENT_ID} buttonText="Log out" onLogoutSuccess={onSuccess} />
             </div>
             <div>
               <h1>
@@ -64,16 +62,17 @@ function GameMode(props) {
                 <br />
                 <br />
               </h1>
-              <h2 id="teamname">
-                nogginy
-              </h2>
+              <h2 id="teamname">nogginy</h2>
 
-              <button className="button" onClick={() => gameModeHandler('single')}>Single</button>
-
+              <button type="button" className="button" onClick={() => gameModeHandler('single')}>
+                Single
+              </button>
             </div>
           </div>
         )
-      ) : <Login />}
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }
