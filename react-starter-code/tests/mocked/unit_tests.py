@@ -14,6 +14,9 @@ sys.path.append(superparentdir)
 from app import add_to_db, models
 
 
+'''
+Test that adds new user to database
+'''
 KEY_INPUT = "input"
 KEY_EMAIL = "email"
 KEY_IMAGE_URL = "image"
@@ -69,6 +72,52 @@ class AddNewUserTestCase(unittest.TestCase):
                         
                     self.assertEqual(len(actual_result), len(expected_result))
                     self.assertEqual(actual_result, expected_result)
+
+'''
+Test that updates users score based on quiz statistics
+'''
+         
+USER = "sam@gmail.com"
+QUIZ_SCORE = 'quiz'
+EXPECTED_OUTPUT = 'expected'
+
+class AddScoreTestCase(unittest.TestCase):
+    def setUp(self):
+        self.success_test_params = [
+            {
+                QUIZ_SCORE: 7,
+                EXPECTED_OUTPUT: 7
+            },
+            {
+                QUIZ_SCORE: 8,
+                EXPECTED_OUTPUT: 15
+            },
+            {
+                QUIZ_SCORE: 0,
+                EXPECTED_OUTPUT: 15
+            },
+            
+        ]
+        
+        initial_person = models.Player(email=USER, username="Sam", score=0, profile_image="")
+        self.initial_db_mock = [initial_person]
+    
+    def mocked_db_session_commit(self):
+        pass
+    
+    def test_success(self):
+        for test in self.success_test_params:
+                with patch('app.DB.session.commit', self.mocked_db_session_commit):
+                    
+                    
+                    user = self.initial_db_mock[0]
+                    user.score += test[QUIZ_SCORE]
+                    
+                    actual_result = user.score
+                    expected_result = test[EXPECTED_OUTPUT]
+                        
+                    self.assertEqual(actual_result, expected_result)
+                    self.assertTrue(actual_result > -1 )
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,9 +1,12 @@
 import unittest
 
+'''
+Test that checks if user email is already in list of users
+'''
+
 KEY_INPUT = "input"
 EXPECTED_OUTPUT = "expected"
 USERS = "users"
-
 
 class CheckIfEmailInListTestCase(unittest.TestCase):
     def setUp(self):
@@ -38,11 +41,14 @@ class CheckIfEmailInListTestCase(unittest.TestCase):
             
             self.assertNotEqual(actual_result, None)
             self.assertEqual(actual_result, expected_result)
-            
+
+'''
+Tests the adding of users to list
+'''
+
 KEY_INPUT = "input"
 EXPECTED_OUTPUT = "expected"
 USERS = "users"
-
 
 class AddToUsersTestCase(unittest.TestCase):
     def setUp(self):
