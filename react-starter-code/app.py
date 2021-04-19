@@ -61,7 +61,7 @@ def on_login(data):
     if email not in users:
         add_to_db(data)
         
-    if not game.player_exists(email):    
+    if not game.player_exists(player.email):    
         player = {
             'username' : data[1],
             'color': 'white',
