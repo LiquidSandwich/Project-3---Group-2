@@ -4,6 +4,7 @@ and profile_image from google
 '''
 from app import DB
 
+
 class Player(DB.Model):
     '''
     Table that holds id, email, username, score, and profile_image
