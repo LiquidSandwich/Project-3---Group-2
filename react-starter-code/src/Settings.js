@@ -40,6 +40,7 @@ function Settings(props) {
       color: 'default',
       // 'mode': 'single'
     });
+    console.log(data);
     fetch(BASE_URL, {
       method: 'POST',
       headers: {
@@ -62,7 +63,7 @@ function Settings(props) {
     <div>
       {isLoggedIn ? (
         game ? (
-          <Quiz game={game} userData={userData}/>
+          <Quiz game={game} userData={userData} />
         ) : (
           <div className="display">
             <div className="logout">

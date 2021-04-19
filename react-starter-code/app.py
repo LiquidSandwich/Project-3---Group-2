@@ -67,7 +67,7 @@ def on_login(data):
     if email not in users:
         add_to_db(data)
 
-    if not GAME.player_exists(player.email):
+    if not GAME.player_exists(email):
         player = {
             'username': data[1],
             'color': 'white',
@@ -111,6 +111,7 @@ def get_new_game():
     if request.method == 'POST':
         data = request.get_json()
         if data['color'] and data['category'] and data['difficulty']:
+            GAME.reset()
             GAME.set_game(data)
             game_data = GAME.get_game()
             return {'status': 200, 'data': game_data}

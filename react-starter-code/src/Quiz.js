@@ -38,37 +38,37 @@ export function Quiz(props) {
     <div>
       {isLoggedIn ? (
         currentQuestion < 10 ? (
-        <div className="display">
-          <div className="logout">
-            <GoogleLogout
-              className="logout"
-              clientId={CLIENT_ID}
-              buttonText="Log out"
-              onLogoutSuccess={onSuccess}
-            />
-          </div>
-          <div className="main">
-            <div className="question_number">
-              <span>
-                Question
-                {currentQuestion + 1}
-              </span>
-              /
-              {10}
+          <div className="display">
+            <div className="logout">
+              <GoogleLogout
+                className="logout"
+                clientId={CLIENT_ID}
+                buttonText="Log out"
+                onLogoutSuccess={onSuccess}
+              />
             </div>
-            <div className="question_text">{game.questions[currentQuestion].question}</div>
-            <div className="answer_choices">
-              {game.questions[currentQuestion].choices.map((answerChoice) => (
-                <button type="button" onClick={() => handleAnswerChoiceClick(answerChoice)}>
-                  {answerChoice}
-                </button>
-              ))}
+            <div className="main">
+              <div className="question_number">
+                <span>
+                  Question
+                  {currentQuestion + 1}
+                </span>
+                /
+                {10}
+              </div>
+              <div className="question_text">{game.questions[currentQuestion].question}</div>
+              <div className="answer_choices">
+                {game.questions[currentQuestion].choices.map((answerChoice) => (
+                  <button type="button" onClick={() => handleAnswerChoiceClick(answerChoice)}>
+                    {answerChoice}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
         ) : (
-            <Results answerStats={answerStats} userData={userData}/>
-        
+          <Results answerStats={answerStats} userData={userData} />
+
         )
       ) : (
         <Login />
@@ -76,5 +76,4 @@ export function Quiz(props) {
     </div>
   );
 }
-
 export default Quiz;

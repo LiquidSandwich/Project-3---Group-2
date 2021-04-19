@@ -1,10 +1,8 @@
 import './Login.css';
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
-import io from 'socket.io-client';
 import GameMode from './GameMode';
-
-export const socket = io();
+import { socket } from './App';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');

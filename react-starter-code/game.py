@@ -93,9 +93,13 @@ class Game:
         By using the data of the difficulty and category,
         it sets up the 10 questions with both incorrect and correct answers
         '''
-        url = '%s&%s&%s' % (TRIVIA_URL, category, difficulty)
+        url = '%s&category=%s&difficulty=%s' % (TRIVIA_URL, category, difficulty)
+        print(url)
+        print(category)
+        print(difficulty)
         response = requests.get(url)
         data = response.json()
+        print(data)
         questions = data['results']
         for question in questions:
             choices = question['incorrect_answers'] + [question['correct_answer']]
