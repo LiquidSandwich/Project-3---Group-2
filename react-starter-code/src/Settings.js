@@ -20,7 +20,7 @@ function Settings(props) {
   const [category, setCategory] = useState(null);
 
   // // Code that sets login status to false when button is clicked
-  const onSuccess = (res) => {
+  const onSuccess = () => {
     setIsLoggedIn(!isLoggedIn);
   };
 
@@ -72,7 +72,7 @@ function Settings(props) {
 
             <div className="main">
               <label htmlFor="trivia_difficulty">Choose a Category:</label>
-              <select onChange={difficultyHandler} name="trivia_difficulty">
+              <select onChange={difficultyHandler} name="trivia_difficulty" data-testid="difficulty">
                 <option value="any">Any Difficulty</option>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
@@ -81,7 +81,7 @@ function Settings(props) {
 
               <label htmlFor="trivia_category">Choose a Category:</label>
 
-              <select onChange={categoryHandler} name="trivia_category">
+              <select onChange={categoryHandler} name="trivia_category" data-testid="category">
                 <option value="any">Any Category</option>
                 <option value="9">General Knowledge</option>
                 <option value="10">Entertainment: Books</option>
