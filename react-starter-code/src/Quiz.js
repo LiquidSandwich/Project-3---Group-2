@@ -17,7 +17,8 @@ export function Quiz(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const { game } = props;
-  const answerStats = [false, false, false, false, false, false, false, false, false, false];
+  const { userData } = props;
+  const [answerStats, setAnswerStats] = useState(new Array(10).fill('Incorrect'));
 
   // // Code that sets login status to false when button is clicked
   const onSuccess = () => {
@@ -25,9 +26,11 @@ export function Quiz(props) {
   };
 
   const handleAnswerChoiceClick = (answer) => {
+    const newAnswerStats = answerStats;
     if (answer === game.questions[currentQuestion].correct_answer) {
-      answerStats[currentQuestion] = true;
+      newAnswerStats[currentQuestion] = 'Correct';
     }
+    setAnswerStats(newAnswerStats);
     setCurrentQuestion(currentQuestion + 1);
   };
 
@@ -63,7 +66,7 @@ export function Quiz(props) {
               </div>
             </div>
           ) : (
-            <Results />
+            <Results answerStats={answerStats} userData={userData}/>
           )}
         </div>
       ) : (
