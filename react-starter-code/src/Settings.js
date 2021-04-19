@@ -75,8 +75,8 @@ function Settings(props) {
                 </div>
               
                 <div className="main">
-                  <label for="trivia_difficulty">Choose a Category:</label>
-                  <select onChange={difficultyHandler} name="trivia_difficulty">
+                  <label for="trivia_difficulty">Choose a difficulty:</label>
+                  <select onClick={difficultyHandler} name="trivia_difficulty">
               			<option value="any">Any Difficulty</option>
               			<option value="easy">Easy</option>
               			<option value="medium">Medium</option>
@@ -85,7 +85,7 @@ function Settings(props) {
                   
                   <label for="trivia_category">Choose a Category:</label>
           
-                  <select onChange={categoryHandler} name="trivia_category">
+                  <select onClick={categoryHandler} name="trivia_category">
                   	<option value="any">Any Category</option>
                   	<option value="9">General Knowledge</option>
                   	<option value="10">Entertainment: Books</option>
