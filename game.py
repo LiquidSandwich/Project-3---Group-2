@@ -93,10 +93,10 @@ class Game:
         By using the data of the difficulty and category,
         it sets up the 10 questions with both incorrect and correct answers
         '''
-        cat_str = '' if category == 'any' or category == None else '&category='+category
-        dif_str = '' if difficulty == 'any' or difficulty == None else '&difficulty='+difficulty
+        cat_str = '' if category in ('any', None) else '&category='+category
+        dif_str = '' if difficulty in ('any', None) else '&difficulty='+difficulty
         url = '%s%s%s' % (TRIVIA_URL, cat_str, dif_str)
-        
+
         response = requests.get(url)
         data = response.json()
         questions = data['results']
