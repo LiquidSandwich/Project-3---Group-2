@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@900&display=swap');
+body{
+    background-color: #31a9e2;
+    font-family: 'Catamaran', sans-serif;
+}
+
+.display, .main, .logout{
+    display: flex;
+}
+
+.display{
+    margin-top: 20px;
+    flex-direction: column;
+}
+
+.main {
+    flex-direction: column;
+    align-items: center;
+}
+
+.main > * {
+    margin-bottom: 30px;
+}
+
+.logout{
+    justify-content: flex-end;
+    margin-right: 20px;
+}
+
+.button, select {
+    height: 50px;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-family: 'Catamaran', sans-serif;
+    color: #fff;
+    background: transparent;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    transition: .5s ease-out;
+    
+}
+
+
+.button{
+    width: 10rem;
+}
+
+select {
+    width: 15rem;
+}
+
+
+option {
+    color: #31a9e2;
+}
+
+.button:hover, select:hover{
+    background: #fff;
+    color: #31a9e2;
+}
+
