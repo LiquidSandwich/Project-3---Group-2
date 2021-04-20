@@ -28,22 +28,41 @@ Make sure that you don't have any third-party extensions blocking cookies.
 ## Linting
 Below are the warnings/errors that were disabled and why they were disabled:
 
-### Pylint
+### Ignored pylint errors:
 1. ### no-member
-Ignored because it marked database commands as errors, even thought the commands work fine and it seems to be picking up a false positive
+It marked database commands as errors, even thought the commands work fine and it seems to be picking up a false positive
 
 2. ### wrong-import-position
-Ignored because it is saying import models is in the wrong position, but it needs to be where it is to avoid circular import issues
+It is saying import models is in the wrong position, but it needs to be where it is to avoid circular import issues
 
 3. ### invalid-envar-default
-Ignored because it is picking up a false positive at the bottom of app,py for port, even though the code works fine without issue.
+It is picking up a false positive at the bottom of app,py for port, even though the code works fine without issue.
 
 4. ### inconsistent-return-statements
-Ignored because the return statements work fine and they are not meant to be consistent in the function mentioned. The function it is throwing an error towards is `get_new_game`
+The return statements work fine and they are not meant to be consistent in the function mentioned. The function it is throwing an error towards is `get_new_game`
 
 5. ### too-few-public-methods
 Ignored after linting all other .py files and it was ignored because it was stating that models.py does not have enough public methods.
 It's not meant to hold many methods, so this error was ignored. All other files did not receive this error except models.py.
 
-### Eslint
-1. ### 
+### Ignored eslint errors:
+1. ### no-console
+Console statements were used to verify and debug code. There were not logging any sensitive information, so they were ignored.
+
+2. ### react/jsx-filename-extension
+File name extension is allowed to be ".js". Also, carried over from previous project.
+
+3. ### react/no-array-index-key
+Ignored as a carry over from previous project.
+
+4. ### react-hooks/exhaustive-deps
+Ignored as a carry over from previous project.
+
+5. ### import/prefer-default-export
+This error was caused only by `Socket.js` file. This file was used to prevent dependency cycles.
+
+6. ### jsx-a11y/label-has-associated-control
+Caused a false error claiming that a `<form>` tag was needed due to a labeling error.
+
+7. ### import/no-cycle
+There were no errors with dependencies among components. Dependency cycles were fixed for the components that had the potential to cause errors. Others were not edited.
