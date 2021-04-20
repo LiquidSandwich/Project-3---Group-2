@@ -28,6 +28,7 @@ Make sure that you don't have any third-party extensions blocking cookies.
 ## Linting
 Below are the warnings/errors that were disabled and why they were disabled:
 
+### Pylint
 1. ### no-member
 Ignored because it marked database commands as errors, even thought the commands work fine and it seems to be picking up a false positive
 
@@ -44,3 +45,5 @@ Ignored because the return statements work fine and they are not meant to be con
 Ignored after linting all other .py files and it was ignored because it was stating that models.py does not have enough public methods.
 It's not meant to hold many methods, so this error was ignored. All other files did not receive this error except models.py.
 
+### Eslint
+1. ### 
