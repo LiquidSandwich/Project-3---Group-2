@@ -5,7 +5,7 @@ import {
 import Settings from './Settings';
 
 const setup = () => {
-  const result = render(<Settings />);
+  const result = render(<Settings userData={{ name: 'Dan Smith', img: '' }} isLogged={false} />);
   return {
     ...result,
   };
@@ -19,8 +19,8 @@ test('Check that component rendered correctly', () => {
   const categoryComponent = screen.getByText('Any Category');
   expect(categoryComponent).toBeInTheDocument();
 
-  const LogOutComponent = screen.getByText('Log out');
-  expect(LogOutComponent).toBeInTheDocument();
+  const PlayGameComponent = screen.getByText('Play Game');
+  expect(PlayGameComponent).toBeInTheDocument();
 });
 
 test('Check that dropdown menu contains values for difficulty', () => {
