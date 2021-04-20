@@ -1,0 +1,3 @@
+[MASTER]
+disable=no-member, wrong-import-position, invalid-envvar-default, inconsistent-return-statements, too-few-public-methods
+
