@@ -154,6 +154,7 @@ def set_game_mode():
         data = request.get_json()
         mode = data['mode']
         GAME.set_mode(mode)
+        SOCKETIO.emit('modeSet', broadcast=True)
         return {'status': 200, 'msg': 'OK'}
     return {'status': 400, 'error': 'Bad request!'}
 

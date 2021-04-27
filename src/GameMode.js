@@ -1,8 +1,9 @@
 import './GameMode.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { GoogleLogout } from 'react-google-login';
 import Settings from './Settings';
+import { socket } from './Socket';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -39,13 +40,18 @@ function GameMode(props) {
     }).then((response) => {
       console.log(response);
     });
-    setModeSet(!modeSet);
   };
+
+  useEffect(() => {
+    socket.on('modeSet', () => {
+      setModeSet(!modeSet);
+    });
+  }, []);
 
   return (
     <div>
       {modeSet ? (
-        <Settings userData={userData} isLogged={isLogged} />
+        <Settings userData={userData} isLogged={isLogged} playerType={playerType} />
       ) : (
         <div className="display">
           <div className="logout">
@@ -78,7 +84,7 @@ function GameMode(props) {
                 </button>
               </div>
             ) : (
-              <div> Waiting for Game to start... </div>
+              <div> Waiting for game to start... </div>
             )}
           </div>
         </div>
