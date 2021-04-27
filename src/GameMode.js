@@ -61,6 +61,13 @@ function GameMode(props) {
               <br />
             </h1>
             <h2 id="teamname">nogginy</h2>
+            <div className="colors">
+              <button type="button" className="color mint" onClick="colorHandler">white</button>
+              <button type="button" className="color red" onClick="colorHandler">red</button>
+              <button type="button" className="color blue" onClick="colorHandler">blue</button>
+              <button type="button" className="color yellow" onClick="colorHandler">yellow</button>
+              <button type="button" className="color pink" onClick="colorHandler">pink</button>
+            </div>
             { playerType === 'host' ? (
               <div>
                 <button type="button" className="button" onClick={() => gameModeHandler('single')}>
