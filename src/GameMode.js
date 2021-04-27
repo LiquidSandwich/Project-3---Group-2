@@ -17,14 +17,14 @@ const BASE_URL = '/api/v1/new';
 function GameMode(props) {
   const [modeSet, setModeSet] = useState(false);
   const [custom, setCustom] = useState(false);
-  const { userData, isLogged } = props;
+  const { userData, isLogged, playerType } = props;
 
   const firstName = userData.name.split(' ')[0];
 
   // // Code that sets login status to false when button is clicked
   const onSuccess = () => {
     // setIsLoggedIn(!isLoggedIn);
-    props.isLogged();
+    isLogged();
   };
 
   const gameModeHandler = (mode) => {
@@ -57,17 +57,15 @@ function GameMode(props) {
           {modeSet ? (
             <Settings userData={userData} isLogged={isLogged} />
           ) : (
-            <div className="display">
+          <div className="display">
+            
               <div className="logout">
                 <GoogleLogout clientId={CLIENT_ID} buttonText="Log out" onLogoutSuccess={onSuccess} />
               </div>
-              <button type="button" className="settings" onClick={onToggle}>
-                {' '}
-                <img src="https://www.freeiconspng.com/thumbs/gear-icon/gear-icon-9.png" width="70" height="50" alt="submit" />
-              </button>
+              
               <div>
                 <h1>
-                  Welcome Back,
+                  Welcome,
                   {' '}
                   {firstName}
                   !
@@ -75,21 +73,31 @@ function GameMode(props) {
                   <br />
                 </h1>
                 <h2 id="teamname">nogginy</h2>
-                <button type="button" className="button" onClick={() => gameModeHandler('single')}>
-                  Single
-                </button>
+                { playerType === 'host' ? (
+                  <div>
+                    <button type="button" className="button" onClick={() => gameModeHandler('single')}>
+                      Single
+                    </button>
+                    <button type="button" className="button" onClick={() => gameModeHandler('multiplayer')}>
+                      Multiplayer
+                    </button>
+                  </div>
+                ) : (
+                  <div> Waiting for Game to start... </div>
+                )}
               </div>
             </div>
           )}
-        </div>
+        </div> 
       )}
-    </div>
+  </div>
   );
 }
 
 GameMode.propTypes = {
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.bool.isRequired,
+  playerType: PropTypes.string.isRequired,
 };
 
 export default GameMode;
