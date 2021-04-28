@@ -41,9 +41,9 @@ class Game:
         Sets the mode of the game
         '''
         self.mode = mode
-        
+
     def get_status(self) -> int:
-        
+
         '''
         returns the current status of the game; 0: waiting, 1: running, 2: finished
         '''
@@ -53,8 +53,8 @@ class Game:
         '''
         set the status of the game
         '''
-        self.status = status_num;
-    
+        self.status = status_num
+
     def get_player_type(self, email: str) -> str:
         '''
         gets a player's type
@@ -80,6 +80,24 @@ class Game:
 
         self.players.append(player)
         print(self.players)
+
+    def remove_player(self, email: str) -> None:
+        '''
+        removes specified player from player list
+        '''
+        if self.players:
+            for player in self.players:
+                if player['email'] == email:
+                    if player['type'] == 'host':
+                        if len(self.players) == 1:
+                            self.reset()
+                        else:
+                            index = self.players.index(player) + 1
+                            self.players[index]['type'] = 'host'
+
+                    else:
+                        self.players.remove(player)
+            print(self.players)
 
     def player_exists(self, email: str) -> bool:
         '''

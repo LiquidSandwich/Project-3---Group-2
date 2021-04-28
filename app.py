@@ -53,24 +53,21 @@ def login_request():
     When a user logs in, this function is run
     '''
     if request.method == 'POST':
-        print("POSTINGGGGGGGGGGGGGGGG @@@@@@@@@@@@@@@@@")
         data = request.get_json()
         print(data)
-        
+
         # Fills list with all user's emails
         users = []
         all_people = models.Player.query.all()
         for person in all_people:
             users.append(person.email)
-    
+
         print(users)
         email = data['email']
         # Checks if email is already in database
         if email not in users:
             add_to_db(data)
-        
-        print("IT ISSSSSSSSSSSSSSSSS " + str(GAME.player_exists(email)))
-        
+
         if not GAME.player_exists(email):
             player = {
                 'username': data['name'],
@@ -79,58 +76,18 @@ def login_request():
                 'email': email,
             }
             GAME.add_player(player)
-            print(GAME.get_game())
             player_type = GAME.get_player_type(email)
-            print(player_type)
             return {'status': 200, 'playerType': player_type}
-        
-    # else:
-    #     print("WHY IS THIS EXECUTINGGGGGG")
-    #     if 'email' in request.args:
-    #         email = request.args['email']
-    #         # print ("YOU GOT MAIL\n\n\n")
-    #         print(email)
-    #         print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    #         if not GAME.player_exists(email):
-    #             print(email + "NOT EXISTS!!!!!!!!!!!!!!!!!!!!!!!")
-    #         player_type = GAME.get_player_type(email)
-    #         print(player_type)
-    #         return {'player_type' : player_type}
 
-    #     return {'error': 'Error: No email field specified.'}
-            
-
-
-@SOCKETIO.on('login')
-def on_login(data):
-    '''
-    When a user logs in, this function is run
-    '''
-    print(data)
-
-    # Fills list with all user's emails
-    users = []
-    all_people = models.Player.query.all()
-    for person in all_people:
-        users.append(person.email)
-
-    print(users)
-    email = data[0]
-    # Checks if email is already in database
-    if email not in users:
-        add_to_db(data)
-
-    if not GAME.player_exists(email):
-        player = {
-            'username': data[1],
-            'color': 'white',
-            'img': data[2],
-            'email': email,
-        }
-        GAME.add_player(player)
-    player_type = GAME.get_player_type(email)
-    SOCKETIO.emit('login', player_type, include_self=True)
-
+# @APP.route('/api/v1/leave', methods=['POST'])
+# def leave_game():
+#     '''
+#     When a user chooses to leave the game, this removes them from the list of players
+#     '''
+#     if request.method == 'POST':
+#         data = request.get_json()
+#         email = data['email']
+#         GAME.remove_player(email)
 
 def add_to_db(data):
     '''

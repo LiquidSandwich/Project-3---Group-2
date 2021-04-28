@@ -3,13 +3,26 @@ import React, { useState } from 'react';
 import GameMode from './GameMode';
 
 export function Results(props) {
-  const { answerStats } = props;
-  const { userData } = props;
-  const { isLogged } = props;
+  const { answerStats, userData, isLogged } = props;
   const [restart, setRestart] = useState(true);
 
   const replay = () => {
     setRestart(!restart);
+  };
+
+  const exit = () => {
+    const { email } = userData;
+    const data = JSON.stringify({
+      email,
+    });
+    fetch('/api/v1/leave', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: data,
+    })
+      .then((response) => response.json());
   };
 
   return (
@@ -29,6 +42,7 @@ export function Results(props) {
             ))}
           </div>
           <button type="button" className="button" onClick={() => replay()}>Replay</button>
+          <button type="button" className="button" onClick={exit}>Exit</button>
         </div>
       )
         : <GameMode userData={userData} isLogged={isLogged} />}
