@@ -9,3 +9,8 @@ h7 {
     top:-425px;
     left: 825px;
 }
+
+button {
+ border:none;
+ outline:none;
+}
