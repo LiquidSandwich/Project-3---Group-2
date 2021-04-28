@@ -53,7 +53,7 @@ def on_login(data):
     '''
     When a user logs in, this function is run
     '''
-    print(data)
+    print("DATA:" + str(data))
 
     # Fills list with all user's emails
     users = []
@@ -61,7 +61,7 @@ def on_login(data):
     for person in all_people:
         users.append(person.email)
 
-    print(users)
+    print("Users:" + str(users))
     email = data[0]
     # Checks if email is already in database
     if email not in users:
@@ -114,6 +114,19 @@ def get_new_game():
         GAME.set_game(data)
         game_data = GAME.get_game()
         return {'status': 200, 'data': game_data}
+        
+@SOCKETIO.on('leaderboard')
+def leaderboard(data):
+    '''
+        update and retrieve leaderboard
+    '''
+    all_people = models.Player.query.all()
+    users= []
+    scores = []
+    for user in all_people: 
+        users.append(user.username)
+        scores.append(user.score)
+    SOCKETIO.emit('leaderboard', {'users': list(users), 'scores':scores})
 
 if __name__ == "__main__":
     SOCKETIO.run(

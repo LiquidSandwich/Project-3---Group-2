@@ -110,3 +110,8 @@ class Game:
             }
 
             self.questions.append(question_data)
+            
+    def get_leaderboard(self) -> dict:
+        '''
+        Returns dictionary with top 5 username and score
+        '''
