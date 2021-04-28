@@ -15,7 +15,7 @@ dotenv.config();
 function Login() {
   // Boolean that tracks status on if the user is logged in or not
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [userData, setUserData] = useState({ name: '', img: '' });
+  const [userData, setUserData] = useState({ name: '', img: '', email: '' });
   const [playerType, setPlayerType] = useState('');
 
   const isLogged = () => {
@@ -31,8 +31,7 @@ function Login() {
     const { name } = data;
     const { imageUrl } = data;
     isLogged();
-    setUserData({ name, img: imageUrl });
-    // socket.emit('login', [email, name, imageUrl]);
+    setUserData({ name, img: imageUrl, email });
     const loginData = JSON.stringify({
       email,
       name,

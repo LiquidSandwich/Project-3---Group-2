@@ -4,7 +4,7 @@ Helps store and change user information
 '''
 
 import os
-from flask import Flask, send_from_directory, json, request
+from flask import Flask, send_from_directory, json, request, jsonify
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -78,16 +78,30 @@ def login_request():
             GAME.add_player(player)
             player_type = GAME.get_player_type(email)
             return {'status': 200, 'playerType': player_type}
+            
+            
+@APP.route('/api/v1/player', methods=['GET'])
+def get_type():
+    if 'email' in request.args:
+        email = request.args['email']
+        if GAME.player_exists(email):
+            player_type = GAME.get_player_type(email)
+            print('The playr typpe isssssssssss' + player_type)
+            results = {'player_type': player_type}
+            return jsonify(results)
 
-# @APP.route('/api/v1/leave', methods=['POST'])
-# def leave_game():
-#     '''
-#     When a user chooses to leave the game, this removes them from the list of players
-#     '''
-#     if request.method == 'POST':
-#         data = request.get_json()
-#         email = data['email']
-#         GAME.remove_player(email)
+@APP.route('/api/v1/leave', methods=['POST'])
+def leave_game():
+    '''
+    When a user chooses to leave the game, this removes them from the list of players
+    '''
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+        email = data['email']
+        GAME.remove_player(email)
+        return 'Successfully removed from game!'
+    return 'Bad Request, could not exit.'
 
 def add_to_db(data):
     '''
