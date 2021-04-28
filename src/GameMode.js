@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { GoogleLogout } from 'react-google-login';
 import Settings from './Settings';
-import Custom from'./Custom';
+import Custom from './Custom';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -43,45 +43,46 @@ function GameMode(props) {
     });
     setModeSet(!modeSet);
   };
-  
+
   const onToggle = () => {
     setCustom(!custom);
-  }
+  };
 
   return (
     <div>
-    {custom ? (
-      <Custom custom={onToggle}/>
+      {custom ? (
+        <Custom custom={onToggle} />
       ) : (
-    <div>
-      {modeSet ? (
-        <Settings userData={userData} isLogged={isLogged} />
-        ) : (
-        <div className="display">
-          <div className="logout">
-            <GoogleLogout clientId={CLIENT_ID} buttonText="Log out" onLogoutSuccess={onSuccess} />
-          </div>
-            <button type="button" className="settings" onClick={onToggle}> 
-               <img src="https://www.freeiconspng.com/thumbs/gear-icon/gear-icon-9.png" width="70" height="50" alt="submit" />
-            </button>
-          <div>
-            <h1>
-              Welcome Back,
-              {' '}
-              {firstName}
-              !
-              <br />
-              <br />
-            </h1>
-            <h2 id="teamname">nogginy</h2>
-            <button type="button" className="button" onClick={() => gameModeHandler('single')}>
-              Single
-            </button>
-          </div>
+        <div>
+          {modeSet ? (
+            <Settings userData={userData} isLogged={isLogged} />
+          ) : (
+            <div className="display">
+              <div className="logout">
+                <GoogleLogout clientId={CLIENT_ID} buttonText="Log out" onLogoutSuccess={onSuccess} />
+              </div>
+              <button type="button" className="settings" onClick={onToggle}>
+                {' '}
+                <img src="https://www.freeiconspng.com/thumbs/gear-icon/gear-icon-9.png" width="70" height="50" alt="submit" />
+              </button>
+              <div>
+                <h1>
+                  Welcome Back,
+                  {' '}
+                  {firstName}
+                  !
+                  <br />
+                  <br />
+                </h1>
+                <h2 id="teamname">nogginy</h2>
+                <button type="button" className="button" onClick={() => gameModeHandler('single')}>
+                  Single
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
-    </div>
-    )}
     </div>
   );
 }
