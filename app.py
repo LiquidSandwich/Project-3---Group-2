@@ -143,6 +143,19 @@ def get_new_game():
         SOCKETIO.emit('startGame', {'settings': game_data}, broadcast=True)
         return {'status': 200}
 
+@SOCKETIO.on('leaderboard')
+def leaderboard(data):
+    '''
+        update and retrieve leaderboard
+    '''
+    all_people = models.Player.query.all()
+    users= []
+    scores = []
+    for user in all_people: 
+        users.append(user.username)
+        scores.append(user.score)
+    SOCKETIO.emit('leaderboard', {'users': list(users), 'scores':scores})
+
 if __name__ == "__main__":
     SOCKETIO.run(
         APP,

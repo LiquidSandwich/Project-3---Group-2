@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Results } from './Results';
+import { socket } from './Socket';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -24,6 +25,12 @@ export function Quiz(props) {
     setAnswerStats(newAnswerStats);
     setCurrentQuestion(currentQuestion + 1);
   };
+
+  if (currentQuestion === 10) {
+    console.log(currentQuestion);
+    const name = userData.username;
+    socket.emit('leaderboard', name);
+  }
 
   return (
     <div>

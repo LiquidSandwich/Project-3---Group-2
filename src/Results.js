@@ -1,7 +1,9 @@
 import './Results.css';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import GameMode from './GameMode';
+import Leader from './Leaderboard';
+import { socket } from './Socket';
 import Login from './Login';
 
 export function Results(props) {
@@ -14,6 +16,8 @@ export function Results(props) {
   const { email } = userData;
 
   const [restart, setRestart] = useState(true);
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [scores, setScores] = useState([]);
   const [exit, setExit] = useState(false);
   const [playerType, setPlayerType] = useState('');
 
@@ -46,6 +50,15 @@ export function Results(props) {
       .then((response) => response.json())
       .then(setExit(!exit));
   };
+  
+  useEffect(() => {
+    socket.on('leaderboard', (data) => {
+      setLeaderboard(data.users);
+      setScores(data.scores);
+      console.log('LEADERBOARD ');
+      console.log(leaderboard);
+    });
+  }, []);
 
   return (
     <div>
@@ -54,6 +67,7 @@ export function Results(props) {
           <Login />
         ) : (
           <div className="stats">
+            <Leader leaderboard={leaderboard} scores={scores} />
             <div className="answer_results">
               {answerStats.map((answerChoice, index) => (
                 <div>
