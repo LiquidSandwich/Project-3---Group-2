@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Quiz } from './Quiz';
+import { socket } from './Socket';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -38,16 +39,14 @@ function Settings(props) {
       },
       body: data,
     })
-      .then((response) => response.json())
-      .then((responseData) => {
-        if (responseData.status === 200) {
-          const settings = responseData.data;
-          setGame(settings);
-        } else {
-          console.log(responseData.error);
-        }
-      });
+      .then((response) => response.json());
   };
+
+  useEffect(() => {
+    socket.on('startGame', (data) => {
+      setGame(data.settings);
+    });
+  }, []);
 
   return (
     <div>
