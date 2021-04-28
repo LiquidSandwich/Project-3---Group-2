@@ -168,7 +168,8 @@ def get_new_game():
         GAME.reset()
         GAME.set_game(data)
         game_data = GAME.get_game()
-        return {'status': 200, 'data': game_data}
+        SOCKETIO.emit('startGame', {'settings': game_data}, broadcast=True)
+        return {'status': 200}
 
 if __name__ == "__main__":
     SOCKETIO.run(
