@@ -37,7 +37,6 @@ body{
     border: 3px solid #fff;
     border-radius: 5px;
     transition: .5s ease-out;
-    
 }
 
 
@@ -73,8 +72,8 @@ body{
     border-radius: 5px;
     transition: .5s ease-out;
     position:relative;
-    top: -60px;
-    left: 930px;
+    top: -50px;
+    left: 880px;
     transform: rotate(180deg);
 }
 
