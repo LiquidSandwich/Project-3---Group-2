@@ -90,13 +90,15 @@ class Game:
                 if player['email'] == email:
                     if player['type'] == 'host':
                         if len(self.players) == 1:
-                            self.reset()
+                            self.players = []
+                            print("game resettttttttttttttttttt")
                         else:
-                            index = self.players.index(player) + 1
-                            self.players[index]['type'] = 'host'
+                            self.players.remove(player)
+                            self.players[0]['type'] = 'host'
 
                     else:
                         self.players.remove(player)
+            print("UPDATED PLAYERS===================================================:")
             print(self.players)
 
     def player_exists(self, email: str) -> bool:
