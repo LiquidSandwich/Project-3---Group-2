@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { GoogleLogout } from 'react-google-login';
 import Settings from './Settings';
-import Custom from './Custom';
+import { Custom } from './Custom';
 
 import { socket } from './Socket';
 
