@@ -50,7 +50,7 @@ export function Results(props) {
       .then((response) => response.json())
       .then(setExit(!exit));
   };
-  
+
   useEffect(() => {
     socket.on('leaderboard', (data) => {
       setLeaderboard(data.users);
