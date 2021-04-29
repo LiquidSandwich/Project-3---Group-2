@@ -43,7 +43,9 @@ export function Quiz(props) {
                 .replace(/&lt;/g, '<')
                 .replace(/&gt;/g, '>')
                 .replace(/&quot;/g, '"')
-                .replace(/&#039;/g, "'")}
+                .replace(/&#039;/g, "'")
+                .replace(/&ldquo;/g, '"')
+                .replace(/&rdquo;/g, '"')}
             </div>
             <div className="answer_choices">
               {game.questions[currentQuestion].choices.map((answerChoice) => (
@@ -52,7 +54,9 @@ export function Quiz(props) {
                     .replace(/&lt;/g, '<')
                     .replace(/&gt;/g, '>')
                     .replace(/&quot;/g, '"')
-                    .replace(/&#039;/g, "'")}
+                    .replace(/&#039;/g, "'")
+                    .replace(/&ldquo;/g, '"')
+                    .replace(/&rdquo;/g, '"')}
                 </button>
               ))}
             </div>

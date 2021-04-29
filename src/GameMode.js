@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { GoogleLogout } from 'react-google-login';
 import Settings from './Settings';
+import Custom from './Custom';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -15,6 +16,7 @@ const BASE_URL = '/api/v1/new';
 
 function GameMode(props) {
   const [modeSet, setModeSet] = useState(false);
+  const [custom, setCustom] = useState(false);
   const { userData, isLogged } = props;
 
   const firstName = userData.name.split(' ')[0];
@@ -42,29 +44,43 @@ function GameMode(props) {
     setModeSet(!modeSet);
   };
 
+  const onToggle = () => {
+    setCustom(!custom);
+  };
+
   return (
     <div>
-      {modeSet ? (
-        <Settings userData={userData} isLogged={isLogged} />
+      {custom ? (
+        <Custom custom={onToggle} />
       ) : (
-        <div className="display">
-          <div className="logout">
-            <GoogleLogout clientId={CLIENT_ID} buttonText="Log out" onLogoutSuccess={onSuccess} />
-          </div>
-          <div>
-            <h1>
-              Welcome Back,
-              {' '}
-              {firstName}
-              !
-              <br />
-              <br />
-            </h1>
-            <h2 id="teamname">nogginy</h2>
-            <button type="button" className="button" onClick={() => gameModeHandler('single')}>
-              Single
-            </button>
-          </div>
+        <div>
+          {modeSet ? (
+            <Settings userData={userData} isLogged={isLogged} />
+          ) : (
+            <div className="display">
+              <div className="logout">
+                <GoogleLogout clientId={CLIENT_ID} buttonText="Log out" onLogoutSuccess={onSuccess} />
+              </div>
+              <button type="button" className="settings" onClick={onToggle}>
+                {' '}
+                <img src="https://www.freeiconspng.com/thumbs/gear-icon/gear-icon-9.png" width="70" height="50" alt="submit" />
+              </button>
+              <div>
+                <h1>
+                  Welcome Back,
+                  {' '}
+                  {firstName}
+                  !
+                  <br />
+                  <br />
+                </h1>
+                <h2 id="teamname">nogginy</h2>
+                <button type="button" className="button" onClick={() => gameModeHandler('single')}>
+                  Single
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
