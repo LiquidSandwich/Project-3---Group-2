@@ -57,6 +57,21 @@ function GameMode(props) {
     });
   };
 
+  const colorHandler = (color) => {
+    const data = JSON.stringify({
+      color,
+    });
+    fetch('/api/v1/player/color', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: data,
+    })
+      .then((response) => response.json());
+    isLogged();
+  };
+
   const onToggle = () => {
     setCustom(!custom);
   };
@@ -95,11 +110,11 @@ function GameMode(props) {
                 </h1>
                 <h2 id="teamname">nogginy</h2>
                 <div className="colors">
-                  <button type="button" className="color mint" onClick="colorHandler">white</button>
-                  <button type="button" className="color red" onClick="colorHandler">red</button>
-                  <button type="button" className="color blue" onClick="colorHandler">blue</button>
-                  <button type="button" className="color yellow" onClick="colorHandler">yellow</button>
-                  <button type="button" className="color pink" onClick="colorHandler">pink</button>
+                  <button type="button" className="color mint" onClick={() => colorHandler('mint')}>white</button>
+                  <button type="button" className="color red" onClick={() => colorHandler('red')}>red</button>
+                  <button type="button" className="color blue" onClick={() => colorHandler('blue')}>blue</button>
+                  <button type="button" className="color yellow" onClick={() => colorHandler('yellow')}>yellow</button>
+                  <button type="button" className="color pink" onClick={() => colorHandler('pink')}> pink </button>
                 </div>
                 { playerType === 'host' ? (
                   <div>

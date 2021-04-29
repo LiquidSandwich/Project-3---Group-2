@@ -78,7 +78,7 @@ export function Quiz(props) {
 Quiz.propTypes = {
   game: PropTypes.objectOf.isRequired,
   userData: PropTypes.objectOf.isRequired,
-  isLogged: PropTypes.bool.isRequired,
+  isLogged: PropTypes.func.isRequired,
 };
 
 export default Quiz;

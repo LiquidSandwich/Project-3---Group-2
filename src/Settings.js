@@ -113,7 +113,7 @@ function Settings(props) {
 
 Settings.propTypes = {
   userData: PropTypes.objectOf.isRequired,
-  isLogged: PropTypes.bool.isRequired,
+  isLogged: PropTypes.func.isRequired,
   playerType: PropTypes.string.isRequired,
 };
 

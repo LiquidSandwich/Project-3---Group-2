@@ -37,6 +37,7 @@ function Login() {
       name,
       imageUrl,
     });
+
     const url = '/api/v1/login';
     fetch(url, {
       method: 'POST',
@@ -53,12 +54,6 @@ function Login() {
         }
       });
   };
-
-  // useEffect(() => {
-  //   socket.on('login', (userType) => {
-  //     setPlayerType(userType);
-  //   });
-  // }, []);
 
   // If the user fails to login, the below code executes
   const onFailure = () => {
