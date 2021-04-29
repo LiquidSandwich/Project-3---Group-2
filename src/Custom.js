@@ -32,8 +32,9 @@ function Custom(props) {
 
   return (
     <div>
-      <button type="button" className="exit" onClick={onSuccess}>
-        <img src="https://www.freeiconspng.com/uploads/white-curved-arrow-transparent-11.png" width="70" height="50" alt="submit" />
+      <button type="button" className="settings exit" onClick={onSuccess}>
+        {' '}
+        <i className="fas fa-arrow-circle-left">{' '}</i>
       </button>
       <div>
         Select Color:

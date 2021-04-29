@@ -9,9 +9,11 @@ dotenv.config();
 
 export function Quiz(props) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const { game } = props;
-  const { userData } = props;
-  const { isLogged } = props;
+  const {
+    game,
+    userData,
+    isLogged,
+  } = props;
   const [answerStats, setAnswerStats] = useState(new Array(10).fill('Incorrect'));
 
   const handleAnswerChoiceClick = (answer) => {
@@ -63,7 +65,11 @@ export function Quiz(props) {
           </div>
         </div>
       ) : (
-        <Results answerStats={answerStats} userData={userData} isLogged={isLogged} />
+        <Results
+          answerStats={answerStats}
+          userData={userData}
+          isLogged={isLogged}
+        />
       )}
     </div>
   );
@@ -72,7 +78,7 @@ export function Quiz(props) {
 Quiz.propTypes = {
   game: PropTypes.objectOf.isRequired,
   userData: PropTypes.objectOf.isRequired,
-  isLogged: PropTypes.bool.isRequired,
+  isLogged: PropTypes.func.isRequired,
 };
 
 export default Quiz;

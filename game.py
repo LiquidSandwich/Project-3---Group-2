@@ -42,11 +42,34 @@ class Game:
         '''
         self.mode = mode
 
+    def get_status(self) -> int:
+
+        '''
+        returns the current status of the game; 0: waiting, 1: running, 2: finished
+        '''
+        return self.status
+
+    def set_status(self, status_num: str) -> None:
+        '''
+        set the status of the game
+        '''
+        self.status = status_num
+
+    def get_player_type(self, email: str) -> str:
+        '''
+        gets a player's type
+        '''
+        for player in self.players:
+            if email == player['email']:
+                return player['type']
+        return None
+
     def add_player(self, player_data: dict) -> None:
         '''
         Function for adding player, creates dictionary that holds player data
         '''
-        player_type = 'player' if self.mode == 'single' or not self.players else 'host'
+
+        player_type = 'player' if self.players else 'host'
         player = {
             'username': player_data['username'],
             'color': player_data['color'],
@@ -58,11 +81,33 @@ class Game:
         self.players.append(player)
         print(self.players)
 
+    def remove_player(self, email: str) -> None:
+        '''
+        removes specified player from player list
+        '''
+        if self.players:
+            for player in self.players:
+                if player['email'] == email:
+                    if player['type'] == 'host':
+                        if len(self.players) == 1:
+                            self.players = []
+                            print("game resettttttttttttttttttt")
+                        else:
+                            self.players.remove(player)
+                            self.players[0]['type'] = 'host'
+
+                    else:
+                        self.players.remove(player)
+            print("UPDATED PLAYERS===================================================:")
+            print(self.players)
+
     def player_exists(self, email: str) -> bool:
         '''
         Checks if the player exists in players
         Returns boolean value based on if players exists
         '''
+        # if not self.players:
+        #     return False
         for player in self.players:
             if player['email'] == email:
                 return True

@@ -4,7 +4,7 @@ Helps store and change user information
 '''
 
 import os
-from flask import Flask, send_from_directory, json, request
+from flask import Flask, send_from_directory, json, request, jsonify
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -47,35 +47,61 @@ def index(filename):
     '''
     return send_from_directory('./build', filename)
 
-
-@SOCKETIO.on('login')
-def on_login(data):
+@APP.route('/api/v1/login', methods=['POST'])
+def login_request():
     '''
     When a user logs in, this function is run
     '''
-    print(data)
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
 
-    # Fills list with all user's emails
-    users = []
-    all_people = models.Player.query.all()
-    for person in all_people:
-        users.append(person.email)
+        # Fills list with all user's emails
+        users = []
+        all_people = models.Player.query.all()
+        for person in all_people:
+            users.append(person.email)
 
-    print(users)
-    email = data[0]
-    # Checks if email is already in database
-    if email not in users:
-        add_to_db(data)
+        print(users)
+        email = data['email']
+        # Checks if email is already in database
+        if email not in users:
+            add_to_db(data)
 
-    if not GAME.player_exists(email):
-        player = {
-            'username': data[1],
-            'color': 'white',
-            'img': data[2],
-            'email': email,
-        }
-        GAME.add_player(player)
+        if not GAME.player_exists(email):
+            player = {
+                'username': data['name'],
+                'color': 'white',
+                'img': data['imageUrl'],
+                'email': email,
+            }
+            GAME.add_player(player)
+            player_type = GAME.get_player_type(email)
+            return {'status': 200, 'playerType': player_type}
+            
+            
+@APP.route('/api/v1/player', methods=['GET'])
+def get_type():
+    if 'email' in request.args:
+        email = request.args['email']
+        if GAME.player_exists(email):
+            player_type = GAME.get_player_type(email)
+            print('The playr typpe isssssssssss' + player_type)
+            results = {'player_type': player_type}
+            return jsonify(results)
 
+@APP.route('/api/v1/leave', methods=['POST'])
+def leave_game():
+    '''
+    When a user chooses to leave the game, this removes them from the list of players
+    '''
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+        email = data['email']
+        GAME.remove_player(email)
+        return 'Successfully removed from game!'
+    return 'Bad Request, could not exit.'
 
 def add_to_db(data):
     '''
@@ -99,6 +125,7 @@ def set_game_mode():
         data = request.get_json()
         mode = data['mode']
         GAME.set_mode(mode)
+        SOCKETIO.emit('modeSet', broadcast=True)
         return {'status': 200, 'msg': 'OK'}
     return {'status': 400, 'error': 'Bad request!'}
 
@@ -113,7 +140,8 @@ def get_new_game():
         GAME.reset()
         GAME.set_game(data)
         game_data = GAME.get_game()
-        return {'status': 200, 'data': game_data}
+        SOCKETIO.emit('startGame', {'settings': game_data}, broadcast=True)
+        return {'status': 200}
 
 if __name__ == "__main__":
     SOCKETIO.run(
