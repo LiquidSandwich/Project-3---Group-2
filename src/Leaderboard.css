@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@900&display=swap');
 thead,
 tfoot {
-    background-color: #31a9e2;
+    background-color: inherit;
     color: #fff;
 }
 
 tbody {
-    background-color: #31a9e2;
+    background-color: inherit;
 }
 
 table {
