@@ -68,12 +68,14 @@ function GameMode(props) {
           {modeSet ? (
             <Settings userData={userData} isLogged={isLogged} />
           ) : (
-          <div className="display">
-            
+            <div className="display">
               <div className="logout">
                 <GoogleLogout clientId={CLIENT_ID} buttonText="Log out" onLogoutSuccess={onSuccess} />
               </div>
-              
+              <button type="button" className="settings" onClick={onToggle}>
+                {' '}
+                <i className="fas fa-cog">{' '}</i>
+              </button>
               <div>
                 <h1>
                   Welcome,
@@ -84,6 +86,13 @@ function GameMode(props) {
                   <br />
                 </h1>
                 <h2 id="teamname">nogginy</h2>
+                <div className="colors">
+                  <button type="button" className="color mint" onClick="colorHandler">white</button>
+                  <button type="button" className="color red" onClick="colorHandler">red</button>
+                  <button type="button" className="color blue" onClick="colorHandler">blue</button>
+                  <button type="button" className="color yellow" onClick="colorHandler">yellow</button>
+                  <button type="button" className="color pink" onClick="colorHandler">pink</button>
+                </div>
                 { playerType === 'host' ? (
                   <div>
                     <button type="button" className="button" onClick={() => gameModeHandler('single')}>
@@ -99,9 +108,9 @@ function GameMode(props) {
               </div>
             </div>
           )}
-        </div> 
+        </div>
       )}
-  </div>
+    </div>
   );
 }
 
