@@ -4,15 +4,22 @@ import {
 } from '@testing-library/react';
 import Settings from './Settings';
 
-const setup = () => {
-  const result = render(<Settings userData={{ name: 'Dan Smith', img: '' }} isLogged={false} />);
+const setupHost = () => {
+  const result = render(<Settings userData={{ name: 'Dan Smith', img: '', email: 'ds@abc.com' }} isLogged={() => false} playerType="host" />);
   return {
     ...result,
   };
 };
 
-test('Check that component rendered correctly', () => {
-  setup();
+const setupPlayer = () => {
+  const result = render(<Settings userData={{ name: 'Jane Doe', img: '', email: 'jd@abc.com' }} isLogged={() => false} playerType="player" />);
+  return {
+    ...result,
+  };
+};
+
+test('Check that host settings component rendered correctly', () => {
+  setupHost();
   const difficultyComponent = screen.getByText('Any Difficulty');
   expect(difficultyComponent).toBeInTheDocument();
 
@@ -23,8 +30,14 @@ test('Check that component rendered correctly', () => {
   expect(PlayGameComponent).toBeInTheDocument();
 });
 
+test('Check that player settings component rendered correctly', () => {
+  setupPlayer();
+  const waitingForHostIndicator = screen.getByText('Host is selecting game settings...');
+  expect(waitingForHostIndicator).toBeInTheDocument();
+});
+
 test('Check that dropdown menu contains values for difficulty', () => {
-  setup();
+  setupHost();
   const difficultyComponent = screen.getByText('Any Difficulty');
   expect(difficultyComponent).toBeInTheDocument();
 
@@ -37,7 +50,7 @@ test('Check that dropdown menu contains values for difficulty', () => {
 });
 
 test('Users first name appears on screen', () => {
-  setup();
+  setupHost();
   const categoryComponent = screen.getByText('Any Category');
   expect(categoryComponent).toBeInTheDocument();
 

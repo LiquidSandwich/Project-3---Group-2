@@ -97,7 +97,7 @@ export function Results(props) {
 
 Results.propTypes = {
   userData: PropTypes.objectOf.isRequired,
-  isLogged: PropTypes.bool.isRequired,
+  isLogged: PropTypes.func.isRequired,
   answerStats: PropTypes.arrayOf.isRequired,
   isFinished: PropTypes.bool.isRequired,
 };
