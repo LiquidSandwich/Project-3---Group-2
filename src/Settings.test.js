@@ -5,14 +5,14 @@ import {
 import Settings from './Settings';
 
 const setupHost = () => {
-  const result = render(<Settings userData={{ name: 'Dan Smith', img: '', email: 'ds@abc.com' }} isLogged={() => false} playerType={'host'}/>);
+  const result = render(<Settings userData={{ name: 'Dan Smith', img: '', email: 'ds@abc.com' }} isLogged={() => false} playerType="host" />);
   return {
     ...result,
   };
 };
 
 const setupPlayer = () => {
-  const result = render(<Settings userData={{ name: 'Jane Doe', img: '', email: 'jd@abc.com' }} isLogged={() => false} playerType={'player'}/>);
+  const result = render(<Settings userData={{ name: 'Jane Doe', img: '', email: 'jd@abc.com' }} isLogged={() => false} playerType="player" />);
   return {
     ...result,
   };
@@ -61,4 +61,3 @@ test('Users first name appears on screen', () => {
   const GeneralKnowledgeOption = screen.getByText('General Knowledge');
   expect(GeneralKnowledgeOption).toBeInTheDocument();
 });
-

@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import GameMode from './GameMode';
 
 const setup = () => {
-  const result = render(<GameMode userData={{ name: 'Dan Smith', img: '', email: 'ds@abc.com' }} isLogged={() => true} playerType={'host'}/>);
+  const result = render(<GameMode userData={{ name: 'Dan Smith', img: '', email: 'ds@abc.com' }} isLogged={() => true} playerType="host" />);
   return {
     ...result,
   };
