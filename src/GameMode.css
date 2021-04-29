@@ -9,6 +9,10 @@ h7 {
     left: 825px;
 }
 
+button {
+ border:none;
+ outline:none;
+}
 .colors {
     margin-bottom: 40px;
 }

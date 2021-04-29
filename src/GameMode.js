@@ -19,7 +19,6 @@ const BASE_URL = '/api/v1/new';
 function GameMode(props) {
   const [modeSet, setModeSet] = useState(false);
   const [custom, setCustom] = useState(false);
-
   const { userData, isLogged, playerType } = props;
   const { email } = userData;
 
@@ -89,7 +88,11 @@ function GameMode(props) {
       ) : (
         <div>
           {modeSet ? (
-            <Settings userData={userData} isLogged={isLogged} playerType={playerType} />
+            <Settings
+              userData={userData}
+              isLogged={isLogged}
+              playerType={playerType}
+            />
           ) : (
             <div className="display">
               <div className="logout">

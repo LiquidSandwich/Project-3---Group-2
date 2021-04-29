@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Results } from './Results';
+import { socket } from './Socket';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -9,6 +10,7 @@ dotenv.config();
 
 export function Quiz(props) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [correctQuestions, setCorrectQuestions] = useState(0);
   const {
     game,
     userData,
@@ -19,10 +21,15 @@ export function Quiz(props) {
   const handleAnswerChoiceClick = (answer) => {
     const newAnswerStats = answerStats;
     if (answer === game.questions[currentQuestion].correct_answer) {
+      setCorrectQuestions(correctQuestions + 1);
       newAnswerStats[currentQuestion] = 'Correct';
     }
     setAnswerStats(newAnswerStats);
     setCurrentQuestion(currentQuestion + 1);
+    if (currentQuestion >= 9) {
+      socket.emit('leaderboard', { username: userData.name, correctQuestions });
+      socket.emit('gameOver');
+    }
   };
 
   return (

@@ -23,6 +23,7 @@ class Game:
 
     def __init__(self):
         self.players = []
+        self.scores = {}
         self.questions = []
         self.color = 'default'
         self.mode = 'single'
@@ -79,6 +80,7 @@ class Game:
         }
 
         self.players.append(player)
+        self.scores[player_data['username']]=0
         print(self.players)
 
     def remove_player(self, email: str) -> None:
@@ -93,10 +95,12 @@ class Game:
                             self.players = []
                             print("game resettttttttttttttttttt")
                         else:
+                            del self.scores[player['username']]
                             self.players.remove(player)
                             self.players[0]['type'] = 'host'
 
                     else:
+                        del self.scores[player['username']]
                         self.players.remove(player)
             print("UPDATED PLAYERS===================================================:")
             print(self.players)
@@ -119,6 +123,7 @@ class Game:
         '''
         return {
             'players': self.players,
+            'scores': self.scores,
             'questions': self.questions,
             'color': self.color,
             'mode': self.mode,
@@ -145,6 +150,8 @@ class Game:
         response = requests.get(url)
         data = response.json()
         questions = data['results']
+        for score in self.scores:
+            self.scores[score] = 0
         for question in questions:
             choices = question['incorrect_answers'] + [question['correct_answer']]
             random.shuffle(choices)
@@ -155,3 +162,23 @@ class Game:
             }
 
             self.questions.append(question_data)
+            
+    def get_players(self) -> dict:
+        '''
+        Returns all active players
+        '''
+        return self.players
+    
+    def set_scores(self, name: str, score: int) -> None:
+        '''
+        Sets the scores for the leaderboard
+        '''
+        self.scores[name]=score
+    
+    def get_scores(self) -> dict:
+        '''
+        Returns a dictionary with users and scores
+        '''
+        return self.scores
+        
+        
