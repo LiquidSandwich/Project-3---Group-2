@@ -10,13 +10,15 @@ dotenv.config();
 
 export function Quiz(props) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [showChat, setChat] = useState(false);
   const {
     game,
     userData,
     isLogged,
+    displayChatIcon,
+    userName,
   } = props;
   const [answerStats, setAnswerStats] = useState(new Array(10).fill('Incorrect'));
+  const [showChat, setChat] = useState(false);
 
   const handleAnswerChoiceClick = (answer) => {
     const newAnswerStats = answerStats;
@@ -27,7 +29,7 @@ export function Quiz(props) {
     setCurrentQuestion(currentQuestion + 1);
   };
 
-  const handleChat = () => {
+  const onToggleChat = () => {
     setChat(!showChat);
   };
 
@@ -80,12 +82,18 @@ export function Quiz(props) {
         )}
       </div>
       <div className="chat">
-        { showChat ? (
-          <Chat chat={handleChat} />
-        ) : (
-          <button type="button" className="settings" onClick={handleChat}>
+        { displayChatIcon ? (
+          <button type="button" className="settings" onClick={onToggleChat}>
             {' '}
-            <img src="https://www.freeiconspng.com/uploads/live-chat-icon-20.png" width="70" height="50" alt="submit" />
+            <img src="https://images.vexels.com/media/users/3/136808/isolated/preview/d3455a22af5f3ed7565fb5fb71bb8d43-send-message-icon-by-vexels.png" width="40" height="40" alt="submit" />
+          </button>
+        ) : <div />}
+        { showChat ? (
+          <Chat userName={userName} />
+        ) : (
+          <button type="button" className="settings" onClick={onToggleChat}>
+            {' '}
+            <img src="https://images.vexels.com/media/users/3/136808/isolated/preview/d3455a22af5f3ed7565fb5fb71bb8d43-send-message-icon-by-vexels.png" width="40" height="40" alt="submit" />
           </button>
         )}
       </div>
@@ -97,6 +105,8 @@ Quiz.propTypes = {
   game: PropTypes.objectOf.isRequired,
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.bool.isRequired,
+  displayChatIcon: PropTypes.bool.isRequired,
+  userName: PropTypes.string.isRequired,
 };
 
 export default Quiz;

@@ -1,3 +1,4 @@
+import './Chat.css';
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { socket } from './Socket';
@@ -9,12 +10,9 @@ dotenv.config();
 
 function Chat(props) {
   const [chatMessages, setMessages] = useState([]);
+  const [players, setPlayers] = useState([]);
   const chatInput = useRef(null);
-  //   const [players, setPlayers] = useState([]);
-
-  const onChat = () => {
-    props.chat();
-  };
+  const { userName } = props;
 
   const onEnterMessage = () => {
     if (chatInput != null) {
@@ -29,35 +27,43 @@ function Chat(props) {
       console.log('message logged');
       console.log(data);
       setMessages((prevMessages) => [...prevMessages, data.message]);
+      setPlayers(data.usernames);
     });
   });
 
   return (
     <div>
-      <button type="button" className="chat" onClick={onChat}>
-        {' '}
-        <img src="https://www.freeiconspng.com/uploads/live-chat-icon-20.png" width="70" height="50" alt="submit" />
-      </button>
-      <div>
+      <div className="messages">
         <h6>Game Messages</h6>
-        Enter message here:
-        {' '}
-        <input ref={chatInput} type="text" />
-        <button type="button" onClick={onEnterMessage}>Send Message</button>
         <ul>
           {chatMessages.map((item) => (
             <li>
-              {item}
+              {userName}
+              :
+              {' '}
+              { item }
             </li>
           ))}
         </ul>
       </div>
+      <div className="playerlist">
+        <h6>Players:</h6>
+        <div>
+          {players.map((player) => (
+            <li>{ player }</li>
+          ))}
+        </div>
+      </div>
+      Enter message here:
+      {' '}
+      <input ref={chatInput} type="text" />
+      <button onClick={onEnterMessage} type="submit">Send Message</button>
     </div>
   );
 }
 
 Chat.propTypes = {
-  chat: PropTypes.objectOf.isRequired,
+  userName: PropTypes.string.isRequired,
 };
 
 export default Chat;
