@@ -150,15 +150,14 @@ def leaderboard(data):
     '''
     print("DATA"+str(data))
     all_people = GAME.get_players()
-    print("TRY")
     GAME.set_scores(data['username'], data['correctQuestions'])
     lb_data=GAME.get_scores()
-    print("GL"+str(lb_data))
     users= []
     scores = [6,7]
     for user in all_people: 
         users.append(user['username'])
-    sorted(lb_data.items(), key=lambda x: x[1], reverse=True)
+    print("LB_DATA"+str(lb_data))
+    sorted(lb_data.items(), key=lambda x: x[1])
     SOCKETIO.emit('leaderboard', {'users': list(lb_data.keys()), 'scores':list(lb_data.values())})
 
 if __name__ == "__main__":

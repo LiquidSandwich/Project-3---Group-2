@@ -36,10 +36,6 @@ class Game:
         '''
         self.questions = []
         self.status = 0
-        self.scores = {}
-        for player in self.players:
-            self.scores[player['username']]=0
-
 
     def set_mode(self, mode: str) -> None:
         '''
@@ -99,10 +95,12 @@ class Game:
                             self.players = []
                             print("game resettttttttttttttttttt")
                         else:
+                            del self.scores[player['username']]
                             self.players.remove(player)
                             self.players[0]['type'] = 'host'
 
                     else:
+                        del self.scores[player['username']]
                         self.players.remove(player)
             print("UPDATED PLAYERS===================================================:")
             print(self.players)
@@ -125,6 +123,7 @@ class Game:
         '''
         return {
             'players': self.players,
+            'scores': self.scores,
             'questions': self.questions,
             'color': self.color,
             'mode': self.mode,
@@ -151,6 +150,8 @@ class Game:
         response = requests.get(url)
         data = response.json()
         questions = data['results']
+        for score in self.scores:
+            self.scores[score] = 0
         for question in questions:
             choices = question['incorrect_answers'] + [question['correct_answer']]
             random.shuffle(choices)

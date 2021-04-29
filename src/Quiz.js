@@ -27,12 +27,11 @@ export function Quiz(props) {
     }
     setAnswerStats(newAnswerStats);
     setCurrentQuestion(currentQuestion + 1);
+    if (currentQuestion >= 9) {
+      socket.emit('leaderboard', { username: userData.name, correctQuestions });
+      socket.emit('gameOver');
+    }
   };
-
-  if (currentQuestion === 10) {
-    socket.emit('leaderboard', { username: userData.name, correctQuestions });
-    socket.emit('gameOver');
-  }
 
   return (
     <div>
