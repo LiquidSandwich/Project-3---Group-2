@@ -18,12 +18,23 @@ function GameMode(props) {
   const [modeSet, setModeSet] = useState(false);
   const [custom, setCustom] = useState(false);
   const { userData, isLogged, playerType } = props;
+  const { email } = userData;
 
   const firstName = userData.name.split(' ')[0];
 
   // // Code that sets login status to false when button is clicked
   const onSuccess = () => {
-    // setIsLoggedIn(!isLoggedIn);
+    const data = JSON.stringify({
+      email,
+    });
+    fetch('/api/v1/leave', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: data,
+    })
+      .then((response) => response.json());
     isLogged();
   };
 
@@ -96,7 +107,7 @@ function GameMode(props) {
 
 GameMode.propTypes = {
   userData: PropTypes.objectOf.isRequired,
-  isLogged: PropTypes.bool.isRequired,
+  isLogged: PropTypes.func.isRequired,
   playerType: PropTypes.string.isRequired,
 };
 
