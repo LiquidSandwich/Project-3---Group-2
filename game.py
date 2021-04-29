@@ -23,6 +23,7 @@ class Game:
 
     def __init__(self):
         self.players = []
+        self.scores = {}
         self.questions = []
         self.color = 'default'
         self.mode = 'single'
@@ -35,6 +36,10 @@ class Game:
         '''
         self.questions = []
         self.status = 0
+        self.scores = {}
+        for player in self.players:
+            self.scores[player['username']]=0
+
 
     def set_mode(self, mode: str) -> None:
         '''
@@ -79,6 +84,7 @@ class Game:
         }
 
         self.players.append(player)
+        self.scores[player_data['username']]=0
         print(self.players)
 
     def remove_player(self, email: str) -> None:
@@ -156,7 +162,22 @@ class Game:
 
             self.questions.append(question_data)
             
-    def get_leaderboard(self) -> dict:
+    def get_players(self) -> dict:
         '''
-        Returns dictionary with top 5 username and score
+        Returns all active players
         '''
+        return self.players
+    
+    def set_scores(self, name: str, score: int) -> None:
+        '''
+        Sets the scores for the leaderboard
+        '''
+        self.scores[name]=score
+    
+    def get_scores(self) -> dict:
+        '''
+        Returns a dictionary with users and scores
+        '''
+        return self.scores
+        
+        

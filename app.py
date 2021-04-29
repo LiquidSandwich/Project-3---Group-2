@@ -148,13 +148,18 @@ def leaderboard(data):
     '''
         update and retrieve leaderboard
     '''
-    all_people = models.Player.query.all()
+    print("DATA"+str(data))
+    all_people = GAME.get_players()
+    print("TRY")
+    GAME.set_scores(data['username'], data['correctQuestions'])
+    lb_data=GAME.get_scores()
+    print("GL"+str(lb_data))
     users= []
-    scores = []
+    scores = [6,7]
     for user in all_people: 
-        users.append(user.username)
-        scores.append(user.score)
-    SOCKETIO.emit('leaderboard', {'users': list(users), 'scores':scores})
+        users.append(user['username'])
+    sorted(lb_data.items(), key=lambda x: x[1], reverse=True)
+    SOCKETIO.emit('leaderboard', {'users': list(lb_data.keys()), 'scores':list(lb_data.values())})
 
 if __name__ == "__main__":
     SOCKETIO.run(

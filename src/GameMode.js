@@ -19,9 +19,12 @@ const BASE_URL = '/api/v1/new';
 function GameMode(props) {
   const [modeSet, setModeSet] = useState(false);
   const [custom, setCustom] = useState(false);
-
+  const [isFinished, setIsFinished] = useState(false);
   const { userData, isLogged, playerType } = props;
   const { email } = userData;
+
+  console.log('userData_GameMode.js');
+  console.log(userData);
 
   const firstName = userData.name.split(' ')[0];
 
@@ -65,6 +68,9 @@ function GameMode(props) {
     socket.on('modeSet', () => {
       setModeSet(!modeSet);
     });
+    socket.on('gameOver', () => {
+      setIsFinished(true);
+    });
   }, []);
 
   return (
@@ -74,7 +80,12 @@ function GameMode(props) {
       ) : (
         <div>
           {modeSet ? (
-            <Settings userData={userData} isLogged={isLogged} playerType={playerType} />
+            <Settings
+              userData={userData}
+              isLogged={isLogged}
+              playerType={playerType}
+              isFinished={isFinished}
+            />
           ) : (
             <div className="display">
               <div className="logout">

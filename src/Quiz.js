@@ -10,16 +10,19 @@ dotenv.config();
 
 export function Quiz(props) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [correctQuestions, setCorrectQuestions] = useState(0);
   const {
     game,
     userData,
     isLogged,
+    isFinished,
   } = props;
   const [answerStats, setAnswerStats] = useState(new Array(10).fill('Incorrect'));
 
   const handleAnswerChoiceClick = (answer) => {
     const newAnswerStats = answerStats;
     if (answer === game.questions[currentQuestion].correct_answer) {
+      setCorrectQuestions(correctQuestions + 1);
       newAnswerStats[currentQuestion] = 'Correct';
     }
     setAnswerStats(newAnswerStats);
@@ -27,9 +30,8 @@ export function Quiz(props) {
   };
 
   if (currentQuestion === 10) {
-    console.log(currentQuestion);
-    const name = userData.username;
-    socket.emit('leaderboard', name);
+    socket.emit('leaderboard', { username: userData.name, correctQuestions });
+    socket.emit('gameOver');
   }
 
   return (
@@ -76,6 +78,7 @@ export function Quiz(props) {
           answerStats={answerStats}
           userData={userData}
           isLogged={isLogged}
+          isFinished={isFinished}
         />
       )}
     </div>
@@ -86,6 +89,7 @@ Quiz.propTypes = {
   game: PropTypes.objectOf.isRequired,
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.bool.isRequired,
+  isFinished: PropTypes.bool.isRequired,
 };
 
 export default Quiz;
