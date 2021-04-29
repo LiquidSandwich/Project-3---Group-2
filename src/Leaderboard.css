@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@900&display=swap');
+thead,
+tfoot {
+    background-color: #31a9e2;
+    color: #fff;
+}
+
+tbody {
+    background-color: #31a9e2;
+}
+
+table {
+    border-collapse: collapse;
+    border: 2px solid rgb(255, 255, 255);
+    letter-spacing: 1px;
+    font-family: 'Catamaran', sans-serif;
+    font-size: .8rem;
+}
+
+td,
+th {
+    border-collapse: collapse;
+    border: 1px solid rgb(255, 255, 255);
+    padding: 5px 10px;
+}
+
+td {
+    text-align: center;
+}
