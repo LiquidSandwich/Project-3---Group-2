@@ -155,6 +155,12 @@ def get_new_game():
         SOCKETIO.emit('startGame', {'settings': game_data}, broadcast=True)
         return {'status': 200}
 
+@SOCKETIO.on('message_logged')
+def on_message(data):
+    '''
+        emits chat to rerender chat for all users
+    '''
+    SOCKETIO.emit('message_logged', data, broadcast=True, include_self=True)
 @SOCKETIO.on('leaderboard')
 def leaderboard(data):
     '''

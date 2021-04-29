@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSpring, animated } from 'react-spring';
 import { Results } from './Results';
 import { socket } from './Socket';
+import Chat from './Chat';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -19,6 +20,7 @@ export function Quiz(props) {
     delay: 200,
   });
 
+  const [showChat, setChat] = useState(false);
   const {
     game,
     userData,
@@ -78,6 +80,10 @@ export function Quiz(props) {
     }
   };
 
+  const handleChat = () => {
+    setChat(!showChat);
+  };
+
   return (
     <div>
       {currentQuestion < 10 ? (
@@ -119,13 +125,23 @@ export function Quiz(props) {
             </div>
           </div>
         </animated.div>
-      ) : (
-        <Results
-          answerStats={answerStats}
-          userData={userData}
-          isLogged={isLogged}
-        />
-      )}
+        ) : (
+          <Results
+            answerStats={answerStats}
+            userData={userData}
+            isLogged={isLogged}
+          />
+        )}
+      <div className="chat">
+        { showChat ? (
+          <Chat chat={handleChat} />
+        ) : (
+          <button type="button" className="settings" onClick={handleChat}>
+            {' '}
+            <img src="https://www.freeiconspng.com/uploads/live-chat-icon-20.png" width="70" height="50" alt="submit" />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
