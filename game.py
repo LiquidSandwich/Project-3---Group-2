@@ -190,3 +190,10 @@ class Game:
         del self.players[index]
         self.players.insert(index, image)
         print(self.players)
+    
+    def get_usernames(self):
+        usernames = []
+        for player in self.players:
+            usernames.append(player['username'])
+        
+        return usernames

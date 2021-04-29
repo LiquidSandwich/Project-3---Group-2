@@ -16,13 +16,14 @@ function Settings(props) {
   const [game, setGame] = useState(null);
   const [difficulty, setDifficulty] = useState(null);
   const [category, setCategory] = useState(null);
-
-  const { userData, isLogged, playerType } = props;
   const springprops = useSpring({
     from: { opacity: 0, marginTop: -50 },
     to: { opacity: 1, marginTop: 0 },
     delay: 400,
   });
+  const {
+    userData, isLogged, playerType, displayChatIcon, userName,
+  } = props;
 
   const categoryHandler = (event) => {
     setCategory(event.target.value);
@@ -56,6 +57,7 @@ function Settings(props) {
   }, []);
 
   return (
+<<<<<<< HEAD
     <animated.div style={springprops}>
       <div>
         {game ? (
@@ -124,6 +126,8 @@ Settings.propTypes = {
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
   playerType: PropTypes.string.isRequired,
+  displayChatIcon: PropTypes.bool.isRequired,
+  userName: PropTypes.string.isRequired,
 };
 
 export default Settings;

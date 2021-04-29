@@ -27,10 +27,12 @@ function GameMode(props) {
     to: { opacity: 1, marginTop: 0 },
     delay: 400,
   });
+  const [displayChatIcon, setdisplayChat] = useState(false); // show chat only for multiplayer
+  const userName = userData.name;
 
   const firstName = userData.name.split(' ')[0];
 
-  // // Code that sets login status to false when button is clicked
+  // Code that sets login status to false when button is clicked
   const onSuccess = () => {
     const data = JSON.stringify({
       email,
@@ -46,7 +48,14 @@ function GameMode(props) {
     isLogged();
   };
 
+  const handleChat = () => {
+    setdisplayChat(true);
+  };
+
   const gameModeHandler = (mode) => {
+    if (mode === 'multiplayer') {
+      handleChat();
+    }
     const data = JSON.stringify({
       mode,
     });
@@ -88,6 +97,7 @@ function GameMode(props) {
   }, []);
 
   return (
+<<<<<<< HEAD
     <animated.div style={springprops}>
       <div>
         {custom ? (
