@@ -1,9 +1,11 @@
 import './GameMode.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { GoogleLogout } from 'react-google-login';
 import Settings from './Settings';
 import Custom from './Custom';
+
+import { socket } from './Socket';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -17,6 +19,7 @@ const BASE_URL = '/api/v1/new';
 function GameMode(props) {
   const [modeSet, setModeSet] = useState(false);
   const [custom, setCustom] = useState(false);
+
   const { userData, isLogged, playerType } = props;
   const { email } = userData;
 
@@ -52,12 +55,17 @@ function GameMode(props) {
     }).then((response) => {
       console.log(response);
     });
-    setModeSet(!modeSet);
   };
 
   const onToggle = () => {
     setCustom(!custom);
   };
+
+  useEffect(() => {
+    socket.on('modeSet', () => {
+      setModeSet(!modeSet);
+    });
+  }, []);
 
   return (
     <div>
@@ -66,7 +74,7 @@ function GameMode(props) {
       ) : (
         <div>
           {modeSet ? (
-            <Settings userData={userData} isLogged={isLogged} />
+            <Settings userData={userData} isLogged={isLogged} playerType={playerType} />
           ) : (
             <div className="display">
               <div className="logout">
