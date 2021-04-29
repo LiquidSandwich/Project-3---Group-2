@@ -11,7 +11,6 @@ export function Results(props) {
     answerStats,
     userData,
     isLogged,
-    isFinished,
   } = props;
 
   const { email } = userData;
@@ -68,11 +67,7 @@ export function Results(props) {
           <Login />
         ) : (
           <div className="stats">
-            { isFinished ? (
-              <p>Waiting on other players to finish quiz</p>
-            ) : (
-              <Leader leaderboard={leaderboard} scores={scores} />
-            )}
+            <Leader leaderboard={leaderboard} scores={scores} />
             <div className="answer_results">
               {answerStats.map((answerChoice, index) => (
                 <div>
@@ -99,7 +94,6 @@ Results.propTypes = {
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
   answerStats: PropTypes.arrayOf.isRequired,
-  isFinished: PropTypes.bool.isRequired,
 };
 
 export default Results;

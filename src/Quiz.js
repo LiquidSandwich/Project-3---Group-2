@@ -15,7 +15,6 @@ export function Quiz(props) {
     game,
     userData,
     isLogged,
-    isFinished,
   } = props;
   const [answerStats, setAnswerStats] = useState(new Array(10).fill('Incorrect'));
 
@@ -77,7 +76,6 @@ export function Quiz(props) {
           answerStats={answerStats}
           userData={userData}
           isLogged={isLogged}
-          isFinished={isFinished}
         />
       )}
     </div>
@@ -88,7 +86,6 @@ Quiz.propTypes = {
   game: PropTypes.objectOf.isRequired,
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
-  isFinished: PropTypes.bool.isRequired,
 };
 
 export default Quiz;

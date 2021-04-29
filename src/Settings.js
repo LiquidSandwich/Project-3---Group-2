@@ -15,9 +15,7 @@ function Settings(props) {
   const [game, setGame] = useState(null);
   const [difficulty, setDifficulty] = useState(null);
   const [category, setCategory] = useState(null);
-  const {
-    userData, isLogged, playerType, isFinished,
-  } = props;
+  const { userData, isLogged, playerType } = props;
 
   const categoryHandler = (event) => {
     setCategory(event.target.value);
@@ -53,7 +51,7 @@ function Settings(props) {
   return (
     <div>
       {game ? (
-        <Quiz game={game} userData={userData} isLogged={isLogged} isFinished={isFinished} />
+        <Quiz game={game} userData={userData} isLogged={isLogged} />
       ) : (
         playerType === 'host' ? (
           <div className="display">
@@ -117,7 +115,6 @@ Settings.propTypes = {
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
   playerType: PropTypes.string.isRequired,
-  isFinished: PropTypes.bool.isRequired,
 };
 
 export default Settings;
