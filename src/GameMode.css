@@ -6,6 +6,42 @@
 
 h7 {
     position:relative; 
-    top:-425px;
     left: 825px;
+}
+
+.colors {
+    margin-bottom: 40px;
+}
+
+.color {
+    font-size: 0px;
+    min-width: 30px;
+    min-height: 30px;
+    margin: 0 20px 0 20px;
+    border-radius: 50%;
+    border: 0px solid white;
+}
+
+.color:hover {
+    border: 4px solid white;
+}
+
+.red {
+    background-color: red;
+}
+
+.yellow{
+    background-color: yellow;
+}
+
+.mint {
+    background-color: #bfffa6;
+}
+
+.pink{
+    background-color: pink;
+}
+
+.blue{
+    background-color: blue;
 }
