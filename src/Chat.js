@@ -14,21 +14,23 @@ function Chat(props) {
   const chatInput = useRef(null);
   const { userName } = props;
 
-  const onEnterMessage = () => {
-    if (chatInput != null) {
-      const message = chatInput.current.value;
-      setMessages((prevMessages) => [...prevMessages, message]);
+  function onEnterMessage(message) {
+    if (message != null) {
       console.log(chatMessages);
       console.log(players);
-      socket.emit('message_logged', { message });
+      const chat = chatMessages;
+      const newMessage = message;
+      chat.push(newMessage);
+      setMessages(chat);
+      socket.emit('message_logged', { chat });
     }
-  };
+  }
 
   useEffect(() => {
     socket.on('message_logged', (data) => {
       console.log('message logged');
-      console.log(data);
-      setMessages((prevMessages) => [...prevMessages, data.message]);
+      console.log(chatMessages);
+      setMessages(data.chat);
       setPlayers(data.usernames);
     });
   });
@@ -59,7 +61,7 @@ function Chat(props) {
       Enter message here:
       {' '}
       <input ref={chatInput} type="text" />
-      <button onClick={onEnterMessage} type="button">Send Message</button>
+      <button onClick={() => onEnterMessage(chatInput.current.value)} type="button">Send Message</button>
     </div>
   );
 }
