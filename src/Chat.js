@@ -1,5 +1,5 @@
 import './Chat.css';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { socket } from './Socket';
 
@@ -7,12 +7,15 @@ import { socket } from './Socket';
 const dotenv = require('dotenv');
 
 dotenv.config();
+const Messages = (props) => props.data.map((m) => (m[0] !== '' ? (
+  <li>
+    <div className="innermsg">{m}</div>
+  </li>
+) : (<li className="update">{m[1]}</li>)));
 
 function Chat(props) {
-  const [chatMessages, setMessages] = useState([]);
-  const [players, setPlayers] = useState([]);
   const chatInput = useRef(null);
-  const { userName } = props;
+  const { chatMessages, players, userName } = props;
 
   function onEnterMessage(message) {
     if (message != null) {
@@ -21,32 +24,18 @@ function Chat(props) {
       const chat = chatMessages;
       const newMessage = message;
       chat.push(`${userName} : ${newMessage}`);
-      setMessages(chat);
       socket.emit('message_logged', { chat });
     }
   }
 
-  useEffect(() => {
-    socket.on('message_logged', (data) => {
-      console.log('message logged');
-      console.log(chatMessages);
-      setMessages(data.chat);
-      setPlayers(data.usernames);
-    });
-  });
-
   return (
     <div>
-      <div className="messages">
-        <h6>Game Messages</h6>
-        <ul>
-          {chatMessages.map((item) => (
-            <li>
-              { item }
-            </li>
-          ))}
-        </ul>
-      </div>
+      <section style={{ display: 'flex', flexDirection: 'row' }}>
+        <div className="messages">
+          <h6>Game Messages</h6>
+          <ul id="messages"><Messages data={chatMessages} /></ul>
+        </div>
+      </section>
       <div className="playerlist">
         <h6>Players:</h6>
         <div>
@@ -65,6 +54,8 @@ function Chat(props) {
 
 Chat.propTypes = {
   userName: PropTypes.string.isRequired,
+  chatMessages: PropTypes.arrayOf.isRequired,
+  players: PropTypes.arrayOf.isRequired,
 };
 
 export default Chat;

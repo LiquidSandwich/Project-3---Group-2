@@ -173,8 +173,8 @@ def on_message(data):
     print('usernames: ')
     print(usernames)
     data['usernames'] = usernames
-    SOCKETIO.emit('message_logged', data)
-
+    SOCKETIO.emit('message_logged', data, broadcast=True, include_self=True)
+    
 if __name__ == "__main__":
     SOCKETIO.run(
         APP,
