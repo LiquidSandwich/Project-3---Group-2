@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSpring, animated } from 'react-spring';
 import { Results } from './Results';
+import { socket } from './Socket';
 import Chat from './Chat';
 
 // These two lines load environmental variables from .env
@@ -10,6 +12,14 @@ dotenv.config();
 
 export function Quiz(props) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [correctQuestions, setCorrectQuestions] = useState(0);
+
+  const springprops = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+    delay: 200,
+  });
+
   const {
     game,
     userData,
@@ -23,10 +33,15 @@ export function Quiz(props) {
   const handleAnswerChoiceClick = (answer) => {
     const newAnswerStats = answerStats;
     if (answer === game.questions[currentQuestion].correct_answer) {
+      setCorrectQuestions(correctQuestions + 1);
       newAnswerStats[currentQuestion] = 'Correct';
     }
     setAnswerStats(newAnswerStats);
     setCurrentQuestion(currentQuestion + 1);
+    if (currentQuestion >= 9) {
+      socket.emit('leaderboard', { username: userData.name, correctQuestions });
+      socket.emit('gameOver');
+    }
   };
 
   const onToggleChat = () => {
@@ -35,8 +50,8 @@ export function Quiz(props) {
 
   return (
     <div>
-      <div>
-        {currentQuestion < 10 ? (
+      {currentQuestion < 10 ? (
+        <animated.div style={springprops}>
           <div className="display">
             <div className="main">
               <div className="question_number">
@@ -73,14 +88,14 @@ export function Quiz(props) {
               </div>
             </div>
           </div>
-        ) : (
-          <Results
-            answerStats={answerStats}
-            userData={userData}
-            isLogged={isLogged}
-          />
-        )}
-      </div>
+        </animated.div>
+      ) : (
+        <Results
+          answerStats={answerStats}
+          userData={userData}
+          isLogged={isLogged}
+        />
+      )}
       <div className="chat">
         { displayChatIcon ? (
           <button type="button" className="settings" onClick={onToggleChat}>
@@ -104,7 +119,7 @@ export function Quiz(props) {
 Quiz.propTypes = {
   game: PropTypes.objectOf.isRequired,
   userData: PropTypes.objectOf.isRequired,
-  isLogged: PropTypes.bool.isRequired,
+  isLogged: PropTypes.func.isRequired,
   displayChatIcon: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
 };

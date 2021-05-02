@@ -145,6 +145,22 @@ def get_new_game():
         SOCKETIO.emit('startGame', {'settings': game_data}, broadcast=True)
         return {'status': 200}
 
+@SOCKETIO.on('leaderboard')
+def leaderboard(data):
+    '''
+        update and retrieve leaderboard
+    '''
+    print("DATA"+str(data))
+    all_people = GAME.get_players()
+    GAME.set_scores(data['username'], data['correctQuestions'])
+    lb_data=GAME.get_scores()
+    users= []
+    scores = [6,7]
+    for user in all_people: 
+        users.append(user['username'])
+    print("LB_DATA"+str(lb_data))
+    sorted(lb_data.items(), key=lambda x: x[1])
+    SOCKETIO.emit('leaderboard', {'users': list(lb_data.keys()), 'scores':list(lb_data.values())})
 @SOCKETIO.on('message_logged')
 def on_message(data):
     '''

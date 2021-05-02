@@ -1,8 +1,8 @@
 import './Login.css';
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
+import { useSpring, animated } from 'react-spring';
 import GameMode from './GameMode';
-// import { socket } from './Socket';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -17,6 +17,12 @@ function Login() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userData, setUserData] = useState({ name: '', img: '', email: '' });
   const [playerType, setPlayerType] = useState('');
+
+  const springprops = useSpring({
+    from: { opacity: 0, marginTop: -50 },
+    to: { opacity: 1, marginTop: 0 },
+    delay: 400,
+  });
 
   const isLogged = () => {
     setIsLoggedIn(!isLoggedIn);
@@ -37,6 +43,7 @@ function Login() {
       name,
       imageUrl,
     });
+
     const url = '/api/v1/login';
     fetch(url, {
       method: 'POST',
@@ -54,12 +61,6 @@ function Login() {
       });
   };
 
-  // useEffect(() => {
-  //   socket.on('login', (userType) => {
-  //     setPlayerType(userType);
-  //   });
-  // }, []);
-
   // If the user fails to login, the below code executes
   const onFailure = () => {
     console.log('[Login Failed]');
@@ -71,23 +72,26 @@ function Login() {
   user will than be taken to the GameMode Component.
   */
   return (
-    <div>
-      {isLoggedIn ? (
-        <h1>
-          nogginy
-          <h2>trivia and chat with friends</h2>
-          <GoogleLogin
-            clientId={process.env.REACT_APP_GOOGLE_ID}
-            buttonText="Log in with Google"
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy="single_host_origin"
-          />
-        </h1>
-      ) : (
-        <GameMode userData={userData} isLogged={isLogged} playerType={playerType} />
-      )}
-    </div>
+    <animated.div style={springprops}>
+      <div>
+        {isLoggedIn ? (
+          <h1>
+            nogginy
+            <h2>trivia and chat with friends</h2>
+            <GoogleLogin
+              clientId={process.env.REACT_APP_GOOGLE_ID}
+              buttonText="Log in with Google"
+              onSuccess={onSuccess}
+              onFailure={onFailure}
+              cookiePolicy="single_host_origin"
+            />
+          </h1>
+        ) : (
+          <GameMode userData={userData} isLogged={isLogged} playerType={playerType} />
+        )}
+      </div>
+    </animated.div>
+
   );
 }
 
