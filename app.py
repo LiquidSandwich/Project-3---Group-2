@@ -90,10 +90,12 @@ def login_request():
             GAME.add_player(player)
             player_type = GAME.get_player_type(email)
             return {'status': 200, 'playerType': player_type}
-            
-            
+
 @APP.route('/api/v1/player', methods=['GET'])
 def get_type():
+    '''
+    Returns whether the user is a host or not
+    '''
     if 'email' in request.args:
         email = request.args['email']
         if GAME.player_exists(email):
