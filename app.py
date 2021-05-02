@@ -167,8 +167,7 @@ def on_message(data):
     print('usernames: ')
     print(usernames)
     data['usernames'] = usernames
-    SOCKETIO.emit('message_logged', data, broadcast=True, include_self=False)
-    SOCKETIO.emit('message_logged', data, broadcast=True, include_self=True)
+    SOCKETIO.emit('message_logged', data)
 
 @SOCKETIO.on('leaderboard')
 def leaderboard(data):
