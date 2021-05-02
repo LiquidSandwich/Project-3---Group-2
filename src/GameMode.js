@@ -2,6 +2,7 @@ import './GameMode.css';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { GoogleLogout } from 'react-google-login';
+import { useSpring, animated } from 'react-spring';
 import Settings from './Settings';
 import Custom from './Custom';
 
@@ -21,6 +22,11 @@ function GameMode(props) {
   const [custom, setCustom] = useState(false);
   const { userData, isLogged, playerType } = props;
   const { email } = userData;
+  const springprops = useSpring({
+    from: { opacity: 0, marginTop: -50 },
+    to: { opacity: 1, marginTop: 0 },
+    delay: 400,
+  });
 
   const firstName = userData.name.split(' ')[0];
 
@@ -82,61 +88,61 @@ function GameMode(props) {
   }, []);
 
   return (
-    <div>
-      {custom ? (
-        <Custom custom={onToggle} userData={userData} />
-      ) : (
-        <div>
-          {modeSet ? (
-            <Settings
-              userData={userData}
-              isLogged={isLogged}
-              playerType={playerType}
-            />
-          ) : (
-            <div className="display">
-              <div className="logout">
-                <GoogleLogout clientId={CLIENT_ID} buttonText="Log out" onLogoutSuccess={onSuccess} />
-              </div>
-              <button type="button" className="settings" onClick={onToggle}>
-                {' '}
-                <i className="fas fa-cog">{' '}</i>
-              </button>
-              <div>
-                <h1>
-                  Welcome,
-                  {' '}
-                  {firstName}
-                  !
-                  <br />
-                  <br />
-                </h1>
-                <h2 id="teamname">nogginy</h2>
-                <div className="colors">
-                  <button type="button" className="color mint" onClick={() => colorHandler('mint')}>white</button>
-                  <button type="button" className="color red" onClick={() => colorHandler('red')}>red</button>
-                  <button type="button" className="color blue" onClick={() => colorHandler('blue')}>blue</button>
-                  <button type="button" className="color yellow" onClick={() => colorHandler('yellow')}>yellow</button>
-                  <button type="button" className="color pink" onClick={() => colorHandler('pink')}> pink </button>
+    <animated.div style={springprops}>
+      <div>
+        {custom ? (
+          <Custom custom={onToggle} userData={userData}/>
+        ) : (
+          <div>
+            {modeSet ? (
+              <Settings userData={userData} isLogged={isLogged} playerType={playerType} />
+            ) : (
+              <div className="display">
+                <div className="logout">
+                  <GoogleLogout clientId={CLIENT_ID} buttonText="Log out" onLogoutSuccess={onSuccess} />
                 </div>
-                { playerType === 'host' ? (
+                <button type="button" className="settings" onClick={onToggle}>
+                  {' '}
+                  <i className="fas fa-cog">{' '}</i>
+                </button>
+                <animated.div style={springprops}>
                   <div>
-                    <button type="button" className="button" onClick={() => gameModeHandler('single')}>
-                      Single
-                    </button>
-                    <button type="button" className="button" onClick={() => gameModeHandler('multiplayer')}>
-                      Multiplayer
-                    </button>
+                    <h1>
+                      Welcome,
+                      {' '}
+                      {firstName}
+                      !
+                      <br />
+                      <br />
+                    </h1>
+                    <h2 id="teamname">nogginy</h2>
+                    <div className="colors">
+                      <button type="button" className="color mint" onClick={() => colorHandler('mint')}>white</button>
+                      <button type="button" className="color red" onClick={() => colorHandler('red')}>red</button>
+                      <button type="button" className="color blue" onClick={() => colorHandler('blue')}>blue</button>
+                      <button type="button" className="color yellow" onClick={() => colorHandler('yellow')}>yellow</button>
+                      <button type="button" className="color pink" onClick={() => colorHandler('pink')}> pink </button>
+                    </div>
+                    { playerType === 'host' ? (
+                      <div>
+                        <button type="button" className="button" onClick={() => gameModeHandler('single')}>
+                          Single
+                        </button>
+                        <button type="button" className="button" onClick={() => gameModeHandler('multiplayer')}>
+                          Multiplayer
+                        </button>
+                      </div>
+                    ) : (
+                      <div> Waiting for Game to start... </div>
+                    )}
                   </div>
-                ) : (
-                  <div> Waiting for Game to start... </div>
-                )}
+                </animated.div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+            )}
+          </div>
+        )}
+      </div>
+    </animated.div>
   );
 }
 
