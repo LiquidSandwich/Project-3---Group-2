@@ -18,6 +18,8 @@ function Chat(props) {
     if (chatInput != null) {
       const message = chatInput.current.value;
       setMessages((prevMessages) => [...prevMessages, message]);
+      console.log(chatMessages);
+      console.log(players);
       socket.emit('message_logged', { message });
     }
   };
@@ -57,7 +59,7 @@ function Chat(props) {
       Enter message here:
       {' '}
       <input ref={chatInput} type="text" />
-      <button onClick={onEnterMessage} type="submit">Send Message</button>
+      <button onClick={onEnterMessage} type="button">Send Message</button>
     </div>
   );
 }
