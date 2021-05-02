@@ -155,7 +155,7 @@ class Game:
             }
 
             self.questions.append(question_data)
-    
+
     def get_usernames(self):
         usernames = []
         for player in self.players:
