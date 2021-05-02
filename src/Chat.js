@@ -20,7 +20,7 @@ function Chat(props) {
       console.log(players);
       const chat = chatMessages;
       const newMessage = message;
-      chat.push(newMessage);
+      chat.push(`${userName} : ${newMessage}`);
       setMessages(chat);
       socket.emit('message_logged', { chat });
     }
@@ -42,9 +42,6 @@ function Chat(props) {
         <ul>
           {chatMessages.map((item) => (
             <li>
-              {userName}
-              :
-              {' '}
               { item }
             </li>
           ))}
