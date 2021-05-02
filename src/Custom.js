@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import { socket } from './Socket';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -8,12 +9,16 @@ dotenv.config();
 
 // Component for user personalization
 function Custom(props) {
+  const inputRef = useRef(null);
+  const { userData } = props;
+
   const onSuccess = () => {
     props.custom();
   };
 
   // Function for handling color changes
   const colorChanger = (event) => {
+    console.log(userData);
     if (event.target.value === 'Light Blue') {
       document.body.style.backgroundColor = '#31a9e2';
     } else {
@@ -27,6 +32,12 @@ function Custom(props) {
       document.body.style.fontFamily = 'Catamaran';
     } else {
       document.body.style.fontFamily = event.target.value;
+    }
+  };
+
+  const handleClick = () => {
+    if (inputRef.current.value !== '') {
+      socket.emit('image_change', [inputRef.current.value, userData.email]);
     }
   };
 
@@ -65,6 +76,22 @@ function Custom(props) {
           <option value="cursive">Cursive</option>
           <option value="system-ui">System-ui</option>
         </select>
+
+        <br />
+        <br />
+        Change Avatar:
+        {' '}
+        {' '}
+        <input ref={inputRef} aria-label="textbox" type="text" />
+        {' '}
+        {' '}
+        <button type="button" onClick={handleClick}> Change </button>
+        <br />
+        <br />
+        (To change your avatar, please copy and paste the url of the image)
+        <br />
+        <br />
+        <img src={userData.img} alt="Yo" />
       </div>
     </div>
   );
@@ -72,6 +99,7 @@ function Custom(props) {
 
 Custom.propTypes = {
   custom: PropTypes.objectOf.isRequired,
+  userData: PropTypes.objectOf.isRequired,
 };
 
 export default Custom;

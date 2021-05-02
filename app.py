@@ -159,6 +159,11 @@ def leaderboard(data):
     print("LB_DATA"+str(lb_data))
     sorted(lb_data.items(), key=lambda x: x[1])
     SOCKETIO.emit('leaderboard', {'users': list(lb_data.keys()), 'scores':list(lb_data.values())})
+    
+@SOCKETIO.on('image_change')
+def on_image_change(data):
+    print(data)
+    
 
 if __name__ == "__main__":
     SOCKETIO.run(

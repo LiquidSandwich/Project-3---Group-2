@@ -84,7 +84,7 @@ function GameMode(props) {
   return (
     <div>
       {custom ? (
-        <Custom custom={onToggle} />
+        <Custom custom={onToggle} userData={userData} />
       ) : (
         <div>
           {modeSet ? (
