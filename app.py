@@ -200,8 +200,6 @@ def on_image_change(data):
     GAME.updatePlayer(data[1], data[0])
     DB.session.commit()
     print(user[0].profile_image)
-    
-    
 
 if __name__ == "__main__":
     SOCKETIO.run(
