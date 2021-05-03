@@ -2,7 +2,7 @@ import './Leaderboard.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export function Leaderboard(props) {
+function Leaderboard(props) {
   const { leaderboard } = props;
   const { scores } = props;
   return (
