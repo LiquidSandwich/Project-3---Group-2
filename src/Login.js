@@ -1,7 +1,8 @@
 import './Login.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useSpring, animated } from 'react-spring';
+import { socket } from './Socket';
 import GameMode from './GameMode';
 
 // These two lines load environmental variables from .env
@@ -66,6 +67,11 @@ function Login() {
     console.log('[Login Failed]');
   };
 
+  useEffect(() => {
+    socket.on('updateUser', (data) => {
+      setUserData({ name: data.username, img: data.img, email: data.email });
+    });
+  });
   /*
   Shows starting page of webapp.
   Once user logs in with their Google Account,

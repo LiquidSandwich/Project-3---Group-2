@@ -35,9 +35,27 @@ function Custom(props) {
     }
   };
 
+  function myFunction() {
+    alert('Image could not be loaded.');
+    const image = document.getElementsByClassName('Picture')[0];
+    image.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/200px-Question_mark_%28black%29.svg.png';
+  }
+
   const handleClick = () => {
-    if (inputRef.current.value !== '') {
-      socket.emit('image_change', [inputRef.current.value, userData.email]);
+    document.getElementsByClassName('Picture')[0].onerror = function () { myFunction(); };
+    const url = inputRef.current.value;
+    if (url !== '' && url.length > 4) {
+      const ending = url.substring(url.length - 3);
+      if (ending === 'gif' || ending === 'jpg' || ending === 'png') {
+        socket.emit('image_change', [url, userData.email]);
+        userData.img = url;
+        const image = document.getElementsByClassName('Picture')[0];
+        image.src = url;
+      } else {
+        alert('URL is not valid. Must be of type specified and needs to be less than 255 characters.');
+      }
+    } else {
+      alert('Input not long enough to be valid');
     }
   };
 
@@ -90,8 +108,9 @@ function Custom(props) {
         <br />
         (To change your avatar, please copy and paste the url of the image)
         <br />
+        *** Image must be of type .png, .jpg, .gif ***
         <br />
-        <img src={userData.img} alt="Yo" />
+        <img src={userData.img} className="Picture" alt="Yo" width="300" height="300" onError="myFunction()" />
       </div>
     </div>
   );
