@@ -35,16 +35,16 @@ function Custom(props) {
     }
   };
 
-  function myFunction() {
+  function myError() {
     alert('Image could not be loaded.');
     const image = document.getElementsByClassName('Picture')[0];
     image.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/200px-Question_mark_%28black%29.svg.png';
   }
 
   const handleClick = () => {
-    document.getElementsByClassName('Picture')[0].onerror = function () { myFunction(); };
+    document.getElementsByClassName('Picture')[0].onerror = function () { myError(); };
     const url = inputRef.current.value;
-    if (url !== '' && url.length > 4) {
+    if (url !== '' && url.length > 4 && url.length < 256) {
       const ending = url.substring(url.length - 3);
       if (ending === 'gif' || ending === 'jpg' || ending === 'png') {
         socket.emit('image_change', [url, userData.email]);
