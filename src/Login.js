@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useSpring, animated } from 'react-spring';
 import { socket } from './Socket';
-import Rooms from './Rooms';
+import { Rooms } from './Rooms';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');

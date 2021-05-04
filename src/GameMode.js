@@ -41,6 +41,7 @@ function GameMode(props) {
 
   // // Code that sets login status to false when button is clicked
   const onSuccess = () => {
+    console.log(`THIS IS THE EMAIL THAT GETS LOGGED OUT: ${email}`);
     const data = JSON.stringify({
       email,
       room,
