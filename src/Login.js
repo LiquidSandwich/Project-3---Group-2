@@ -22,7 +22,7 @@ function Login() {
 
   const springprops = useSpring({
     from: { opacity: 0, marginTop: -50 },
-    to: { opacity: 1, marginTop: 0 },
+    to: { opacity: 1, marginTop: 0, marginBottom: 0 },
     delay: 400,
   });
 
