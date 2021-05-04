@@ -182,12 +182,11 @@ class Game:
         return self.scores
         
     def updatePlayer(self, email, img) -> None:
-        print('This right here LOOK' + str(self.players))
-        dic = {}
-        dic = next(item for item in self.players if item['email'] == email)
-        dic['img'] = img
-        print(dic['img'])
+        image = {}
+        image = next(item for item in self.players if item['email'] == email)
+        image['img'] = img
+        print(image['img'])
         index = next((i for i, item in enumerate(self.players) if item["email"] == email), None)
         del self.players[index]
-        self.players.insert(index, dic)
+        self.players.insert(index, image)
         print(self.players)

@@ -69,7 +69,9 @@ function Login() {
 
   useEffect(() => {
     socket.on('updateUser', (data) => {
-      setUserData({ name: data.username, img: data.img, email: data.email });
+      if (userData.name === data.username) {
+        setUserData({ name: data.username, img: data.img, email: data.email });
+      }
     });
   });
   /*
