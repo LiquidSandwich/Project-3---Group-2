@@ -202,6 +202,14 @@ def on_image_change(data):
     DB.session.commit()
     print(user[0].profile_image)
 
+    print(data)
+    # add logged in user's name to current list of usernames
+    usernames = GAME.get_usernames()
+    print('usernames: ')
+    print(usernames)
+    data['usernames'] = usernames
+    SOCKETIO.emit('message_logged', data, broadcast=True, include_self=True)
+    
 if __name__ == "__main__":
     SOCKETIO.run(
         APP,

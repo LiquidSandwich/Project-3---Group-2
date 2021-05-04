@@ -30,6 +30,7 @@ function GameMode(props) {
   const [displayChatIcon, setdisplayChat] = useState(false); // show chat only for multiplayer
   // const userName = userData.name;
 
+  const userName = userData.name;
   const firstName = userData.name.split(' ')[0];
 
   // Code that sets login status to false when button is clicked
@@ -50,7 +51,7 @@ function GameMode(props) {
 
   const handleChat = () => {
     setdisplayChat(true);
-    console.log(displayChatIcon);
+
   };
 
   const gameModeHandler = (mode) => {
@@ -105,7 +106,13 @@ function GameMode(props) {
         ) : (
           <div>
             {modeSet ? (
-              <Settings userData={userData} isLogged={isLogged} playerType={playerType} />
+              <Settings
+                userData={userData}
+                isLogged={isLogged}
+                playerType={playerType}
+                displayChatIcon={displayChatIcon}
+                userName={userName}
+              />
             ) : (
               <div className="display">
                 <div className="logout">

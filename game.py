@@ -195,5 +195,4 @@ class Game:
         usernames = []
         for player in self.players:
             usernames.append(player['username'])
-        
         return usernames
