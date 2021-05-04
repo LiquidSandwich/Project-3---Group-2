@@ -66,15 +66,27 @@ def login_request():
         email = data['email']
         # Checks if email is already in database
         if email not in users:
+            print('THIS SHOULD NOT EXECUTE')
             add_to_db(data)
 
         if not GAME.player_exists(email):
-            player = {
-                'username': data['name'],
-                'color': 'white',
-                'img': data['imageUrl'],
-                'email': email,
-            }
+            if email not in users:
+                player = {
+                    'username': data['name'],
+                    'color': 'white',
+                    'img': data['imageUrl'],
+                    'email': email,
+                }
+            else:
+                user = DB.session.query(models.Player).filter_by(email=data['email'])
+                player = {
+                    'username': data['name'],
+                    'color': 'white',
+                    'img': user[0].profile_image,
+                    'email': email,
+                }
+                print('IF WE GET HERE IT WORKS')
+                SOCKETIO.emit('updateUser', player)
             GAME.add_player(player)
             player_type = GAME.get_player_type(email)
             return {'status': 200, 'playerType': player_type}
@@ -157,8 +169,24 @@ def leaderboard(data):
     for user in all_people: 
         users.append(user['username'])
     print("LB_DATA"+str(lb_data))
-    sorted(lb_data.items(), key=lambda x: x[1])
-    SOCKETIO.emit('leaderboard', {'users': list(lb_data.keys()), 'scores':list(lb_data.values())})
+    sorted_dict = {}
+    sorted_keys = sorted(lb_data, key=lb_data.get, reverse=True)
+    for key in sorted_keys:
+        sorted_dict[key] = lb_data[key]
+    print(lb_data)
+    SOCKETIO.emit('leaderboard', {'users': list(sorted_dict.keys()), 'scores':list(sorted_dict.values())})
+    
+@SOCKETIO.on('image_change')
+def on_image_change(data):
+    print(data)
+    user = DB.session.query(models.Player).filter_by(email=data[1])
+    print(user[0])
+    user[0].profile_image = data[0]
+    GAME.updatePlayer(data[1], data[0])
+    DB.session.commit()
+    print(user[0].profile_image)
+    
+    
 
 if __name__ == "__main__":
     SOCKETIO.run(

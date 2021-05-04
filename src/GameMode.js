@@ -91,7 +91,7 @@ function GameMode(props) {
     <animated.div style={springprops}>
       <div>
         {custom ? (
-          <Custom custom={onToggle} />
+          <Custom custom={onToggle} userData={userData} />
         ) : (
           <div>
             {modeSet ? (

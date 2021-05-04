@@ -104,7 +104,7 @@ class Game:
                         self.players.remove(player)
             print("UPDATED PLAYERS===================================================:")
             print(self.players)
-
+    
     def player_exists(self, email: str) -> bool:
         '''
         Checks if the player exists in players
@@ -181,4 +181,12 @@ class Game:
         '''
         return self.scores
         
-        
+    def updatePlayer(self, email, img) -> None:
+        image = {}
+        image = next(item for item in self.players if item['email'] == email)
+        image['img'] = img
+        print(image['img'])
+        index = next((i for i, item in enumerate(self.players) if item["email"] == email), None)
+        del self.players[index]
+        self.players.insert(index, image)
+        print(self.players)

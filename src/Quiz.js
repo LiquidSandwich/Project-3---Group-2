@@ -11,7 +11,7 @@ dotenv.config();
 
 export function Quiz(props) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [correctQuestions, setCorrectQuestions] = useState(0);
+  let correctQuestions = 0;
 
   const springprops = useSpring({
     from: { opacity: 0 },
@@ -26,17 +26,55 @@ export function Quiz(props) {
   } = props;
   const [answerStats, setAnswerStats] = useState(new Array(10).fill('Incorrect'));
 
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   const handleAnswerChoiceClick = (answer) => {
+    let i;
+    for (i = 0; i < game.questions[currentQuestion].choices.length; i += 1) {
+      document.getElementsByClassName('button')[i].disabled = true;
+    }
+
     const newAnswerStats = answerStats;
+    const a = game.questions[currentQuestion].correct_answer;
+
+    const index = game.questions[currentQuestion].choices.indexOf(a);
+    const color = document.body.style.backgroundColor;
+    document.getElementsByClassName('button')[index].style.backgroundColor = '#00FF00';
+
     if (answer === game.questions[currentQuestion].correct_answer) {
-      setCorrectQuestions(correctQuestions + 1);
       newAnswerStats[currentQuestion] = 'Correct';
     }
-    setAnswerStats(newAnswerStats);
-    setCurrentQuestion(currentQuestion + 1);
+
+    sleep(2000).then(() => { setAnswerStats(newAnswerStats); });
+    sleep(2000).then(() => { setCurrentQuestion(currentQuestion + 1); });
+
     if (currentQuestion >= 9) {
-      socket.emit('leaderboard', { username: userData.name, correctQuestions });
-      socket.emit('gameOver');
+      sleep(1200).then(() => {
+        for (i = 0; i < game.questions[currentQuestion].choices.length; i += 1) {
+          document.getElementsByClassName('button')[i].disabled = false;
+          document.getElementsByClassName('button')[i].style.backgroundColor = color;
+        }
+      });
+      sleep(1500).then(() => {
+        setAnswerStats(newAnswerStats);
+        setCurrentQuestion(currentQuestion + 1);
+        for (i = 0; i < 10; i += 1) {
+          if (newAnswerStats[i] === 'Correct') {
+            correctQuestions += 1;
+          }
+        }
+        socket.emit('leaderboard', { username: userData.name, correctQuestions });
+        socket.emit('gameOver');
+      });
+    } else {
+      sleep(1200).then(() => {
+        for (i = 0; i < game.questions[currentQuestion].choices.length; i += 1) {
+          document.getElementsByClassName('button')[i].disabled = false;
+          document.getElementsByClassName('button')[i].style.backgroundColor = color;
+        }
+      });
     }
   };
 
