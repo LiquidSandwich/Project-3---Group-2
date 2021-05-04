@@ -17,7 +17,7 @@ function Settings(props) {
   const [difficulty, setDifficulty] = useState(null);
   const [category, setCategory] = useState(null);
   const {
-    userData, isLogged, playerType,
+    userData, isLogged, playerType, displayChatIcon, userName,
   } = props;
 
   const springprops = useSpring({
@@ -54,6 +54,7 @@ function Settings(props) {
   useEffect(() => {
     socket.on('startGame', (data) => {
       setGame(data.settings);
+      console.log(userName);
     });
   }, []);
 
@@ -65,6 +66,8 @@ function Settings(props) {
             game={game}
             userData={userData}
             isLogged={isLogged}
+            displayChatIcon={displayChatIcon}
+            userName={userName}
           />
         ) : (
           playerType === 'host' ? (
@@ -130,8 +133,8 @@ Settings.propTypes = {
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
   playerType: PropTypes.string.isRequired,
-  // displayChatIcon: PropTypes.bool.isRequired,
-  // userName: PropTypes.string.isRequired,
+  displayChatIcon: PropTypes.bool.isRequired,
+  userName: PropTypes.string.isRequired,
 };
 
 export default Settings;

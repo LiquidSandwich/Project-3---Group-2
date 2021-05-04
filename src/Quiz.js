@@ -85,6 +85,7 @@ export function Quiz(props) {
 
   const onToggleChat = () => {
     setChat(!showChat);
+    console.log(userName);
   };
 
   useEffect(() => {
@@ -94,6 +95,7 @@ export function Quiz(props) {
       console.log(players);
       setMessages(data.chat);
       setPlayers(data.usernames);
+      console.log(userName);
     });
   });
 

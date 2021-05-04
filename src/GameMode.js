@@ -28,7 +28,6 @@ function GameMode(props) {
     delay: 400,
   });
   const [displayChatIcon, setdisplayChat] = useState(false); // show chat only for multiplayer
-  // const userName = userData.name;
 
   const userName = userData.name;
   const firstName = userData.name.split(' ')[0];
