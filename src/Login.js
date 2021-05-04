@@ -4,6 +4,7 @@ import { GoogleLogin } from 'react-google-login';
 import { useSpring, animated } from 'react-spring';
 import { socket } from './Socket';
 import GameMode from './GameMode';
+import LandingPage from './LandingPage';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -83,17 +84,20 @@ function Login() {
     <animated.div style={springprops}>
       <div>
         {isLoggedIn ? (
-          <h1>
-            nogginy
-            <h2>trivia and chat with friends</h2>
-            <GoogleLogin
-              clientId={process.env.REACT_APP_GOOGLE_ID}
-              buttonText="Log in with Google"
-              onSuccess={onSuccess}
-              onFailure={onFailure}
-              cookiePolicy="single_host_origin"
-            />
-          </h1>
+          <div>
+            <h1>
+              nogginy
+              <h2>trivia and chat with friends</h2>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_ID}
+                buttonText="Log in with Google"
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy="single_host_origin"
+              />
+            </h1>
+            <LandingPage />
+          </div>
         ) : (
           <GameMode userData={userData} isLogged={isLogged} playerType={playerType} />
         )}

@@ -138,7 +138,7 @@ export function Quiz(props) {
         { displayChatIcon ? (
           <button type="button" className="settings" onClick={onToggleChat}>
             {' '}
-            <img src="https://images.vexels.com/media/users/3/136808/isolated/preview/d3455a22af5f3ed7565fb5fb71bb8d43-send-message-icon-by-vexels.png" width="40" height="40" alt="submit" />
+            <i className="fa fa-commenting-o">{' '}</i>
           </button>
         ) : <div />}
         { showChat ? (
@@ -146,7 +146,7 @@ export function Quiz(props) {
         ) : (
           <button type="button" className="settings" onClick={onToggleChat}>
             {' '}
-            <img src="https://images.vexels.com/media/users/3/136808/isolated/preview/d3455a22af5f3ed7565fb5fb71bb8d43-send-message-icon-by-vexels.png" width="40" height="40" alt="submit" />
+            <i className="fa fa-commenting-o">{' '}</i>
           </button>
         )}
       </div>
