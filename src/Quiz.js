@@ -91,6 +91,7 @@ export function Quiz(props) {
     socket.on('message_logged', (data) => {
       console.log('message logged');
       console.log(chatMessages);
+      console.log(players);
       setMessages(data.chat);
       setPlayers(data.usernames);
     });
@@ -152,7 +153,7 @@ export function Quiz(props) {
           </button>
         ) : <div />}
         { showChat ? (
-          <Chat userName={userName} />
+          <Chat chatMessages={chatMessages} players={players} userName={userName} />
         ) : (
           <button type="button" className="settings" onClick={onToggleChat}>
             {' '}

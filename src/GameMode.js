@@ -51,7 +51,6 @@ function GameMode(props) {
 
   const handleChat = () => {
     setdisplayChat(true);
-
   };
 
   const gameModeHandler = (mode) => {

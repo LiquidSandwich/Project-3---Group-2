@@ -132,8 +132,6 @@ Settings.propTypes = {
   playerType: PropTypes.string.isRequired,
   // displayChatIcon: PropTypes.bool.isRequired,
   // userName: PropTypes.string.isRequired,
-  displayChatIcon: PropTypes.bool.isRequired,
-  userName: PropTypes.string.isRequired,
 };
 
 export default Settings;
