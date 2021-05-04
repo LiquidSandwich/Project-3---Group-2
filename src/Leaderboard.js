@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 function Leaderboard(props) {
   const { leaderboard } = props;
   const { scores } = props;
+
   return (
     <div className="leaderboard">
       <h2>Leaderboard</h2>

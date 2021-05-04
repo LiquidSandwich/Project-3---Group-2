@@ -23,8 +23,14 @@ export function Quiz(props) {
     game,
     userData,
     isLogged,
+    room,
   } = props;
+  const { email } = userData;
   const [answerStats, setAnswerStats] = useState(new Array(10).fill('Incorrect'));
+
+  window.onbeforeunload = () => {
+    socket.emit('leave', { email, room });
+  };
 
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -65,7 +71,7 @@ export function Quiz(props) {
             correctQuestions += 1;
           }
         }
-        socket.emit('leaderboard', { username: userData.name, correctQuestions });
+        socket.emit('leaderboard', { username: userData.name, correctQuestions, room });
         socket.emit('gameOver');
       });
     } else {
@@ -124,6 +130,7 @@ export function Quiz(props) {
           answerStats={answerStats}
           userData={userData}
           isLogged={isLogged}
+          room={room}
         />
       )}
     </div>
@@ -134,6 +141,7 @@ Quiz.propTypes = {
   game: PropTypes.objectOf.isRequired,
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
+  room: PropTypes.string.isRequired,
 };
 
 export default Quiz;

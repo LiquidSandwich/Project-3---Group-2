@@ -10,7 +10,12 @@ dotenv.config();
 // Component for user personalization
 function Custom(props) {
   const inputRef = useRef(null);
-  const { userData } = props;
+  const { userData, room } = props;
+  const { email } = userData;
+
+  window.onbeforeunload = () => {
+    socket.emit('leave', { email, room });
+  };
 
   const onSuccess = () => {
     props.custom();
@@ -47,7 +52,7 @@ function Custom(props) {
     if (url !== '' && url.length > 4 && url.length < 256) {
       const ending = url.substring(url.length - 3);
       if (ending === 'gif' || ending === 'jpg' || ending === 'png') {
-        socket.emit('image_change', [url, userData.email]);
+        socket.emit('image_change', [url, userData.email, room]);
         userData.img = url;
         const image = document.getElementsByClassName('Picture')[0];
         image.src = url;
@@ -119,6 +124,7 @@ function Custom(props) {
 Custom.propTypes = {
   custom: PropTypes.objectOf.isRequired,
   userData: PropTypes.objectOf.isRequired,
+  room: PropTypes.string.isRequired,
 };
 
 export default Custom;
