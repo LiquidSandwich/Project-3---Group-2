@@ -29,6 +29,8 @@ It is added to the .gitignore file, so that it cannot be submitted to the github
 1. Cookies CANNOT be disabled or blocked in any way, or app will not be able to function.
 Make sure that you don't have any third-party extensions blocking cookies.
 
+2. If the host (the person that selects game settings) logs in and immediately leaves, any additional players in the room will not be able to continue with game. As a solve, all remaining players can refresh/log out and start game again.
+
 ## Linting
 Below are the warnings/errors that were disabled and why they were disabled:
 
@@ -70,3 +72,6 @@ It caused a false error claiming that a `<form>` tag was needed due to a labelin
 
 7. ### import/no-cycle
 There were no errors with dependencies among components. Dependency cycles were fixed for the components that had the potential to cause errors. Others were not edited.
+
+8. ### no-nested-ternary
+Greatly contributed to code readability and made no major effects on our app given the time he had. 
