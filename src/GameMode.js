@@ -28,7 +28,7 @@ function GameMode(props) {
     delay: 400,
   });
   const [displayChatIcon, setdisplayChat] = useState(false); // show chat only for multiplayer
-  const userName = userData.name;
+  // const userName = userData.name;
 
   const firstName = userData.name.split(' ')[0];
 
@@ -50,6 +50,7 @@ function GameMode(props) {
 
   const handleChat = () => {
     setdisplayChat(true);
+    console.log(displayChatIcon);
   };
 
   const gameModeHandler = (mode) => {
@@ -97,7 +98,6 @@ function GameMode(props) {
   }, []);
 
   return (
-<<<<<<< HEAD
     <animated.div style={springprops}>
       <div>
         {custom ? (

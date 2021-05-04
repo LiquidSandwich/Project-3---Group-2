@@ -127,13 +127,13 @@ export function Quiz(props) {
             </div>
           </div>
         </animated.div>
-        ) : (
-          <Results
-            answerStats={answerStats}
-            userData={userData}
-            isLogged={isLogged}
-          />
-        )}
+      ) : (
+        <Results
+          answerStats={answerStats}
+          userData={userData}
+          isLogged={isLogged}
+        />
+      )}
       <div className="chat">
         { displayChatIcon ? (
           <button type="button" className="settings" onClick={onToggleChat}>

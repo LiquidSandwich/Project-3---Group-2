@@ -22,7 +22,7 @@ function Settings(props) {
     delay: 400,
   });
   const {
-    userData, isLogged, playerType, displayChatIcon, userName,
+    userData, isLogged, playerType,
   } = props;
 
   const categoryHandler = (event) => {
@@ -57,7 +57,6 @@ function Settings(props) {
   }, []);
 
   return (
-<<<<<<< HEAD
     <animated.div style={springprops}>
       <div>
         {game ? (
@@ -126,8 +125,8 @@ Settings.propTypes = {
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
   playerType: PropTypes.string.isRequired,
-  displayChatIcon: PropTypes.bool.isRequired,
-  userName: PropTypes.string.isRequired,
+  // displayChatIcon: PropTypes.bool.isRequired,
+  // userName: PropTypes.string.isRequired,
 };
 
 export default Settings;
