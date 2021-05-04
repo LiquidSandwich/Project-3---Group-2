@@ -17,12 +17,24 @@ function Settings(props) {
   const [difficulty, setDifficulty] = useState(null);
   const [category, setCategory] = useState(null);
 
-  const { userData, isLogged, playerType } = props;
+  const {
+    userData,
+    isLogged,
+    playerType,
+    room,
+  } = props;
+
+  const { email } = userData;
+
   const springprops = useSpring({
     from: { opacity: 0, marginTop: -50 },
     to: { opacity: 1, marginTop: 0 },
     delay: 400,
   });
+
+  window.onbeforeunload = () => {
+    socket.emit('leave', { email, room });
+  };
 
   const categoryHandler = (event) => {
     setCategory(event.target.value);
@@ -37,6 +49,7 @@ function Settings(props) {
       difficulty,
       category,
       color: 'default',
+      room,
       // 'mode': 'single'
     });
     fetch(BASE_URL, {
@@ -59,7 +72,7 @@ function Settings(props) {
     <animated.div style={springprops}>
       <div>
         {game ? (
-          <Quiz game={game} userData={userData} isLogged={isLogged} />
+          <Quiz game={game} userData={userData} isLogged={isLogged} room={room} />
         ) : (
           playerType === 'host' ? (
             <div className="display">
@@ -124,6 +137,7 @@ Settings.propTypes = {
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
   playerType: PropTypes.string.isRequired,
+  room: PropTypes.string.isRequired,
 };
 
 export default Settings;
