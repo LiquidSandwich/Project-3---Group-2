@@ -169,8 +169,12 @@ def leaderboard(data):
     for user in all_people: 
         users.append(user['username'])
     print("LB_DATA"+str(lb_data))
-    sorted(lb_data.items(), key=lambda x: x[1])
-    SOCKETIO.emit('leaderboard', {'users': list(lb_data.keys()), 'scores':list(lb_data.values())})
+    sorted_dict = {}
+    sorted_keys = sorted(lb_data, key=lb_data.get, reverse=True)
+    for key in sorted_keys:
+        sorted_dict[key] = lb_data[key]
+    print(lb_data)
+    SOCKETIO.emit('leaderboard', {'users': list(sorted_dict.keys()), 'scores':list(sorted_dict.values())})
     
 @SOCKETIO.on('image_change')
 def on_image_change(data):
