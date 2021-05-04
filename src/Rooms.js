@@ -72,9 +72,10 @@ export function Rooms(props) {
           </div>
         ) : (
           <div>
-            <button type="button" onClick={() => roomHandler('one')}>ONE</button>
-            <button type="button" onClick={() => roomHandler('two')}>TWO</button>
-            <button type="button" onClick={() => roomHandler('three')}>THREE</button>
+            <h1>Select a room to join:</h1>
+            <button className="button" type="button" onClick={() => roomHandler('one')}>ONE</button>
+            <button className="button" type="button" onClick={() => roomHandler('two')}>TWO</button>
+            <button className="button" type="button" onClick={() => roomHandler('three')}>THREE</button>
           </div>
         )}
       </div>

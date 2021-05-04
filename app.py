@@ -99,7 +99,7 @@ def join():
                 user = DB.session.query(models.Player).filter_by(email=data['email'])
                 player['img'] = user[0].profile_image
                 print('IF WE GET HERE IT WORKS')
-                # SOCKETIO.emit('updateUser', player)
+                SOCKETIO.emit('updateUser', player)
             GAMES[room].add_player(player)
             player_type = GAMES[room].get_player_type(email)
             return {'status': 200, 'playerType': player_type}
