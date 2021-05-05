@@ -25,9 +25,9 @@ function Custom(props) {
   const colorChanger = (event) => {
     console.log(userData);
     if (event.target.value === 'Light Blue') {
-      document.body.style.backgroundColor = '#31a9e2';
+      document.body.className = 'lightblue';
     } else {
-      document.body.style.backgroundColor = event.target.value;
+      document.body.className = event.target.value;
     }
   };
 
@@ -77,12 +77,14 @@ function Custom(props) {
         <select onChange={colorChanger} name="trivia_category">
           <option selected="selected">Choose</option>
           <option value="Light Blue">Light Blue</option>
-          <option value="Red">Red</option>
-          <option value="Green">Green</option>
-          <option value="Orange">Orange</option>
-          <option value="Purple">Purlple</option>
-          <option value="Indigo">Indigo</option>
-          <option value="Pink">Pink</option>
+          <option value="red">Red</option>
+          <option value="mint">Green</option>
+          <option value="orange">Orange</option>
+          <option value="purple">Purple</option>
+          <option value="indigo">Indigo</option>
+          <option value="pink">Pink</option>
+          <option value="yellow">Yellow</option>
+          <option value="blue">Blue</option>
         </select>
 
         <br />

@@ -84,19 +84,7 @@ function GameMode(props) {
   };
 
   const colorHandler = (color) => {
-    const data = JSON.stringify({
-      color,
-      room,
-    });
-    fetch('/api/v1/player/color', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: data,
-    })
-      .then((response) => response.json());
-    isLogged();
+    document.body.className = `${color}`;
   };
 
   const onToggle = () => {
