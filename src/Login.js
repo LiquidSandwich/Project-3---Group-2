@@ -81,6 +81,7 @@ function Login() {
             <h1>
               nogginy
               <h2>trivia and chat with friends</h2>
+              <h4>scroll down to view app details</h4>
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_ID}
                 buttonText="Log in with Google"

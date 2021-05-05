@@ -40,7 +40,7 @@ function LandingPage() {
 
       <div>
         {' '}
-        <hr className="sectioning" />
+        <hr className="divider" />
       </div>
 
       <section id="why" className="text-center">
@@ -56,11 +56,11 @@ function LandingPage() {
       <div>
         {' '}
         {' '}
-        <hr className="sectioning" />
+        <hr className="divider" />
       </div>
 
       <section id="creators">
-        <h2 className="section">Creaters:</h2>
+        <h2 className="section">Creators:</h2>
         <div className="list">
           <ul>
             <li>

@@ -1,7 +1,14 @@
+#creators{
+    margin-bottom: 200px;
+}
+
+h1{
+    height: 80vh;
+}
+
 li {
-    list-style: circle outside;
+    list-style: none;
     display: auto; 
-	text-align: left;
 }
 
 .col-md-8 {
@@ -12,6 +19,7 @@ ul {
     display: block;
    margin-left: auto;
    margin-right: auto;
+   padding: 0;
 }
 
 section {
@@ -19,13 +27,18 @@ section {
 }
 
 .list {
-    width: 15%;
+    width: 50%;
     margin: auto;
 }
 
 .listFunc {
-    width: 20%;
+    width: 50%;
     margin: auto;
+    text-align: center;
+}
+
+.listFunc ul{
+    text-align: center;
 }
 
 .section {
@@ -43,7 +56,10 @@ section {
 }
 
 .divider {
-    border-width: 10px;
+    border: none;
+    border-top: 1px #fff solid;
+    width: 70%;
+    
 }
 
 p {
