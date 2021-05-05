@@ -16,12 +16,13 @@ function Settings(props) {
   const [game, setGame] = useState(null);
   const [difficulty, setDifficulty] = useState(null);
   const [category, setCategory] = useState(null);
-
   const {
     userData,
     isLogged,
     playerType,
     room,
+    displayChatIcon,
+    userName,
   } = props;
 
   const { email } = userData;
@@ -65,6 +66,7 @@ function Settings(props) {
   useEffect(() => {
     socket.on('startGame', (data) => {
       setGame(data.settings);
+      console.log(userName);
     });
   }, []);
 
@@ -72,7 +74,14 @@ function Settings(props) {
     <animated.div style={springprops}>
       <div>
         {game ? (
-          <Quiz game={game} userData={userData} isLogged={isLogged} room={room} />
+          <Quiz
+            game={game}
+            userData={userData}
+            isLogged={isLogged}
+            displayChatIcon={displayChatIcon}
+            userName={userName}
+            room={room}
+          />
         ) : (
           playerType === 'host' ? (
             <div className="display">
@@ -137,6 +146,8 @@ Settings.propTypes = {
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
   playerType: PropTypes.string.isRequired,
+  displayChatIcon: PropTypes.bool.isRequired,
+  userName: PropTypes.string.isRequired,
   room: PropTypes.string.isRequired,
 };
 

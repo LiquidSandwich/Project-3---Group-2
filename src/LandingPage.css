@@ -1,0 +1,52 @@
+li {
+    list-style: circle outside;
+    display: auto; 
+	text-align: left;
+}
+
+.col-md-8 {
+    text-align: center;
+}
+
+ul {
+    display: block;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+section {
+    text-align: center;
+}
+
+.list {
+    width: 15%;
+    margin: auto;
+}
+
+.listFunc {
+    width: 20%;
+    margin: auto;
+}
+
+.section {
+    color: black;
+}
+
+.sectioning {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 5px;
+}
+
+.divider {
+    border-width: 10px;
+}
+
+p {
+    font-style: normal;
+    font-weight: 400;
+}

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSpring, animated } from 'react-spring';
 import { Results } from './Results';
 import { socket } from './Socket';
+import Chat from './Chat';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -10,9 +11,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 export function Quiz(props) {
+  const [chatMessages, setMessages] = useState([]);
+  const [players, setPlayers] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   let correctQuestions = 0;
-
+  const [answerStats, setAnswerStats] = useState(new Array(10).fill('Incorrect'));
+  const [showChat, setChat] = useState(false);
   const springprops = useSpring({
     from: { opacity: 0 },
     to: { opacity: 1 },
@@ -23,10 +27,11 @@ export function Quiz(props) {
     game,
     userData,
     isLogged,
+    displayChatIcon,
+    userName,
     room,
   } = props;
   const { email } = userData;
-  const [answerStats, setAnswerStats] = useState(new Array(10).fill('Incorrect'));
 
   window.onbeforeunload = () => {
     socket.emit('leave', { email, room });
@@ -84,6 +89,22 @@ export function Quiz(props) {
     }
   };
 
+  const onToggleChat = () => {
+    setChat(!showChat);
+    console.log(userName);
+  };
+
+  useEffect(() => {
+    socket.on('message_logged', (data) => {
+      console.log('message logged');
+      console.log(chatMessages);
+      console.log(players);
+      setMessages(data.chat);
+      setPlayers(data.usernames);
+      console.log(userName);
+    });
+  });
+
   return (
     <div>
       {currentQuestion < 10 ? (
@@ -133,6 +154,33 @@ export function Quiz(props) {
           room={room}
         />
       )}
+      <div className="chat">
+
+        { displayChatIcon ? (
+          <div>
+            <button type="button" className="settings" onClick={onToggleChat}>
+              {' '}
+              <i className="fa fa-commenting-o">{' '}</i>
+            </button>
+
+            <div>
+              {showChat ? (
+                <Chat
+                  chatMessages={chatMessages}
+                  players={players}
+                  userName={userName}
+                  room={room}
+                />
+              ) : (
+                <button type="button" className="settings" onClick={onToggleChat}>
+                  {' '}
+                  <i className="fa fa-commenting-o">{' '}</i>
+                </button>
+              )}
+            </div>
+          </div>
+        ) : <div />}
+      </div>
     </div>
   );
 }
@@ -141,6 +189,8 @@ Quiz.propTypes = {
   game: PropTypes.objectOf.isRequired,
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
+  displayChatIcon: PropTypes.bool.isRequired,
+  userName: PropTypes.string.isRequired,
   room: PropTypes.string.isRequired,
 };
 

@@ -103,6 +103,7 @@ def join():
             GAMES[room].add_player(player)
             player_type = GAMES[room].get_player_type(email)
             return {'status': 200, 'playerType': player_type}
+
     return {'error': 400}
 
 @SOCKETIO.on('join')
@@ -112,6 +113,9 @@ def join_game_room(room):
             
 @APP.route('/api/v1/player', methods=['GET'])
 def get_type():
+    '''
+    Returns whether the user is a host or not
+    '''
     if 'email' in request.args:
         email = request.args['email']
         room = request.args['room']
@@ -156,10 +160,10 @@ def add_to_db(data):
     When called, it adds the user to the database.
     '''
 
-    new_user = models.Player(email=data[0],
-                             username=data[1],
+    new_user = models.Player(email=data['email'],
+                             username=data['name'],
                              score=0,
-                             profile_image=data[2])
+                             profile_image=data['imageUrl'])
     DB.session.add(new_user)
     DB.session.commit()
 
@@ -192,6 +196,21 @@ def get_new_game():
         game_data = GAMES[room].get_game()
         SOCKETIO.emit('startGame', {'settings': game_data}, to=room)
         return {'status': 200}
+
+@SOCKETIO.on('message_logged')
+def on_message(data):
+    '''
+        emits chat message to all users
+    '''
+
+    print(data)
+    # add logged in user's name to current list of usernames
+    room = data['room']
+    usernames = GAMES[room].get_usernames()
+    print('usernames: ')
+    print(usernames)
+    data['usernames'] = usernames
+    SOCKETIO.emit('message_logged', data, to=room)
 
 @SOCKETIO.on('leaderboard')
 def leaderboard(data):
@@ -226,8 +245,6 @@ def on_image_change(data):
     DB.session.commit()
     print(user[0].profile_image)
     
-    
-
 if __name__ == "__main__":
     SOCKETIO.run(
         APP,

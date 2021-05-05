@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useSpring, animated } from 'react-spring';
 import { socket } from './Socket';
+import LandingPage from './LandingPage';
 import { Rooms } from './Rooms';
 
 // These two lines load environmental variables from .env
@@ -20,7 +21,7 @@ function Login() {
 
   const springprops = useSpring({
     from: { opacity: 0, marginTop: -50 },
-    to: { opacity: 1, marginTop: 0 },
+    to: { opacity: 1, marginTop: 0, marginBottom: 0 },
     delay: 400,
   });
 
@@ -76,17 +77,20 @@ function Login() {
     <animated.div style={springprops}>
       <div>
         {isLoggedIn ? (
-          <h1>
-            nogginy
-            <h2>trivia and chat with friends</h2>
-            <GoogleLogin
-              clientId={process.env.REACT_APP_GOOGLE_ID}
-              buttonText="Log in with Google"
-              onSuccess={onSuccess}
-              onFailure={onFailure}
-              cookiePolicy="single_host_origin"
-            />
-          </h1>
+          <div>
+            <h1>
+              nogginy
+              <h2>trivia and chat with friends</h2>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_ID}
+                buttonText="Log in with Google"
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy="single_host_origin"
+              />
+            </h1>
+            <LandingPage />
+          </div>
         ) : (
           <Rooms userData={userData} isLogged={isLogged} />
         )}

@@ -32,7 +32,9 @@ function GameMode(props) {
     to: { opacity: 1, marginTop: 0 },
     delay: 400,
   });
+  const [displayChatIcon, setdisplayChat] = useState(false); // show chat only for multiplayer
 
+  const userName = userData.name;
   const firstName = userData.name.split(' ')[0];
 
   window.onbeforeunload = () => {
@@ -57,7 +59,14 @@ function GameMode(props) {
     isLogged();
   };
 
+  const handleChat = () => {
+    setdisplayChat(!displayChatIcon);
+  };
+
   const gameModeHandler = (mode) => {
+    if (mode === 'multiplayer') {
+      handleChat();
+    }
     const data = JSON.stringify({
       mode,
       room,
@@ -112,6 +121,8 @@ function GameMode(props) {
                 userData={userData}
                 isLogged={isLogged}
                 playerType={playerType}
+                displayChatIcon={displayChatIcon}
+                userName={userName}
                 room={room}
               />
             ) : (
