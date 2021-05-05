@@ -78,18 +78,20 @@ function Login() {
       <div>
         {isLoggedIn ? (
           <div>
-            <h1>
-              nogginy
-              <h2>trivia and chat with friends</h2>
-              <h4>scroll down to view app details</h4>
-              <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_ID}
-                buttonText="Log in with Google"
-                onSuccess={onSuccess}
-                onFailure={onFailure}
-                cookiePolicy="single_host_origin"
-              />
-            </h1>
+            <div className="top">
+              <h1>
+                nogginy
+                <h2>trivia and chat with friends</h2>
+                <h4>scroll down to view app details</h4>
+                <GoogleLogin
+                  clientId={process.env.REACT_APP_GOOGLE_ID}
+                  buttonText="Log in with Google"
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
+                  cookiePolicy="single_host_origin"
+                />
+              </h1>
+            </div>
             <LandingPage />
           </div>
         ) : (
