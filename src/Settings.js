@@ -21,7 +21,7 @@ function Settings(props) {
     isLogged,
     playerType,
     room,
-    displayChatIcon, 
+    displayChatIcon,
     userName,
   } = props;
 

@@ -155,20 +155,31 @@ export function Quiz(props) {
         />
       )}
       <div className="chat">
+
         { displayChatIcon ? (
-          <button type="button" className="settings" onClick={onToggleChat}>
-            {' '}
-            <i className="fa fa-commenting-o">{' '}</i>
-          </button>
+          <div>
+            <button type="button" className="settings" onClick={onToggleChat}>
+              {' '}
+              <i className="fa fa-commenting-o">{' '}</i>
+            </button>
+
+            <div>
+              {showChat ? (
+                <Chat
+                  chatMessages={chatMessages}
+                  players={players}
+                  userName={userName}
+                  room={room}
+                />
+              ) : (
+                <button type="button" className="settings" onClick={onToggleChat}>
+                  {' '}
+                  <i className="fa fa-commenting-o">{' '}</i>
+                </button>
+              )}
+            </div>
+          </div>
         ) : <div />}
-        { showChat ? (
-          <Chat chatMessages={chatMessages} players={players} userName={userName} />
-        ) : (
-          <button type="button" className="settings" onClick={onToggleChat}>
-            {' '}
-            <i className="fa fa-commenting-o">{' '}</i>
-          </button>
-        )}
       </div>
     </div>
   );

@@ -15,7 +15,9 @@ const Messages = (props) => props.data.map((m) => (m[0] !== '' ? (
 
 function Chat(props) {
   const chatInput = useRef(null);
-  const { chatMessages, players, userName } = props;
+  const {
+    chatMessages, players, userName, room,
+  } = props;
 
   function onEnterMessage(message) {
     if (message != null) {
@@ -35,7 +37,7 @@ function Chat(props) {
       const time = `${hours}:${minutes}:${seconds} ${amPM}`;
 
       chat.push(`${userName} : ${newMessage}`, `${time}`);
-      socket.emit('message_logged', { chat });
+      socket.emit('message_logged', { chat, room });
     }
   }
 
@@ -69,6 +71,7 @@ Chat.propTypes = {
   userName: PropTypes.string.isRequired,
   chatMessages: PropTypes.arrayOf.isRequired,
   players: PropTypes.arrayOf.isRequired,
+  room: PropTypes.string.isRequired,
 };
 
 export default Chat;

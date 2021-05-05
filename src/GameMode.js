@@ -60,7 +60,7 @@ function GameMode(props) {
   };
 
   const handleChat = () => {
-    setdisplayChat(true);
+    setdisplayChat(!displayChatIcon);
   };
 
   const gameModeHandler = (mode) => {

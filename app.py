@@ -205,11 +205,12 @@ def on_message(data):
 
     print(data)
     # add logged in user's name to current list of usernames
-    usernames = GAME.get_usernames()
+    room = data['room']
+    usernames = GAMES[room].get_usernames()
     print('usernames: ')
     print(usernames)
     data['usernames'] = usernames
-    SOCKETIO.emit('message_logged', data)
+    SOCKETIO.emit('message_logged', data, to=room)
 
 @SOCKETIO.on('leaderboard')
 def leaderboard(data):
@@ -243,14 +244,6 @@ def on_image_change(data):
     GAMES[room].updatePlayer(data[1], data[0])
     DB.session.commit()
     print(user[0].profile_image)
-
-    print(data)
-    # add logged in user's name to current list of usernames
-    usernames = GAME.get_usernames()
-    print('usernames: ')
-    print(usernames)
-    data['usernames'] = usernames
-    SOCKETIO.emit('message_logged', data, broadcast=True, include_self=True)
     
 if __name__ == "__main__":
     SOCKETIO.run(

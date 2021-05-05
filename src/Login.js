@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useSpring, animated } from 'react-spring';
 import { socket } from './Socket';
-import GameMode from './GameMode';
 import LandingPage from './LandingPage';
 import { Rooms } from './Rooms';
 
