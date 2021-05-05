@@ -47,7 +47,7 @@ function Custom(props) {
   }
 
   const handleClick = () => {
-    document.getElementsByClassName('Picture')[0].onerror = function () { myError(); };
+    document.getElementsByClassName('Picture')[0].onerror = function myErrorFunction() { myError(); };
     const url = inputRef.current.value;
     if (url !== '' && url.length > 4 && url.length < 256) {
       const ending = url.substring(url.length - 3);

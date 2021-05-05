@@ -66,7 +66,6 @@ function Settings(props) {
   useEffect(() => {
     socket.on('startGame', (data) => {
       setGame(data.settings);
-      console.log(userName);
     });
   }, []);
 

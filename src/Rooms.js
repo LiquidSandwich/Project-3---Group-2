@@ -15,7 +15,6 @@ export function Rooms(props) {
     to: { opacity: 1, marginTop: 0 },
     delay: 400,
   });
-  console.log(`THIS IS THE EMAIL IN ROOMS.JS COMPONENT : ${email}`);
 
   const roomHandler = (room) => {
     console.log(room);
@@ -47,12 +46,7 @@ export function Rooms(props) {
 
   useEffect(() => {
     socket.on('updated_host', (hostEmail) => {
-      console.log(`hostEmail: ${hostEmail}`);
-      console.log(`email: ${email}`);
-      console.log(`name: ${name}`);
-      console.log(`img: ${img}`);
       if (hostEmail === email) {
-        console.log('YOU ARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRE HOSTYYYYYYYYYYYYYYYYYYYYYYYYYY');
         setPlayerType('host');
       }
     });

@@ -91,17 +91,12 @@ export function Quiz(props) {
 
   const onToggleChat = () => {
     setChat(!showChat);
-    console.log(userName);
   };
 
   useEffect(() => {
     socket.on('message_logged', (data) => {
-      console.log('message logged');
-      console.log(chatMessages);
-      console.log(players);
       setMessages(data.chat);
       setPlayers(data.usernames);
-      console.log(userName);
     });
   });
 

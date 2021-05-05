@@ -33,8 +33,6 @@ export function Results(props) {
       },
     })
       .then((response) => response.json()).then((responseData) => {
-        console.log('HEYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY');
-        console.log(responseData);
         setPlayerType(responseData.player_type);
       });
     setRestart(!restart);
@@ -60,14 +58,8 @@ export function Results(props) {
     socket.on('leaderboard', (data) => {
       setLeaderboard(data.users);
       setScores(data.scores);
-      console.log('LEADERBOARD ');
-      console.log(leaderboard);
-      console.log(scores);
     });
   }, []);
-  console.log('Yo');
-  console.log(leaderboard);
-  console.log(scores);
   return (
     <div>
       { restart ? (

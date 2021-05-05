@@ -12,7 +12,8 @@
         "jsx-a11y/label-has-associated-control": "off",
         "no-console": "off",
         "import/no-cycle": "off",
-        "no-nested-ternary": "off"
+        "no-nested-ternary": "off",
+        "no-alert": "off"
         
       }
     }],

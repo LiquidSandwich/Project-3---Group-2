@@ -37,7 +37,6 @@ function Login() {
     const { email } = data;
     const { name } = data;
     const { imageUrl } = data;
-    console.log(`THISSSSSSSSSSSSSSSSSS IS YOUR EMAIL ${email}`);
     isLogged();
     setUserData({ name, img: imageUrl, email });
     const loginData = JSON.stringify({

@@ -1,7 +1,7 @@
 #teamname {
-   position:relative; 
-    top:-380px;
-    left: -875px; 
+   position: absolute;
+   top: -115px;
+   left: 30px;
 }
 
 h7 {
@@ -69,7 +69,7 @@ button {
 }
 
 .orange{
-    background-color: blue;
+    background-color: orange;
 }
 
 .indigo{

@@ -43,7 +43,6 @@ function GameMode(props) {
 
   // // Code that sets login status to false when button is clicked
   const onSuccess = () => {
-    console.log(`THIS IS THE EMAIL THAT GETS LOGGED OUT: ${email}`);
     const data = JSON.stringify({
       email,
       room,
@@ -129,10 +128,9 @@ function GameMode(props) {
                       {' '}
                       {firstName}
                       !
-                      <br />
-                      <br />
                     </h1>
                     <h2 id="teamname">nogginy</h2>
+                    <img src={userData.img} className="custom" alt="Pic" width="300" height="300" />
                     <div className="colors">
                       <button type="button" className="color mint" onClick={() => colorHandler('mint')}>white</button>
                       <button type="button" className="color red" onClick={() => colorHandler('red')}>red</button>
