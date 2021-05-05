@@ -37,6 +37,7 @@ export function Quiz(props) {
     socket.emit('leave', { email, room });
   };
 
+  // Function created to help delay the actions of codes
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }

@@ -79,6 +79,11 @@ def login_request():
 
 @APP.route('/api/v1/join', methods=['POST'])
 def join():
+    '''
+    Handles when a user joins a game
+    Sends in player data based on DB data
+    Adds player to game
+    '''
     if request.method == 'POST':
         data = request.get_json()
         email = data['email']
@@ -108,9 +113,12 @@ def join():
 
 @SOCKETIO.on('join')
 def join_game_room(room):
+    '''
+    Socket event that lets user join room
+    '''
     join_room(room)
-    
-            
+
+
 @APP.route('/api/v1/player', methods=['GET'])
 def get_type():
     '''
@@ -124,9 +132,13 @@ def get_type():
             print('The playr typpe isssssssssss' + player_type)
             results = {'player_type': player_type}
             return jsonify(results)
-            
+
 @SOCKETIO.on('leave')
 def leave(data):
+    '''
+    Socket event that handles when players leave
+    Updates the host of that room when the original host leaves
+    '''
     email = data['email']
     room = data['room']
     print('%s just left Room %s' % (email, room))
@@ -135,8 +147,8 @@ def leave(data):
     host_email = GAMES[room].get_host()
     if host_email:
         SOCKETIO.emit('updated_host', host_email, to=room)
-    
-    
+
+
 @APP.route('/api/v1/leave', methods=['POST'])
 def leave_game():
     '''
@@ -219,23 +231,23 @@ def leaderboard(data):
     '''
     print("DATA"+str(data))
     room = data['room']
-    all_people = GAMES[room].get_players()
     GAMES[room].set_scores(data['username'], data['correctQuestions'])
-    lb_data=GAMES[room].get_scores()
-    users= []
-    scores = [6,7]
-    for user in all_people: 
-        users.append(user['username'])
+    lb_data = GAMES[room].get_scores()
     print("LB_DATA"+str(lb_data))
     sorted_dict = {}
     sorted_keys = sorted(lb_data, key=lb_data.get, reverse=True)
     for key in sorted_keys:
         sorted_dict[key] = lb_data[key]
     print(lb_data)
-    SOCKETIO.emit('leaderboard', {'users': list(sorted_dict.keys()), 'scores':list(sorted_dict.values())}, to=room)
-    
+    SOCKETIO.emit('leaderboard',
+                  {'users': list(sorted_dict.keys()), 'scores':list(sorted_dict.values())}, to=room)
+
 @SOCKETIO.on('image_change')
 def on_image_change(data):
+    '''
+    Socket event that updates the users profile image
+    DB is updated to then hold the users new profile image
+    '''
     print(data)
     room = data[2]
     user = DB.session.query(models.Player).filter_by(email=data[1])
@@ -244,7 +256,7 @@ def on_image_change(data):
     GAMES[room].updatePlayer(data[1], data[0])
     DB.session.commit()
     print(user[0].profile_image)
-    
+
 if __name__ == "__main__":
     SOCKETIO.run(
         APP,

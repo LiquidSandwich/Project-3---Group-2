@@ -80,10 +80,13 @@ class Game:
         }
 
         self.players.append(player)
-        self.scores[player_data['username']]=0
+        self.scores[player_data['username']] = 0
         print(self.players)
-    
+
     def get_host(self):
+        '''
+        Returns the email of player that is the host of the room
+        '''
         if self.players:
             return self.players[0]['email']
         return None
@@ -109,7 +112,7 @@ class Game:
                         self.players.remove(player)
             print("UPDATED PLAYERS===================================================:")
             print(self.players)
-    
+
     def player_exists(self, email: str) -> bool:
         '''
         Checks if the player exists in players
@@ -167,26 +170,29 @@ class Game:
             }
 
             self.questions.append(question_data)
-            
+
     def get_players(self) -> dict:
         '''
         Returns all active players
         '''
         return self.players
-    
+
     def set_scores(self, name: str, score: int) -> None:
         '''
         Sets the scores for the leaderboard
         '''
-        self.scores[name]=score
-    
+        self.scores[name] = score
+
     def get_scores(self) -> dict:
         '''
         Returns a dictionary with users and scores
         '''
         return self.scores
-        
-    def updatePlayer(self, email, img) -> None:
+
+    def update_player(self, email, img) -> None:
+        '''
+        Updates the players profile image for the backend
+        '''
         image = {}
         image = next(item for item in self.players if item['email'] == email)
         image['img'] = img
@@ -195,8 +201,11 @@ class Game:
         del self.players[index]
         self.players.insert(index, image)
         print(self.players)
-    
+
     def get_usernames(self):
+        '''
+        Retrieves list of usernames of each player
+        '''
         usernames = []
         for player in self.players:
             usernames.append(player['username'])

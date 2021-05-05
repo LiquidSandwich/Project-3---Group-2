@@ -13,17 +13,18 @@ function Custom(props) {
   const { userData, room } = props;
   const { email } = userData;
 
+  // Emits the leave event if a user refreshes/close the application
   window.onbeforeunload = () => {
     socket.emit('leave', { email, room });
   };
 
+  // Sends the user back to GameMode.js when they click the back button
   const onSuccess = () => {
     props.custom();
   };
 
   // Function for handling color changes
   const colorChanger = (event) => {
-    console.log(userData);
     if (event.target.value === 'Light Blue') {
       document.body.className = 'lightblue';
     } else {
@@ -40,12 +41,16 @@ function Custom(props) {
     }
   };
 
+  // Handles an error if the image cannot load
   function myError() {
     alert('Image could not be loaded.');
     const image = document.getElementsByClassName('Picture')[0];
     image.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/200px-Question_mark_%28black%29.svg.png';
   }
 
+  // Handles the clicking of the change button next to the input bar
+  // Also handles the errors of the url, ensuring all errors with the url are handled
+  // Changes the profile image for the user
   const handleClick = () => {
     document.getElementsByClassName('Picture')[0].onerror = function myErrorFunction() { myError(); };
     const url = inputRef.current.value;
