@@ -17,14 +17,25 @@ function Settings(props) {
   const [difficulty, setDifficulty] = useState(null);
   const [category, setCategory] = useState(null);
   const {
-    userData, isLogged, playerType, displayChatIcon, userName,
+    userData,
+    isLogged,
+    playerType,
+    room,
+    displayChatIcon, 
+    userName,
   } = props;
+
+  const { email } = userData;
 
   const springprops = useSpring({
     from: { opacity: 0, marginTop: -50 },
     to: { opacity: 1, marginTop: 0 },
     delay: 400,
   });
+
+  window.onbeforeunload = () => {
+    socket.emit('leave', { email, room });
+  };
 
   const categoryHandler = (event) => {
     setCategory(event.target.value);
@@ -39,6 +50,7 @@ function Settings(props) {
       difficulty,
       category,
       color: 'default',
+      room,
       // 'mode': 'single'
     });
     fetch(BASE_URL, {
@@ -68,6 +80,7 @@ function Settings(props) {
             isLogged={isLogged}
             displayChatIcon={displayChatIcon}
             userName={userName}
+            room={room}
           />
         ) : (
           playerType === 'host' ? (
@@ -135,6 +148,7 @@ Settings.propTypes = {
   playerType: PropTypes.string.isRequired,
   displayChatIcon: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
+  room: PropTypes.string.isRequired,
 };
 
 export default Settings;

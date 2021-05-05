@@ -11,6 +11,7 @@ export function Results(props) {
     answerStats,
     userData,
     isLogged,
+    room,
   } = props;
 
   const { email } = userData;
@@ -20,8 +21,12 @@ export function Results(props) {
   const [exit, setExit] = useState(false);
   const [playerType, setPlayerType] = useState('');
 
+  window.onbeforeunload = () => {
+    socket.emit('leave', { email, room });
+  };
+
   const replay = () => {
-    fetch(`/api/v1/player?email=${email}`, {
+    fetch(`/api/v1/player?email=${email}&room=${room}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -38,6 +43,7 @@ export function Results(props) {
   const exitHandler = () => {
     const data = JSON.stringify({
       email,
+      room,
     });
     fetch('/api/v1/leave', {
       method: 'POST',
@@ -96,6 +102,7 @@ Results.propTypes = {
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
   answerStats: PropTypes.arrayOf.isRequired,
+  room: PropTypes.string.isRequired,
 };
 
 export default Results;

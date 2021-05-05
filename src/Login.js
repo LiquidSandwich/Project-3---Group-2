@@ -5,6 +5,7 @@ import { useSpring, animated } from 'react-spring';
 import { socket } from './Socket';
 import GameMode from './GameMode';
 import LandingPage from './LandingPage';
+import { Rooms } from './Rooms';
 
 // These two lines load environmental variables from .env
 const dotenv = require('dotenv');
@@ -18,7 +19,6 @@ function Login() {
   // Boolean that tracks status on if the user is logged in or not
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userData, setUserData] = useState({ name: '', img: '', email: '' });
-  const [playerType, setPlayerType] = useState('');
 
   const springprops = useSpring({
     from: { opacity: 0, marginTop: -50 },
@@ -38,6 +38,7 @@ function Login() {
     const { email } = data;
     const { name } = data;
     const { imageUrl } = data;
+    console.log(`THISSSSSSSSSSSSSSSSSS IS YOUR EMAIL ${email}`);
     isLogged();
     setUserData({ name, img: imageUrl, email });
     const loginData = JSON.stringify({
@@ -53,14 +54,7 @@ function Login() {
         'Content-Type': 'application/json',
       },
       body: loginData,
-    }).then((response) => response.json())
-      .then((responseData) => {
-        console.log(responseData);
-        console.log(responseData.playerType);
-        if (responseData.status === 200) {
-          setPlayerType(responseData.playerType);
-        }
-      });
+    }).then((response) => response.json());
   };
 
   // If the user fails to login, the below code executes
@@ -99,7 +93,7 @@ function Login() {
             <LandingPage />
           </div>
         ) : (
-          <GameMode userData={userData} isLogged={isLogged} playerType={playerType} />
+          <Rooms userData={userData} isLogged={isLogged} />
         )}
       </div>
     </animated.div>

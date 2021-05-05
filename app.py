@@ -5,7 +5,7 @@ Helps store and change user information
 
 import os
 from flask import Flask, send_from_directory, json, request, jsonify
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, join_room, leave_room
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
@@ -24,7 +24,14 @@ APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 DB = SQLAlchemy(APP)
 
-GAME = Game()
+
+GAMES = {
+    'one': Game(),
+    'two': Game(),
+    'three': Game()
+}
+
+# GAME = Game()
 
 # Created down here to avoid cirular import issues
 import models
@@ -68,29 +75,42 @@ def login_request():
         if email not in users:
             print('THIS SHOULD NOT EXECUTE')
             add_to_db(data)
+        return {'status': 200}
 
-        if not GAME.player_exists(email):
+@APP.route('/api/v1/join', methods=['POST'])
+def join():
+    if request.method == 'POST':
+        data = request.get_json()
+        email = data['email']
+        room = data['room']
+        users = []
+        all_people = models.Player.query.all()
+        for person in all_people:
+            users.append(person.email)
+        if not GAMES[room].player_exists(email):
+            player = {
+                'username': data['name'],
+                'color': 'white',
+                'email': email,
+            }
             if email not in users:
-                player = {
-                    'username': data['name'],
-                    'color': 'white',
-                    'img': data['imageUrl'],
-                    'email': email,
-                }
+                player['img'] = data['img']
             else:
                 user = DB.session.query(models.Player).filter_by(email=data['email'])
-                player = {
-                    'username': data['name'],
-                    'color': 'white',
-                    'img': user[0].profile_image,
-                    'email': email,
-                }
+                player['img'] = user[0].profile_image
                 print('IF WE GET HERE IT WORKS')
                 SOCKETIO.emit('updateUser', player)
-            GAME.add_player(player)
-            player_type = GAME.get_player_type(email)
+            GAMES[room].add_player(player)
+            player_type = GAMES[room].get_player_type(email)
             return {'status': 200, 'playerType': player_type}
 
+    return {'error': 400}
+
+@SOCKETIO.on('join')
+def join_game_room(room):
+    join_room(room)
+    
+            
 @APP.route('/api/v1/player', methods=['GET'])
 def get_type():
     '''
@@ -98,12 +118,25 @@ def get_type():
     '''
     if 'email' in request.args:
         email = request.args['email']
-        if GAME.player_exists(email):
-            player_type = GAME.get_player_type(email)
+        room = request.args['room']
+        if GAMES[room].player_exists(email):
+            player_type = GAMES[room].get_player_type(email)
             print('The playr typpe isssssssssss' + player_type)
             results = {'player_type': player_type}
             return jsonify(results)
-
+            
+@SOCKETIO.on('leave')
+def leave(data):
+    email = data['email']
+    room = data['room']
+    print('%s just left Room %s' % (email, room))
+    leave_room(room)
+    GAMES[room].remove_player(email)
+    host_email = GAMES[room].get_host()
+    if host_email:
+        SOCKETIO.emit('updated_host', host_email, to=room)
+    
+    
 @APP.route('/api/v1/leave', methods=['POST'])
 def leave_game():
     '''
@@ -113,7 +146,12 @@ def leave_game():
         data = request.get_json()
         print(data)
         email = data['email']
-        GAME.remove_player(email)
+        room = data['room']
+        GAMES[room].remove_player(email)
+        host_email = GAMES[room].get_host()
+        if host_email:
+            print("host email: " + str(host_email))
+            SOCKETIO.emit('updated_host', host_email, to=room)
         return 'Successfully removed from game!'
     return 'Bad Request, could not exit.'
 
@@ -138,8 +176,9 @@ def set_game_mode():
     if request.method == 'POST':
         data = request.get_json()
         mode = data['mode']
-        GAME.set_mode(mode)
-        SOCKETIO.emit('modeSet', broadcast=True)
+        room = data['room']
+        GAMES[room].set_mode(mode)
+        SOCKETIO.emit('modeSet', to=room)
         return {'status': 200, 'msg': 'OK'}
     return {'status': 400, 'error': 'Bad request!'}
 
@@ -151,10 +190,11 @@ def get_new_game():
     '''
     if request.method == 'POST':
         data = request.get_json()
-        GAME.reset()
-        GAME.set_game(data)
-        game_data = GAME.get_game()
-        SOCKETIO.emit('startGame', {'settings': game_data}, broadcast=True)
+        room = data['room']
+        GAMES[room].reset()
+        GAMES[room].set_game(data)
+        game_data = GAMES[room].get_game()
+        SOCKETIO.emit('startGame', {'settings': game_data}, to=room)
         return {'status': 200}
 
 @SOCKETIO.on('message_logged')
@@ -177,9 +217,10 @@ def leaderboard(data):
         update and retrieve leaderboard
     '''
     print("DATA"+str(data))
-    all_people = GAME.get_players()
-    GAME.set_scores(data['username'], data['correctQuestions'])
-    lb_data=GAME.get_scores()
+    room = data['room']
+    all_people = GAMES[room].get_players()
+    GAMES[room].set_scores(data['username'], data['correctQuestions'])
+    lb_data=GAMES[room].get_scores()
     users= []
     scores = [6,7]
     for user in all_people: 
@@ -190,15 +231,16 @@ def leaderboard(data):
     for key in sorted_keys:
         sorted_dict[key] = lb_data[key]
     print(lb_data)
-    SOCKETIO.emit('leaderboard', {'users': list(sorted_dict.keys()), 'scores':list(sorted_dict.values())})
+    SOCKETIO.emit('leaderboard', {'users': list(sorted_dict.keys()), 'scores':list(sorted_dict.values())}, to=room)
     
 @SOCKETIO.on('image_change')
 def on_image_change(data):
     print(data)
+    room = data[2]
     user = DB.session.query(models.Player).filter_by(email=data[1])
     print(user[0])
     user[0].profile_image = data[0]
-    GAME.updatePlayer(data[1], data[0])
+    GAMES[room].updatePlayer(data[1], data[0])
     DB.session.commit()
     print(user[0].profile_image)
 

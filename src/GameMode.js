@@ -20,7 +20,12 @@ const BASE_URL = '/api/v1/new';
 function GameMode(props) {
   const [modeSet, setModeSet] = useState(false);
   const [custom, setCustom] = useState(false);
-  const { userData, isLogged, playerType } = props;
+  const {
+    userData,
+    isLogged,
+    playerType,
+    room,
+  } = props;
   const { email } = userData;
   const springprops = useSpring({
     from: { opacity: 0, marginTop: -50 },
@@ -32,10 +37,16 @@ function GameMode(props) {
   const userName = userData.name;
   const firstName = userData.name.split(' ')[0];
 
-  // Code that sets login status to false when button is clicked
+  window.onbeforeunload = () => {
+    socket.emit('leave', { email, room });
+  };
+
+  // // Code that sets login status to false when button is clicked
   const onSuccess = () => {
+    console.log(`THIS IS THE EMAIL THAT GETS LOGGED OUT: ${email}`);
     const data = JSON.stringify({
       email,
+      room,
     });
     fetch('/api/v1/leave', {
       method: 'POST',
@@ -58,6 +69,7 @@ function GameMode(props) {
     }
     const data = JSON.stringify({
       mode,
+      room,
     });
     const url = `${BASE_URL}/mode`;
     fetch(url, {
@@ -74,6 +86,7 @@ function GameMode(props) {
   const colorHandler = (color) => {
     const data = JSON.stringify({
       color,
+      room,
     });
     fetch('/api/v1/player/color', {
       method: 'POST',
@@ -100,7 +113,7 @@ function GameMode(props) {
     <animated.div style={springprops}>
       <div>
         {custom ? (
-          <Custom custom={onToggle} userData={userData} />
+          <Custom custom={onToggle} userData={userData} room={room} />
         ) : (
           <div>
             {modeSet ? (
@@ -110,6 +123,7 @@ function GameMode(props) {
                 playerType={playerType}
                 displayChatIcon={displayChatIcon}
                 userName={userName}
+                room={room}
               />
             ) : (
               <div className="display">
@@ -165,6 +179,7 @@ GameMode.propTypes = {
   userData: PropTypes.objectOf.isRequired,
   isLogged: PropTypes.func.isRequired,
   playerType: PropTypes.string.isRequired,
+  room: PropTypes.string.isRequired,
 };
 
 export default GameMode;

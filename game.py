@@ -82,6 +82,11 @@ class Game:
         self.players.append(player)
         self.scores[player_data['username']]=0
         print(self.players)
+    
+    def get_host(self):
+        if self.players:
+            return self.players[0]['email']
+        return None
 
     def remove_player(self, email: str) -> None:
         '''

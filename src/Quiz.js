@@ -29,7 +29,13 @@ export function Quiz(props) {
     isLogged,
     displayChatIcon,
     userName,
+    room,
   } = props;
+  const { email } = userData;
+
+  window.onbeforeunload = () => {
+    socket.emit('leave', { email, room });
+  };
 
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -70,7 +76,7 @@ export function Quiz(props) {
             correctQuestions += 1;
           }
         }
-        socket.emit('leaderboard', { username: userData.name, correctQuestions });
+        socket.emit('leaderboard', { username: userData.name, correctQuestions, room });
         socket.emit('gameOver');
       });
     } else {
@@ -145,6 +151,7 @@ export function Quiz(props) {
           answerStats={answerStats}
           userData={userData}
           isLogged={isLogged}
+          room={room}
         />
       )}
       <div className="chat">
@@ -173,6 +180,7 @@ Quiz.propTypes = {
   isLogged: PropTypes.func.isRequired,
   displayChatIcon: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
+  room: PropTypes.string.isRequired,
 };
 
 export default Quiz;
