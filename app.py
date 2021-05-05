@@ -253,7 +253,7 @@ def on_image_change(data):
     user = DB.session.query(models.Player).filter_by(email=data[1])
     print(user[0])
     user[0].profile_image = data[0]
-    GAMES[room].updatePlayer(data[1], data[0])
+    GAMES[room].update_player(data[1], data[0])
     DB.session.commit()
     print(user[0].profile_image)
 
