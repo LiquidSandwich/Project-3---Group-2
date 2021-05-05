@@ -6,6 +6,7 @@ import GameMode from './GameMode';
 import { socket } from './Socket';
 
 export function Rooms(props) {
+  // Sets states and props
   const [roomName, setRoom] = useState(null);
   const [playerType, setPlayerType] = useState('');
   const { userData, isLogged } = props;
@@ -16,8 +17,8 @@ export function Rooms(props) {
     delay: 400,
   });
 
+  // Function that handles the rooms and user that join the rooms
   const roomHandler = (room) => {
-    console.log(room);
     socket.emit('join', room);
     const url = '/api/v1/join';
     const data = JSON.stringify({
@@ -44,6 +45,8 @@ export function Rooms(props) {
     setRoom(room);
   };
 
+  // Effect that updates the host when a user leaves
+  // Only updates the host of the next user when their emails match
   useEffect(() => {
     socket.on('updated_host', (hostEmail) => {
       if (hostEmail === email) {
@@ -52,6 +55,9 @@ export function Rooms(props) {
     });
   }, []);
 
+  // This displays the availiable rooms for the game
+  // A user can choose a room from here and once chosen,
+  // the user is put into a game
   return (
     <animated.div style={springprops}>
       <div>

@@ -11,20 +11,21 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// const BASE_URL = '/api/v1/new';
-
 // Component that handles Login
 function Login() {
   // Boolean that tracks status on if the user is logged in or not
+  // Sets up states and props
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userData, setUserData] = useState({ name: '', img: '', email: '' });
 
+  // Sets up springprops, which are used stying the react components
   const springprops = useSpring({
     from: { opacity: 0, marginTop: -50 },
     to: { opacity: 1, marginTop: 0, marginBottom: 0 },
     delay: 400,
   });
 
+  // Changes status of user log in
   const isLogged = () => {
     setIsLoggedIn(!isLoggedIn);
   };
@@ -45,6 +46,7 @@ function Login() {
       imageUrl,
     });
 
+    // Sends REST API call for user login
     const url = '/api/v1/login';
     fetch(url, {
       method: 'POST',
@@ -60,6 +62,7 @@ function Login() {
     console.log('[Login Failed]');
   };
 
+  // Updates the users userData only if it is the user who requested the change
   useEffect(() => {
     socket.on('updateUser', (data) => {
       if (userData.name === data.username) {
@@ -67,6 +70,7 @@ function Login() {
       }
     });
   });
+
   /*
   Shows starting page of webapp.
   Once user logs in with their Google Account,

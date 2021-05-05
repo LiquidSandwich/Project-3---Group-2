@@ -69,6 +69,7 @@ function Custom(props) {
     }
   };
 
+  // Diplays all the options and input for user to personalize their game
   return (
     <div>
       <button type="button" className="settings exit" onClick={onSuccess}>

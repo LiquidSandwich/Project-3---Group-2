@@ -2,6 +2,10 @@ import React from 'react';
 import './LandingPage.css';
 
 function LandingPage() {
+  // Component for displaying the landing page of the app
+  // Is placed below the logout button
+  // Displays an explanation of the app functionality,
+  // an explanation of why it matters, and the creators of the app
   return (
     <div className="landingPage">
       <hr className="divider" />

@@ -9,10 +9,11 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+// Holds the base url of the REST API URL
 const BASE_URL = '/api/v1/new';
 
 function Settings(props) {
-  // Boolean that tracks status on if the user is logged in or not
+  // Sets all states and props
   const [game, setGame] = useState(null);
   const [difficulty, setDifficulty] = useState(null);
   const [category, setCategory] = useState(null);
@@ -33,18 +34,22 @@ function Settings(props) {
     delay: 400,
   });
 
+  // Emits the leave event if a user refreshes/close the application
   window.onbeforeunload = () => {
     socket.emit('leave', { email, room });
   };
 
+  // Sets the category of the game to the one specified by the user
   const categoryHandler = (event) => {
     setCategory(event.target.value);
   };
 
+  // Sets the difficulty of the game to the one specified by the user
   const difficultyHandler = (event) => {
     setDifficulty(event.target.value);
   };
 
+  // Function that handles the settings chosen for the game
   const handleSettings = () => {
     const data = JSON.stringify({
       difficulty,
@@ -63,12 +68,15 @@ function Settings(props) {
       .then((response) => response.json());
   };
 
+  // Effect that sets the game according to the settings
   useEffect(() => {
     socket.on('startGame', (data) => {
       setGame(data.settings);
     });
   }, []);
 
+  // Displays the settings for the game
+  // Here the user can set up their game and start once they're ready
   return (
     <animated.div style={springprops}>
       <div>

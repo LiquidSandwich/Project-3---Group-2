@@ -5,7 +5,6 @@ import { GoogleLogout } from 'react-google-login';
 import { useSpring, animated } from 'react-spring';
 import Settings from './Settings';
 import Custom from './Custom';
-
 import { socket } from './Socket';
 
 // These two lines load environmental variables from .env
@@ -14,10 +13,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 // Fills clientID variable with API ID key
+// Fills base url with part of the REST API URL
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_ID;
 const BASE_URL = '/api/v1/new';
 
 function GameMode(props) {
+  // Sets states and props
   const [modeSet, setModeSet] = useState(false);
   const [custom, setCustom] = useState(false);
   const {
@@ -34,9 +35,11 @@ function GameMode(props) {
   });
   const [displayChatIcon, setdisplayChat] = useState(false); // show chat only for multiplayer
 
+  // Takes the username and splits it for the firstname
   const userName = userData.name;
   const firstName = userData.name.split(' ')[0];
 
+  // Emits the leave event if a user refreshes/close the application
   window.onbeforeunload = () => {
     socket.emit('leave', { email, room });
   };
@@ -58,10 +61,13 @@ function GameMode(props) {
     isLogged();
   };
 
+  // Function that handles the chat icon
+  // Displays only in multiplayer
   const handleChat = () => {
     setdisplayChat(!displayChatIcon);
   };
 
+  // Function that handles the type of gamemode
   const gameModeHandler = (mode) => {
     if (mode === 'multiplayer') {
       handleChat();
@@ -82,20 +88,25 @@ function GameMode(props) {
     });
   };
 
+  // Changes the color when one of the orbs are clicked on the main page
   const colorHandler = (color) => {
     document.body.className = `${color}`;
   };
 
+  // Changes the state of custom when the settings button is clicked
   const onToggle = () => {
     setCustom(!custom);
   };
 
+  // Effect that changes the state of the mode
   useEffect(() => {
     socket.on('modeSet', () => {
       setModeSet(!modeSet);
     });
   }, []);
 
+  // Displays the main page for the application
+  // Has Settings button, Single and Multiplayer buttons, and the logout button
   return (
     <animated.div style={springprops}>
       <div>

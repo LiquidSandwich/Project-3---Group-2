@@ -7,6 +7,8 @@ import { socket } from './Socket';
 const dotenv = require('dotenv');
 
 dotenv.config();
+
+// Maps the messages
 const Messages = (props) => props.data.map((m) => (m[0] !== '' ? (
   <li>
     <div className="innermsg">{m}</div>
@@ -14,11 +16,13 @@ const Messages = (props) => props.data.map((m) => (m[0] !== '' ? (
 ) : (<li className="update">{m[1]}</li>)));
 
 function Chat(props) {
+  // Sets the states and props
   const chatInput = useRef(null);
   const {
     chatMessages, players, userName, room,
   } = props;
 
+  // Function that handles the entering of a message
   function onEnterMessage(message) {
     if (message != null) {
       console.log(chatMessages);
@@ -41,6 +45,9 @@ function Chat(props) {
     }
   }
 
+  // Displays the chat
+  // Chat updates when a user types and submits
+  // Are local to each room
   return (
     <div>
       <section style={{ width: '15%', margin: 'auto' }}>

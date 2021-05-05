@@ -3,9 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Leaderboard(props) {
+  // Sets leaderboard and scores props
   const { leaderboard } = props;
   const { scores } = props;
 
+  // Returns the leaderboard
+  // Shows the names and scores of the users
+  // Leaderboard is organized from highest to lowest scores
   return (
     <div className="leaderboard">
       <h2>Leaderboard</h2>

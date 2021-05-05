@@ -7,6 +7,7 @@ import { socket } from './Socket';
 import Login from './Login';
 
 export function Results(props) {
+  // Set states and props
   const {
     answerStats,
     userData,
@@ -21,10 +22,12 @@ export function Results(props) {
   const [exit, setExit] = useState(false);
   const [playerType, setPlayerType] = useState('');
 
+  // Emits the leave event if a user refreshes/close the application
   window.onbeforeunload = () => {
     socket.emit('leave', { email, room });
   };
 
+  // Function that handles the replay functionality
   const replay = () => {
     fetch(`/api/v1/player?email=${email}&room=${room}`, {
       method: 'GET',
@@ -38,6 +41,7 @@ export function Results(props) {
     setRestart(!restart);
   };
 
+  // Function that handles the exit functionality
   const exitHandler = () => {
     const data = JSON.stringify({
       email,
@@ -54,12 +58,17 @@ export function Results(props) {
       .then(setExit(!exit));
   };
 
+  // Effect that emits the leaderboard socket event when called
+  // Sets leaderboard and scores for game
   useEffect(() => {
     socket.on('leaderboard', (data) => {
       setLeaderboard(data.users);
       setScores(data.scores);
     });
   }, []);
+
+  // Displays the results of the game for both single and multiplayer
+  // Displays the stats and a list of what the user got correct and incorrect
   return (
     <div>
       { restart ? (

@@ -11,6 +11,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 export function Quiz(props) {
+  // Sets up states and props
   const [chatMessages, setMessages] = useState([]);
   const [players, setPlayers] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -33,6 +34,7 @@ export function Quiz(props) {
   } = props;
   const { email } = userData;
 
+  // Emits the leave event if a user refreshes/close the application
   window.onbeforeunload = () => {
     socket.emit('leave', { email, room });
   };
@@ -42,6 +44,11 @@ export function Quiz(props) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
+  // Function that handles the clicking of an answer choice
+  // This function diables all buttons once an answer is chosen
+  // and displays the correct answer choice in light green
+  // The transition is slow, so the user can see the answer
+  // The buttons are then enabled again for the next question
   const handleAnswerChoiceClick = (answer) => {
     let i;
     for (i = 0; i < game.questions[currentQuestion].choices.length; i += 1) {
@@ -90,10 +97,13 @@ export function Quiz(props) {
     }
   };
 
+  // Function that handles the toggling of chat
+  // Clicking it will show/hide chat
   const onToggleChat = () => {
     setChat(!showChat);
   };
 
+  // Effect that emits the effect of the message_logged socket event
   useEffect(() => {
     socket.on('message_logged', (data) => {
       setMessages(data.chat);
@@ -101,6 +111,9 @@ export function Quiz(props) {
     });
   });
 
+  // This displays all the questions and answer choices for the game
+  // The questions display one at a time
+  // Once finished the results are shown to the user
   return (
     <div>
       {currentQuestion < 10 ? (
