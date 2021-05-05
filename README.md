@@ -1,7 +1,7 @@
 # Project-3---Group-2
 
 ## Heroku App:
-[Nogginy](https://nogginy.herokuapp.com/)
+[Nogginy](https://nogginy2.herokuapp.com/)
 
 ## Install Requirements
 
@@ -11,7 +11,7 @@ Type these into your command prompt to install (If you get permission errors, us
 2. `pip install -r requirements.txt`
 3. `npm i react-google-login`
 4. `npm install dotenv`
-5. Run `echo "DANGEROUSLY_DISABLE_HOST_CHECK=true" > .env.development.local` in the project directory
+6. Run `echo "DANGEROUSLY_DISABLE_HOST_CHECK=true" > .env.development.local` in the project directory
 
 ## Setting up
 You will need to load your clientID key from a .env file, which is why you will need to install dotenv.
@@ -74,4 +74,7 @@ It caused a false error claiming that a `<form>` tag was needed due to a labelin
 There were no errors with dependencies among components. Dependency cycles were fixed for the components that had the potential to cause errors. Others were not edited.
 
 8. ### no-nested-ternary
-Greatly contributed to code readability and made no major effects on our app given the time he had. 
+Ternary operators contributed to code readability and caused no errors. 
+
+9. ### no-alert
+Alerts are being used to notify the user if their profile image is too large.
